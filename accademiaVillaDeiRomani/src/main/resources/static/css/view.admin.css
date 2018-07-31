@@ -1,0 +1,409 @@
+@charset "ISO-8859-1";
+
+.form-control-borderless {
+    border: none;
+}
+
+.form-control-borderless:hover, .form-control-borderless:active, .form-control-borderless:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+.viewAdminSearchBar {
+	width: 100%;
+	box-sizing: border-box;
+	border: 2px solid #ccc;
+	border-radius: 4px;
+	font-size: 25px;
+	background-color: white;
+	box-shadow: 3px 3px 20px rgba(0,0,0,0.5);
+}
+
+/* .mystylesSearchBar:focus {
+
+	width: 60%;
+
+} */
+.viewAdminSearchBarDiv {
+	width: 50%;
+	position: absolute;
+	left: 50%;
+	top: 40%; /*posizione barra di ricerca*/
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	display: flex;
+	justify-content: center;
+	
+}
+
+.resultsTable {
+	width: 80%;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	display: flex;
+	justify-content: center;
+}
+
+.navbar.transparent.navbar-inverse .navbar-inner {
+	border-width: 0px;
+	-webkit-box-shadow: 0px 0px;
+	box-shadow: 0px 0px;
+	background-color: rgba(0, 0, 0, 0.0);
+	background-image: -webkit-gradient(linear, 50.00% 0.00%, 50.00% 100.00%, color-stop(0%,
+		rgba(0, 0, 0, 0.00)), color-stop(100%, rgba(0, 0, 0, 0.00)));
+	background-image: -webkit-linear-gradient(270deg, rgba(0, 0, 0, 0.00) 0%,
+		rgba(0, 0, 0, 0.00) 100%);
+	background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%,
+		rgba(0, 0, 0, 0.00) 100%);
+		
+}
+
+.viewAdminSearchButton {
+	background-color: #428bca;
+	padding: 12px 22px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	transition-duration: 0.4s;
+	cursor: pointer;
+	color: white;
+	border: 2px solid #428bca;
+	box-shadow: 3px 3px 20px rgba(0,0,0,0.5);
+	/*     border-radius: 4px; */
+}
+
+.viewAdminSearchButton:hover {
+	background-color: #00CCFF;
+	border: 2px solid #00CCFF;
+	color: white;
+}
+
+.viewAdminResultDiv {
+	margin-top: 40px; 
+	/*   height: 40%; */
+	/*   max-width:80%; */
+	position: relative;
+	left: 50%;
+	/*   top: 70%; */
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	/*   display: flex; */
+	justify-content: center;
+}
+
+/* .viewAdminListUtenti{ fondino card */
+
+/* 	position: absolute; */
+
+/* } */
+#adminViewFirstButtonTemplate:hover {
+	background-color: trasparent;
+}
+
+.viewAdminUtenteTemplateButton {
+	background-color: trasparent;
+}
+
+.testimonial-group>.row {
+	background-color: trasparent; /*riga card utenti*/
+	/* 	height:250px; */
+	/*   overflow-x: auto; taglio card */
+	/*   white-space: nowrap; */
+	/* margin-left:-80px; */
+	margin-top: 120px;
+}
+
+.testimonial-group>.row>.col-xs-4 { /* row card*/
+	display: inline-block;
+	float: none;
+	height: 250px;
+}
+
+/* Decorations */
+
+/*.col-xs-4 { color: #fff; font-size: 48px; height:250px;}
+
+.col-xs-4:nth-child(3n+1) { background: #c69; }
+
+.col-xs-4:nth-child(3n+2) { background: #9c6; }
+
+.col-xs-4:nth-child(3n+3) { background: #69c; } */
+.viewAdminRisultatiTitle {
+	font-size: 30px;
+	position: absolute;
+	left: 50%;
+	top: 40%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	color: white;
+}
+
+.viewAdminRisultatiTitleTop {
+	font-size: 30px;
+	position: absolute;
+	left: 40%;
+	margin-top: 10%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	color: white;
+}
+
+.viewAdminRisultatiSubTitleTop {
+	font-size: 20px;
+	position: absolute;
+	left: 50%;
+	margin-top: 20%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	color: white;
+}
+
+.buttonCard { /*card*/
+	background-color: #fff1;
+	border-style: solid;
+	border-color: white;
+	padding: 50px;
+	margin: 20px;
+	color: white;
+	
+}
+
+.viewAdminUtenteCard {
+	/*  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
+	transition: 0.3s;
+	width: 50%;
+	/*  padding:20px; */
+	margin-left: 100px; /*dimensioni card*/
+	left: -100px;
+	/*  margin-left:200px; */
+	top: 340px; /*posizione card interne*/
+	line-height: 30px;
+}
+
+.buttonCard:hover {
+	background-color: #00CCFF;
+	border-style: solid;
+	color: white;
+	border-color: #00CCFF;
+	box-shadow: 10px 10px 20px rgba(0,0,0,0.5);
+}
+
+.viewAdminUtenteCard:hover {
+	/*  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2); */
+	
+}
+
+.viewAdminUtenteCardcontainer {
+	padding: 2px 16px;
+}
+
+.image{
+/*     position:1%; */
+/* 	padding:10%; */
+height:30px;
+margin:-10px;
+}
+
+
+
+.viewAdminCreaNuovoButton {
+	position: relative;
+/* 	top: 230px; */
+/* 	left: 1028px; */
+/* 	top: 36%; */
+/* 	left: 75.5%; */
+	width: 150px;
+/* 	padding: 12px 32px; */
+	text-align: center;
+	text-decoration: none;
+/* 	display: inline-block; */
+	font-size: 16px;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	transition-duration: 0.4s;
+	cursor: pointer;
+	color: white;
+	background-color: #fff1;
+	border: 2px solid #fff1;
+/* 	box-shadow: 10px 10px 30px rgba(0,0,0,0.5); */
+/* 	z-index:1; */
+	
+	/*     border-radius: 4px; */
+}
+
+.viewAdminCreaNuovoButton:hover {
+	background-color: #00CCFF;
+	border: 2px solid #00CCFF;
+	color: white;
+}
+.navbar-header{
+   width:100%;
+  margin-left:5px;
+}
+.viewAdminLogoutButton {
+	/* 	background-color: 	#428bca; */
+/* 	position: relative; */
+	/*  top: 152px; */
+/* 	left: 60%; */
+/* 	padding: 12px 24px; */
+	text-align: center;
+	text-decoration: none;
+/* 	display: inline-block; */
+	font-size: 16px;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	transition-duration: 0.4s;
+	cursor: pointer;
+	color: white;
+	background-color: #fff1;
+/* 	border: 2px solid #fff1;  */
+
+	/*  border-radius: 4px; */
+}
+
+.viewAdminLogoutButton:hover {
+	background-color: #00CCFF;
+	color: white;
+}
+
+
+
+
+
+
+.viewAdminUtenteTemplateButton {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	/*  transition-duration: 0.2s; */
+	cursor: pointer;
+	background-color: white;
+	color: black;
+}
+
+
+.container {
+	background-image: url("../img/s.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	font-family: 'Roboto', sans-serif;
+}
+
+#adminViewCardUtenteNome {
+	font-size: 25px;
+	border-top:1px solid;
+	padding:8px;
+}
+#adminViewCardUtenteCognome{
+	font-size: 25px;
+}	
+#adminViewCardUtenteMatricola {
+	font-size: 25px;
+	color:#d0dd2b;
+	
+}
+
+
+#adminViewCardUtenteRuolo{
+	font-size: 25px;
+	border-bottom:1px solid;
+		padding:8px;
+}
+
+/* .headerMy{ */
+/* 	margin-left:5px; */
+/*    width:100%; */
+/* } */
+
+
+
+
+
+
+
+
+
+
+
+
+/* Primo breakpoint: Schermi fino a 767px */
+/* Nessuna media query  */
+ 
+/* Secondo breakpoint: Schermi larghi da 768px in su */
+@media (min-width: 168px) { 
+
+/* 	.viewAdminRisultatiTitleTop{  */
+/* 	font-size: 30px; */
+/* 	position: absolute; */
+/* 	left: 40%; */
+/* 	margin-top: 30%; */
+/* 	-webkit-transform: translate(-50%, -50%); */
+/* 	transform: translate(-50%, -50%); */
+/* 	color: white;}	 */
+	
+	
+	
+	.container {
+	/*  margin-top:280px; */
+/* 	background-image: url("../img/s.png"); */
+/* 	padding: 0px; */
+/* 	margin: 0px; */
+	background-color:#ccc;
+/* 	background-repeat: repeat; */
+/* 	background-size: cover; */
+	font-family: 'Roboto', sans-serif;
+}
+	
+	
+	
+	
+	
+
+.viewAdminRisultatiTitleTop {
+	font-size: 30px;
+	position: absolute;
+	left: 40%;
+	margin-top: 10%;
+	-webkit-transform: translate(-50%, -50%);
+/* 	transform: translate(-50%, -50%); */
+	color: white;
+}
+	
+	
+	.buttonCard { /*card*/
+	background-color: #fff1;
+	border-style: solid;
+	border-color: white;
+/* 	padding: 50px; */
+/* 	margin: 20px; */
+	color: white;
+	
+}
+	
+	
+	}
+ 
+/* Terzo breakpoint: Schermi larghi da 992px in su */
+@media (min-width: 992px) { }
+ 
+/* Quarto brekpoint: Schermi larghi da 1200px in su */
+@media (min-width: 1200px) { 
+/* 	.viewAdminRisultatiTitleTop{ margin-top:100px;} */
+ }
+ 
+ 
+ 
+.rigaTabellaUtente:hover{
+	background-color: #ffffff;
+	color:black;
+}
+ 
+ 

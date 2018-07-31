@@ -1,0 +1,206 @@
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>User</title>
+
+<link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+
+<link rel="stylesheet" href="../../css/animatedst.css" type="text/css" media="all" />
+
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="container">
+
+	
+
+
+
+	<div>
+
+		<div class="row">
+
+			<div class="col-md-6 col-md-offset-5">
+
+				<form autocomplete="off" action="#" th:action="@{/VillaDeiRomaniAccademy/admin/submitStudentEdit}"
+					th:object="${utente}" method="post" class="form-horizontal"
+					role="form">
+
+					<h2><span >Modifica Utente</span></h2>
+
+					<!-- id -->
+					<input
+				 	type="text" th:field="*{idUtente}" style="display: none;"class="form-control" />
+
+					<!-- nome -->
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label for="registration_view_nome"><span th:text="#{nome}"></span></label> <label
+								th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
+								class="validation-message myStylesRedColor"><span th:text="#{nome}"></span></label> <input
+								id="registration_view_nome" type="text" th:field="*{nome}"
+								th:placeholder="#{nome}" class="form-control" />
+						</div>
+					</div>
+
+
+					<!-- cognome -->
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label for="registration_view_cognome"><span th:text="#{cognome}"></span></label> <label
+								th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"
+								class="validation-message myStylesRedColor"></label> <input
+								id="registration_view_cognome" type="text" th:field="*{cognome}"
+								th:placeholder="#{cognome}" class="form-control" />
+						</div>
+					</div>
+
+					<!-- email -->
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label for="registration_view_email"><span th:text="#{email}"></span></label> <label
+								th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+								class="validation-message myStylesRedColor"></label> <input
+								id="registration_view_email" type="text" th:field="*{email}"
+								th:placeholder="#{email}" class="form-control" />
+						</div>
+					</div>
+					
+					<!-- telefono -->
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label for="registration_view_telefono"><span th:text="#{numeroTelefono}"></span></label> <label
+								th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"
+								class="validation-message myStylesRedColor"></label> <input
+								id="registration_view_telefono" type="text" th:field="*{telefono}"
+								th:placeholder="#{numeroTelefono}" class="form-control" />
+						</div>
+					</div>
+
+					<!-- codice fiscale -->
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label for="registration_view_codice_fiscale"><span th:text="#{codiceFiscale}"></span></label>
+							<label th:if="${#fields.hasErrors('codiceFiscale')}"
+								th:errors="*{codiceFiscale}" class="validation-message myStylesRedColor"></label>
+							<input id="registration_view_codice_fiscale" type="text"
+								th:field="*{codiceFiscale}" th:placeholder="#{codiceFiscale}"
+								class="form-control" />
+						</div>
+					</div>
+
+					<!-- data di nascita -->
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label for="registration_view_data_di_nascita"><span th:text="#{dataDiNascita}"></span>
+								</label> <label th:if="${#fields.hasErrors('dataNascita')}"
+								th:errors="*{dataNascita}" class="validation-message myStylesRedColor"></label> <input
+								id="registration_view_data_di_nascita" type="date"
+								th:field="*{dataNascita}" th:placeholder="#{dataDiNascita}"
+								class="form-control" />
+						</div>
+					</div>
+
+					<!-- indirizzo -->
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label for="registration_view_indirizzo"><span th:text="#{indirizzo}"></span></label> <label
+								th:if="${#fields.hasErrors('indirizzo')}"
+								th:errors="*{indirizzo}" class="validation-message myStylesRedColor"></label> <input
+								id="registration_view_indirizzo" type="text"
+								th:field="*{indirizzo}" th:placeholder="#{indirizzo}"
+								class="form-control" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label for="registration_view_select_role"><span th:text="#{ruolo}"></span></label> <label
+								th:if="${#fields.hasErrors('role')}" th:errors="*{role}"
+								class="validation-message myStylesRedColor"></label> <select class="form-control"
+								th:field="*{role}" id="registration_view_select_role">
+								<option value="0" th:text="#{selezionaRuolo}"></option>
+								<option th:each="role : ${ruoli}" th:value="${role.idRole}"
+									th:text="${role.name}"></option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label for="registration_view_select_corso"><span th:text="#{corso}"></span></label> 
+								<select class="form-control"
+									th:field="*{utenteHasCorso}" id="registration_view_select_corso">
+									<option value="0" th:text="#{selezionaCorso}"></option>
+									<option th:each="utenteHasCorso : ${utenteHasCorsiList}" th:value="${utenteHasCorso.idUtenteHasCorso}? ${utenteHasCorso.idUtenteHasCorso} : ${utenteHasCorso.corso.idCorso}+'#'+${utente.idUtente}"
+										th:text="${utenteHasCorso.corso.nome}"></option>
+								</select>
+						</div>
+					</div> 
+
+					<!-- username -->
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label for="registration_view_username"><span th:text="#{username}"></span></label> <label
+								th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+								class="validation-message myStylesRedColor"></label> <input
+								id="registration_view_username" type="text"
+								th:field="*{username}" th:placeholder="#{username}"
+								class="form-control" />
+						</div>
+					</div>
+
+				<!-- password 
+					<div class="form-group">
+						<div class="col-sm-9">
+							<label  for="registration_view_paswword"><span th:text="#{password}"></span></label> <label
+								th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+								class="validation-message myStylesRedColor"></label> <input
+								id="registration_view_paswword" type="text"
+								th:field="*{password}" th:placeholder="#{password}"
+								class="form-control" />
+						</div>
+					</div> -->
+					<!-- bottone che registra -->
+					
+					<div class="form-group">
+						<div class="col-sm-9">
+							<button type="submit" class="btn btn-primary btn-block"><span th:text="#{salva}"></span></button>
+						</div>
+					</div>
+
+
+					<span th:utext="${successMessage}"></span>
+
+
+
+
+
+				</form>
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+</body>
+
+</html>

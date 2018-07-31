@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head>
+
+<title>Login</title>
+
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link type="text/css" href="../../css/view.login.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:100"
+	rel="stylesheet">
+
+<link rel="stylesheet" href="../../css/animatedst.css" type="text/css"
+	media="all" />
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+
+
+<body class="container">
+
+
+
+	<div>
+		<br> <br> <br> <img th:src="@{/img/logo_villa_b.png}"
+			class="img-responsive center-block" alt="Logo" />
+
+		<div class="row">
+
+
+			<div
+				class="col-lg-3 col-md-8 col-md-offset-2 
+				col-sm-10 col-sm-offset-1 col-xs-12 animated fadeInLeft "
+				data-animation="fadeInLeftY">
+
+				<h1>Accademia</h1>
+				<p th:inline="text" style="text-align: justify">[[#{description}]]</p>
+			</div>
+
+
+			<div
+				class="col-lg-5  col-lg-offset-1 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12 animated fadeInRight "
+				data-animation="fadeInRight">
+
+				<form th:action="@{/login}" method="POST" class="form-signin">
+
+
+					<h1 class="form-signin-heading" th:text="Login"></h1>
+
+					<br /> <input type="text" id="login_view_matricola"
+						name="matricola" th:placeholder="#{matricola}"
+						class="form-control" /> <br /> <input type="password"
+						th:placeholder="Password" id="password" name="password"
+						class="form-control" />
+					<div align="center" th:if="${param.error}">
+						<p th:inline="text" style="color: orange;">[[#{errorLogin}]]</p>
+					</div>
+					<br />
+					<button class="btn btn-lg btn-primary btn-block" name="Submit"
+						value="Login" type="Submit" th:text="Entra"></button>
+
+				</form>
+
+
+				<p th:inline="text" style="color: white;">[[#{oppure}]]</p>
+
+				<a th:href="@{/registration}" style="text-decoration: none">
+					<button class="btn btn-lg btn-info btn-block" name="Registrati"
+						th:text="#{registrati}"></button>
+				</a>
+			</div>
+
+		</div>
+
+
+
+	</div>
+	
+  <!-- Modal -->
+  <div th:if="${activated}" class="modal fade" id="modalUserActivated" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content" >
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" th:inline="text">[[#{complimenti}]]</h4>
+        </div>
+        <div class="modal-body" style="color:black;" th:inline="text">
+       [[#{utenteAbilitatoConSuccesso}]] 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+	
+
+</body>
+
+
+<script type="text/javascript" th:inline="javascript">
+
+var userActivated = [[${activated}]];
+if (userActivated) {
+	$("#modalUserActivated").modal() 
+}
+
+
+
+
+</script>
+
+
+
+
+
+</html>

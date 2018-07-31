@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+	Complimenti, la tua registrazione è avvenuta con successo. Il tuo numero di matricola è 
+    <span th:text="${message}"></span>.
+    Come ultimo passaggio ti chiediamo di abilitarti con un click al link seguente:
+    <a th:href="@{http://localhost:8080/abilita(matricola=${message})}">link</a>.
+    Utilizza la tua matricola e la tua password per accedere al sistema.
+    
+</body>
+</html>

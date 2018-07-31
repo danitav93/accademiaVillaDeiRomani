@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+
+	xmlns:th="http://www.thymeleaf.org">
+
+
+
+
+
+
+
+
+
+<head>
+
+
+
+
+
+<title>Administrator</title>
+
+
+
+<link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
+
+
+
+
+
+<link type="text/css" href="../../css/view.admin.css" rel="stylesheet" />
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:100"
+
+	rel="stylesheet">
+
+
+
+<link rel="stylesheet" href="../../css/animatedst.css" type="text/css"
+
+	media="all" />
+
+
+
+<link rel="stylesheet"
+
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+
+
+
+
+<script
+
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+
+
+
+
+
+<script
+
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<body class="container">
+
+
+
+
+
+	<!-- ------------- -->
+
+	<!-- BARRA DEL MENU -->
+
+	<!-- ------------- -->
+
+
+
+	<nav class="navbar navbar-inverse navbar-fixed-top navbar-default">
+
+		<div class="container-fluid">
+
+
+
+
+
+			<ul class="nav navbar-nav">
+
+				<li><a><span></span> Logo</a></li>
+
+
+
+				<li class="dropdown"><a class="dropdown-toggle"
+
+					data-toggle="dropdown" th:inline="text">[[#{gestioneUtenti}]]<span
+
+						class="caret"></span></a>
+
+					<ul class="dropdown-menu">
+
+						<li><a
+
+							th:href="@{/VillaDeiRomaniAccademy/admin/openCreaUtentePanel}"
+
+							th:inline="text"><span class="glyphicon glyphicon-plus"></span>[[#{crea}]]
+
+						</a></li>
+
+					</ul></li>
+
+
+
+
+
+				<li class="dropdown"><a class="dropdown-toggle"
+
+					data-toggle="dropdown" th:inline="text">[[#{report}]]<span
+
+						class="caret"></span></a>
+
+					<ul class="dropdown-menu">
+
+						<li><a
+
+							th:href="@{/VillaDeiRomaniAccademy/admin/openReportStudentiPanel}"
+
+							th:inline="text">[[#{studenti}]] </a></li>
+
+					</ul></li>
+
+
+
+
+
+
+
+			</ul>
+
+
+
+			<ul class="nav navbar-nav navbar-right">
+
+				<li class="dropdown"><a class="dropdown-toggle"
+
+					data-toggle="dropdown"><span class="glyphicon glyphicon-user"
+
+						th:inline="text"></span> [[*{utente.nome}]]<span class="caret"></span></a>
+
+					<ul class="dropdown-menu">
+
+						<li><a th:href="@{/logout}"><span
+
+								class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+
+					</ul></li>
+
+
+
+			</ul>
+
+		</div>
+
+	</nav>
+
+
+
+
+
+
+
+
+
+
+
+	<!-- ------------- -->
+
+	<!-- SEARCH BAR -->
+
+	<!-- ------------- -->
+
+
+
+	<div class="row" style="position: relative; margin-top: 10%;">
+
+		<form action="#"
+
+			th:action="@{/VillaDeiRomaniAccademy/admin/userSearch}"
+
+			th:object="${search}">
+
+			<div class="col-lg-2 "></div>
+
+			<div class="col-lg-8 ">
+
+				<div class="input-group">
+
+					<input class="form-control" name="search" id="search_input"
+
+						placeholder="Inserire Matricola, Nome, Cognome"></input>
+
+					<div class="input-group-btn">
+
+
+
+						<button type="submit" style="width: 100%;"
+
+							class=" btn btn-primary">
+
+							<span th:text="#{cerca}"></span>
+
+						</button>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="col-lg-2 "></div>
+
+		</form>
+
+	</div>
+
+
+
+	<!-- ------------- -->
+
+	<!-- RISULTATI UTENTI -->
+
+	<!-- ------------- -->
+
+	<div th:if="${not #lists.isEmpty(users)}"
+
+		style="position: relative; margin-top: 5%; color: white; background-color: black; opacity: 0.5; font-weight: bold">
+
+		<table class="table">
+
+			<thead>
+
+				<tr>
+
+					<th th:inline="text">[[#{nome}]]</th>
+
+					<th th:inline="text">[[#{cognome}]]</th>
+
+					<th th:inline="text">[[#{matricola}]]</th>
+
+					<th th:inline="text">[[#{email}]]</th>
+
+				</tr>
+
+			</thead>
+
+			<th:block th:each="userFound : ${users}">
+
+
+
+				<tr class="rigaTabellaUtente"
+
+					th:onclick="'javascript:rowClicked(\''+${userFound.matricola}+'\');'">
+
+
+
+					<td th:text="${userFound.nome}"></td>
+
+					<td th:text="${userFound.cognome}"></td>
+
+					<td th:text="${userFound.matricola}"></td>
+
+					<td th:text="${userFound.email}"></td>
+
+				</tr>
+
+
+
+			</th:block>
+
+		</table>
+
+	</div>
+
+
+
+	<!-- ------------- -->
+
+	<!-- SE NON SONO STATI TROVATI UTENTI -->
+
+	<!-- ------------- -->
+
+	<div th:if="${users != null} and ${#lists.isEmpty(users)}"
+
+		th:inline="text"
+
+		style="text-align: center; position: relative; margin-top: 5%; color: white; background-color: black; opacity: 0.5; font-weight: bold">
+
+		[[#{resultsNotFound}]]</div>
+
+
+
+
+
+
+
+
+
+	<!-- ------------- -->
+
+	<!-- MODALE PER LA CREAZIONE DI UN UTENTE -->
+
+	<!-- ------------- -->
+
+	<!-- Modal -->
+
+	<div th:if="${newUser != null}  and ${ruoli != null}"
+
+		class="modal fade" id="modalCreateUser" role="dialog">
+
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+
+			<div class="modal-content"
+
+				style="background-color: #428bca; color: white">
+
+				<div class="modal-header">
+
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+					<h4 class="modal-title" th:inline="text">[[#{creaUnUtente}]]</h4>
+
+				</div>
+
+				<div
+
+					th:replace="fragments/createUserFragment::fragCreateUser (${newUser},${ruoli})"></div>
+
+
+
+				<!-- <div th:replace="fragments/createUserFragment::copy"></div> -->
+
+
+
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+
+
+	<div th:inline="text" id="snackbar" th:if="${userCreatedSuccessfully != null}">[[#{utenteCreatoConSuccesso}]]</div>
+
+	
+
+
+
+
+
+
+
+	<!-- ------------- -->
+
+	<!-- MODALE PER LA GENERAZIONE DEL REPORT UTENTE -->
+
+	<!-- ------------- -->
+
+	<!-- Modal -->
+
+	<div th:if="${reportStudenteBean != null}"
+
+		class="modal fade" id="modalReportStudente" role="dialog">
+
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+
+			<div class="modal-content"
+
+				style="background-color: #428bca; color: white">
+
+				<div class="modal-header">
+
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+					<h4 class="modal-title" th:inline="text">[[#{reportStudenti}]]</h4>
+
+				</div>
+
+				<div
+
+					th:replace="fragments/reportStudenti::fragReportStudenti (${reportStudenteBean},${attivitaDidattiche},${corsi},${contributi})"></div>
+
+
+
+				<!-- <div th:replace="fragments/createUserFragment::copy"></div> -->
+
+
+
+
+
+			</div>
+
+		</div>
+
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+
+
+
+
+
+
+<script type="text/javascript" th:inline="javascript">
+
+	
+
+	//per il click sulla tabella degli utenti
+
+	function rowClicked(value) {
+
+		location.href = "/VillaDeiRomaniAccademy/admin/userSelected?matricola="
+
+				+ value;
+
+	}
+
+	
+
+	//per aprire il pannello crea nuovo utente
+
+	var newUser = [[${newUser}]];
+
+	if (newUser) {
+
+		$("#modalCreateUser").modal();
+
+	}
+
+	
+
+	//per aprire il pannello report studente
+
+	var reportStudenteBean = [[${reportStudenteBean}]];
+
+	if (reportStudenteBean) {
+
+		$("#modalReportStudente").modal();
+
+	}
+
+	
+
+	//per aprire snackbar
+
+	var userCreatedSuccesfully = [[${userCreatedSuccessfully}]];
+
+	if (userCreatedSuccesfully){
+
+	    var x = document.getElementById("snackbar");
+
+	    x.className = "show";
+
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+
+	}
+
+	
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

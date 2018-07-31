@@ -1,0 +1,293 @@
+<!doctype html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>User Page</title>
+
+
+
+<link type="text/css" href="../../css/view.student.css" rel="stylesheet" />
+
+
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:100"
+	rel="stylesheet">
+
+<link rel="stylesheet" href="../../css/animatedst.css" type="text/css"
+	media="all" />
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+
+
+</head>
+
+
+<body class="container">
+
+	<nav class="navbar navbar-inverse navbar-fixed-top navbar-default">
+
+
+		<div class="container-fluid">
+
+
+			<ul class="nav navbar-nav">
+
+				<li><a><span></span> Logo</a></li>
+
+				<li sec:authorize="hasAuthority('ADMIN')"><a
+					th:href="@{/VillaDeiRomaniAccademy/admin/homeAdmin}"><span
+						class="glyphicon glyphicon-home"></span> Home</a></li>
+
+				<li sec:authorize="hasAuthority('ADMIN')"><a th:inline="text">[[#{modificaDatiPersonali}]]</a></li>
+
+				<li sec:authorize="hasAuthority('ADMIN')" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{gestioneEsami}]]<span
+						class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
+						</a></li>
+						<li><a><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
+						</a></li>
+					</ul></li>
+
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" th:inline="text">[[#{gestioneTasse}]]<span
+						class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
+						</a></li>
+						<li><a><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
+						</a></li>
+					</ul></li>
+
+				<li sec:authorize="hasAuthority('ADMIN')" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{gestioneTasse}]]<span
+						class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
+						</a></li>
+						<li><a><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
+						</a></li>
+					</ul></li>
+
+			</ul>
+			
+
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown"><span class="glyphicon glyphicon-user"
+						th:inline="text"></span> [[*{utenteLogged.nome}]]<span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a th:href="@{/logout}"><span
+								class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+					</ul></li>
+
+			</ul>
+
+		</div>
+	</nav>
+
+
+
+
+
+	<section class="mainContent">
+
+		<!-- ------------ -->
+		<!-- dati anagrafici -->
+		<!-- ------------ -->
+		<section class="section1">
+			<hr class="sectionTitleRule">
+			<h2 class="sectionTitle">
+				<span th:text="#{datiAnagrafici}"></span>
+			</h2>
+			<hr class="sectionTitleRule2">
+
+		</section>
+		<div class="section1Content">
+			<p>
+				<span th:text="#{nome} +': '+${utente.nome}"></span>
+			</p>
+
+			<p>
+				<span th:text="#{cognome} +': '+${utente.cognome}"></span>
+			</p>
+
+			<p>
+				<span th:text="#{indirizzo}+': '+${utente.indirizzo}"></span>
+			</p>
+
+			<p>
+				<span th:text="#{dataDiNascita}+': '+${utente.dataNascita}"></span>
+			</p>
+
+			<p>
+				<span th:text="#{sesso}+': '+${utente.sex}"></span>
+			</p>
+
+			<p>
+				<span th:text="#{nazionalita}+': '+${utente.nazione}"></span>
+			</p>
+
+			<p>
+				<span th:text="#{codiceFiscale}+': '+${utente.codiceFiscale}"></span>
+			</p>
+
+		</div>
+
+
+		<!-- ------------ -->
+		<!-- contatti -->
+		<!-- ------------ -->
+		<section class="section1">
+			<hr class="sectionTitleRule">
+
+			<h2 class="sectionTitle">
+				<span th:text="#{contatti}"></span>
+			</h2>
+
+
+			<hr class="sectionTitleRule2">
+
+			<div class="section1Content">
+
+				<p>
+					<span th:text="#{email}+': '+${utente.email}"></span>
+				</p>
+
+				<p>
+					<span th:text="#{numeroTelefono}+': '+${utente.telefono}"></span>
+				</p>
+
+			</div>
+
+		</section>
+
+
+
+
+
+		<!-- ------------ -->
+		<!-- Dati accademici -->
+		<!-- ------------ -->
+		<section class="section1">
+			<hr class="sectionTitleRule">
+			<h2 class="sectionTitle">
+				<span th:text="#{storiaAccademica}"></span>
+			</h2>
+			<hr class="sectionTitleRule2">
+
+			<div class="section1Content">
+
+
+				<p>
+					<span th:text="#{dataIscrizione}+': '+${utente.dataIscrizione}"></span>
+				</p>
+
+				<p>
+					<span th:text="#{matricola}+': '+${utente.matricola}"></span>
+				</p>
+
+				<p>
+					<span th:text="#{ruolo}+': '+${utente.role.name}"></span>
+				</p>
+
+				<p>
+					<span
+						th:text="${utente.utenteHasCorso}? #{corso}+': '+${utente.utenteHasCorso.corso.nome} : #{corso}+': '"></span>
+				</p>
+			</div>
+		</section>
+
+
+
+
+
+		<!-- tabella esami -->
+		<section class="section1">
+			<hr class="sectionTitleRule">
+			<h2 class="sectionTitle">
+				<button  th:inline="text" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#tableEsami" aria-expanded="false" aria-controls="tableEsami">[[#{esami}]]</button>
+			</h2>
+			<hr class="sectionTitleRule2">
+			<div class="collapse" id="tableEsami">
+			<table class="table">
+				<thead>
+					<tr>
+						<th><span th:text="#{nome}"></span></th>
+						<th><span th:text="#{creditiFormativi}"></span></th>
+						<th><span th:text="#{annoScolastico}"></span></th>
+						<th><span th:text="#{dataEsame}"></span></th>
+						<th><span th:text="#{votoEsame}"></span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr
+						th:each="utenteHasAttivitaDidattica : ${utente.utenteHasAttivitaDidatticaSet}">
+						<td
+							th:text="${utenteHasAttivitaDidattica?.attivitaDidattica.nome}"></td>
+						<td th:text="${utenteHasAttivitaDidattica?.attivitaDidattica.cf}"></td>
+						<td th:text="${utenteHasAttivitaDidattica?.annoScolastico}"></td>
+						<td th:text="${utenteHasAttivitaDidattica?.dataEsame}"></td>
+						<td th:text="${utenteHasAttivitaDidattica?.votoEsame}"></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</section>
+
+
+
+		<!-- tabella contributi -->
+		<section class="section1">
+			<hr class="sectionTitleRule">
+			<h2 class="sectionTitle">
+  				<button  th:inline="text" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#tableTasse" aria-expanded="false" aria-controls="tableTasse">[[#{contributiPagati}]]</button>
+			</h2>
+			<hr class="sectionTitleRule2">
+			<div class="collapse" id="tableTasse">
+			<table class="table">
+				<thead>
+					<tr>
+						<th><span th:text="#{contributo}"></span></th>
+						<th><span th:text="#{importo}"></span></th>
+						<th><span th:text="#{data}"></span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr
+						th:each="utenteHasContributo : ${utente.utenteHasContributiSet}">
+						<td th:text="${utenteHasContributo?.contributo.nome}"></td>
+						<td th:text="${utenteHasContributo?.importo}"></td>
+						<td th:text="${utenteHasContributo?.data}"></td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</section>
+
+		
+
+	</section>
+</body>
+
+</html>

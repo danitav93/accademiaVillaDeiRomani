@@ -1,0 +1,43 @@
+@charset "ISO-8859-1";
+.studentViewEditUtenteButton {
+	
+    background-color:#fff1;  /* Green */
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    
+    color: white;
+    border: 2px solid #fff;
+    border-radius: 4px;
+}
+
+.logoPlaceholder{
+/* 	 background-image:url("../img/logo_villa.png"); */
+	
+}
+
+.studentViewEditUtenteButton:hover {
+    background-color: #fff;
+    color: black;
+}
+
+.container{
+  margin-top:10%;
+  /* background-position: ;
+  background-repeat: no-repeat;
+  background-size: cover;
+ */   background-color: #428bca;
+ color:white;
+}
+.box-lavoro-evidenza {
+ margin: 15px 0;
+}
+
+.header-sezione {
+  border-bottom: 2px solid #357ebd;
+}
