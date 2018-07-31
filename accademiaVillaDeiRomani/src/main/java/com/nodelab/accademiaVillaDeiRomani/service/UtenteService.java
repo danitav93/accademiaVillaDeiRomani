@@ -1,8 +1,11 @@
 package com.nodelab.accademiaVillaDeiRomani.service;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
+import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBeanDataSource;
 
 public interface UtenteService {
 
@@ -23,6 +26,8 @@ public interface UtenteService {
 	public Utente findUtenteByMatricola(String matricola);
 
 	public void abilitaUtenteByMatricola(String matricola);
+
+	public List<ReportStudenteBeanDataSource> executeStudentReportRowQuery(String query);
 
 	
 	

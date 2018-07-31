@@ -1,14 +1,20 @@
 package com.nodelab.accademiaVillaDeiRomani.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
 import com.nodelab.accademiaVillaDeiRomani.model.Matricola;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
+import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBeanDataSource;
+import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBeanDataSourceRowMapper;
 import com.nodelab.accademiaVillaDeiRomani.repository.MatricolaRepository;
 import com.nodelab.accademiaVillaDeiRomani.repository.RoleRepository;
 import com.nodelab.accademiaVillaDeiRomani.repository.UtenteHasCorsoRepository;
@@ -20,18 +26,21 @@ public class UtenteServiceImpl implements UtenteService  {
 
 	@Autowired
 	private UtenteRepository utenteRepository;
-	
+
 	@Autowired
 	private RoleRepository roleRepository;
 
 	@Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 	@Autowired
 	private UtenteHasCorsoRepository utenteHasCorsoRepository;
-	
+
 	@Autowired
 	private MatricolaRepository matricolaRepository;
+
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	@Override
 	public Utente findUtenteByEmail(String email) {
@@ -59,7 +68,7 @@ public class UtenteServiceImpl implements UtenteService  {
 		return matricolaToReturn.toString();
 	}
 
-	
+
 
 	@Override
 	public Utente saveNewRegisteredUser(Utente utente) {
@@ -73,25 +82,25 @@ public class UtenteServiceImpl implements UtenteService  {
 
 	@Override
 	public void update(@Valid Utente utente) {
-		
+
 		Utente oldUtente = findUtenteById(utente.getIdUtente());
 		utente.setPassword(oldUtente.getPassword());
 		utente.setDataIscrizione(oldUtente.getDataIscrizione());
 		utente.setMatricola(oldUtente.getMatricola());
 		utente.setActive(oldUtente.getActive());
 
-		
+
 		//cancello le relazioni vecchie
 		if (oldUtente.getUtenteHasCorso()!=null) {
 			utenteHasCorsoRepository.delete(oldUtente.getUtenteHasCorso());
 		}
-		
+
 		//salvo quelle nuove
 		utenteHasCorsoRepository.save(utente.getUtenteHasCorso());
-		
+
 		//salvo l'utente 
 		utenteRepository.save(utente);
-		
+
 	}
 
 	@Override
@@ -101,7 +110,7 @@ public class UtenteServiceImpl implements UtenteService  {
 		utente.setDataIscrizione(TimeAndDate.getCurrentDate());
 		utente.setActive(0);
 		return utenteRepository.save(utente);
-		
+
 	}
 
 	@Override
@@ -112,15 +121,24 @@ public class UtenteServiceImpl implements UtenteService  {
 	@Override
 	public void abilitaUtenteByMatricola(String matricola) {
 		Utente utente=utenteRepository.findByMatricola(matricola);
-		
+
 		utente.setActive(1);
-		
+
 		utenteRepository.save(utente);
-		
+
 		return;
 	}
 
-	
+	@Override
+	public List<ReportStudenteBeanDataSource> executeStudentReportRowQuery(String query) {
+		List<ReportStudenteBeanDataSource> list=jdbcTemplate.query(query, new ReportStudenteBeanDataSourceRowMapper());
+		if (list==null || list.isEmpty()) {
+			return new ArrayList<>();
+		}
+		return list;
+	}
+
+
 
 
 

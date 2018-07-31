@@ -12,6 +12,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nodelab.accademiaVillaDeiRomani.constant.Application;
@@ -25,11 +26,18 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @Service
 public class ReportServiceImpl implements ReportService {
 	
-	SimpleDateFormat format =
+	@Autowired
+	UtenteService utenteService;
+	
+	private static SimpleDateFormat format =
 	        new SimpleDateFormat(" dd/MM/yyyy");
+	private static SimpleDateFormat simpleFormat =
+	        new SimpleDateFormat("yyyy-MM-dd");
 
 	@Override
 	public JasperPrint generateStudentiReport(ReportStudenteBean reportStudenteBean) throws Exception {
+		
+		
 		
 		
 	        Map<String, Object> params = new HashMap<String, Object>();
@@ -95,41 +103,34 @@ public class ReportServiceImpl implements ReportService {
 		
 		if (reportStudenteBean.getCorso()!=null) {
 			query=query+" JOIN UTENTE_HAS_CORSO UC ON U.ID_UTENTE=UC.ID_UTENTE JOIN CORSO C ON C.ID_CORSO=UC.ID_CORSO";
-			whereClauses=whereClauses+and+"ID_CORSO="+reportStudenteBean.getCorso().getIdCorso();
+			whereClauses=whereClauses+and+"C.ID_CORSO="+reportStudenteBean.getCorso().getIdCorso();
         }
         if (reportStudenteBean.getAttivitaDidattica()!=null && !reportStudenteBean.isEsameSostenuto()) {
         	query=query+" JOIN UTENTE_HAS_ATTIVITA_DIDATTICA UA ON U.ID_UTENTE=UA.ID_UTENTE JOIN ATTIVITA_DIDATTICA A ON A.ID_ATTIVITA_DIDATTICA=UA.ID_ATTIVITA_DIDATTICA";
-			whereClauses=whereClauses+and+"ID_ATTIVITA_DIDATTICA="+reportStudenteBean.getAttivitaDidattica().getIdAttivitaDidattica();
+			whereClauses=whereClauses+and+"A.ID_ATTIVITA_DIDATTICA="+reportStudenteBean.getAttivitaDidattica().getIdAttivitaDidattica();
         }
         if (reportStudenteBean.getAttivitaDidattica()!=null && reportStudenteBean.isEsameSostenuto()) {
         	query=query+" JOIN UTENTE_HAS_ATTIVITA_DIDATTICA UA ON U.ID_UTENTE=UA.ID_UTENTE JOIN ATTIVITA_DIDATTICA A ON A.ID_ATTIVITA_DIDATTICA=UA.ID_ATTIVITA_DIDATTICA";
-			whereClauses=whereClauses+and+"ID_ATTIVITA_DIDATTICA="+reportStudenteBean.getAttivitaDidattica().getIdAttivitaDidattica()+and+"NOT UA.VOTO_ESAME=NULL";
+			whereClauses=whereClauses+and+"A.ID_ATTIVITA_DIDATTICA="+reportStudenteBean.getAttivitaDidattica().getIdAttivitaDidattica()+and+"NOT UA.VOTO_ESAME is NULL";
         }
         if (reportStudenteBean.getContributo()!=null) {
-			whereClauses=whereClauses+and+"NOT EXISTS(SELECT UT.ID_UTENTE=U.ID_UTENTE FROM UTENTE_HAS_CONTRIBUTO UT JOIN CONTRIBUTO T ON T.ID_CONTRIBUTO=UT.ID_CONTRIBUTO )"+and+"T.ID_CONTRIBUTO="+reportStudenteBean.getContributo().getIdContributo();
+			whereClauses=whereClauses+and+"U.ID_UTENTE NOT IN(SELECT P.ID_UTENTE FROM UTENTE P JOIN  UTENTE_HAS_CONTRIBUTO UT ON UT.ID_UTENTE=P.ID_UTENTE JOIN CONTRIBUTO T ON T.ID_CONTRIBUTO=UT.ID_CONTRIBUTO WHERE T.ID_CONTRIBUTO="+reportStudenteBean.getContributo().getIdContributo()+")";
         }
         if (reportStudenteBean.getaImmatricolazioneDate()!=null && reportStudenteBean.getDaImmatricolazioneDate()!=null && reportStudenteBean.getaImmatricolazioneDate().after(reportStudenteBean.getDaImmatricolazioneDate())) {
+			whereClauses=whereClauses+and+"U.DATA_ISCRIZIONE BETWEEN \""+simpleFormat.format(reportStudenteBean.getDaImmatricolazioneDate())+"\""+and+"\""+simpleFormat.format(reportStudenteBean.getaImmatricolazioneDate())+"\"";
         }
         if (reportStudenteBean.getDaAnni()!=null && reportStudenteBean.getaAnni()!=null && reportStudenteBean.getDaAnni()<=reportStudenteBean.getaAnni()) {
+			whereClauses=whereClauses+and+"TIMESTAMPDIFF(YEAR,"+" U.DATA_NASCITA"+", NOW()) BETWEEN "+reportStudenteBean.getDaAnni()+and+reportStudenteBean.getaAnni();
         }
+        
         if (reportStudenteBean.getSex()!=null) {
-        	String sesso=Application.sessoFemminile;
-        	if (reportStudenteBean.getSex()==1) {
-        		sesso=Application.sessoMaschile;
-        	}
+			whereClauses=whereClauses+and+"U.SEX="+reportStudenteBean.getSex();
         }
 		
 		query=query+whereClauses+";";
 		
 		
-		ReportStudenteBeanDataSource utente=new ReportStudenteBeanDataSource();
-		utente.setNome("Daniele");
-		utente.setCognome("Tavernelli");
-		utente.setMatricola("1");
-		utente.setTelefono("telefono");
-		utente.setEmail("danitav93@hotmail.it");
-		
-		studenti.add(utente);
+		studenti= utenteService.executeStudentReportRowQuery(query);
 		
 		return new JRBeanCollectionDataSource(studenti);
 	}
