@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nodelab.accademiaVillaDeiRomani.constant.Application;
-import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBean;
+import com.nodelab.accademiaVillaDeiRomani.formBean.ReportStudenteBean;
 import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBeanDataSource;
 
 import net.sf.jasperreports.engine.JasperFillManager;

@@ -62,7 +62,7 @@
 							class="validation-message myStylesRedColor"></label> <select
 							class="form-control" th:field="*{attivitaDidattica}"
 							id="select_attivitaDidattica">
-							<option value="0" th:text="#{selezionaInsegnamento}"></option>
+							<option disabled value="" th:text="#{selezionaInsegnamento}"></option>
 							<option th:each="attivitaDidattica : ${attivitaDidattiche}"
 								th:value="${attivitaDidattica.idAttivitaDidattica}"
 								th:text="${attivitaDidattica.nome}"></option>

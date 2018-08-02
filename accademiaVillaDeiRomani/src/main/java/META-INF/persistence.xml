@@ -5,15 +5,14 @@
 	<persistence-unit name="accademiaVillaDeiRomani">
 		<class>com.nodelab.accademiaVillaDeiRomani.model.Matricola</class>
 		<class>com.nodelab.accademiaVillaDeiRomani.model.Contributo</class>
-
 		<class>com.nodelab.accademiaVillaDeiRomani.model.AttivitaDidattica</class>
-
 		<class>com.nodelab.accademiaVillaDeiRomani.model.Corso</class>
 		<class>com.nodelab.accademiaVillaDeiRomani.model.Role</class>
 		<class>com.nodelab.accademiaVillaDeiRomani.model.Utente</class>
 		<class>com.nodelab.accademiaVillaDeiRomani.model.UtenteHasAttivitaDidattica</class>
 		<class>com.nodelab.accademiaVillaDeiRomani.model.UtenteHasContributo</class>
 		<class>com.nodelab.accademiaVillaDeiRomani.model.UtenteHasCorso</class>
+		<class>com.nodelab.accademiaVillaDeiRomani.model.CorsoHasAttivitaDidattica</class>
 
 	</persistence-unit>
 </persistence>

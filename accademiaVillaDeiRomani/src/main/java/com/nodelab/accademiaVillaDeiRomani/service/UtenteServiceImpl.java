@@ -1,6 +1,7 @@
 package com.nodelab.accademiaVillaDeiRomani.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -11,12 +12,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
+import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiTasseBean;
+import com.nodelab.accademiaVillaDeiRomani.formBean.PercorsoFormativoBean;
+import com.nodelab.accademiaVillaDeiRomani.model.AttivitaDidattica;
+import com.nodelab.accademiaVillaDeiRomani.model.CorsoHasAttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Matricola;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
+import com.nodelab.accademiaVillaDeiRomani.model.UtenteHasAttivitaDidattica;
+import com.nodelab.accademiaVillaDeiRomani.model.UtenteHasContributo;
+import com.nodelab.accademiaVillaDeiRomani.model.UtenteHasCorso;
 import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBeanDataSource;
 import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBeanDataSourceRowMapper;
 import com.nodelab.accademiaVillaDeiRomani.repository.MatricolaRepository;
 import com.nodelab.accademiaVillaDeiRomani.repository.RoleRepository;
+import com.nodelab.accademiaVillaDeiRomani.repository.UtenteHasAttivitaDidatticaRepository;
+import com.nodelab.accademiaVillaDeiRomani.repository.UtenteHasContributoRepository;
 import com.nodelab.accademiaVillaDeiRomani.repository.UtenteHasCorsoRepository;
 import com.nodelab.accademiaVillaDeiRomani.repository.UtenteRepository;
 import com.nodelab.accademiaVillaDeiRomani.utility.TimeAndDate;
@@ -39,6 +49,14 @@ public class UtenteServiceImpl implements UtenteService  {
 	@Autowired
 	private MatricolaRepository matricolaRepository;
 
+	@Autowired
+	private UtenteHasAttivitaDidatticaRepository utenteHasAttivitaDidatticaRepository;
+
+	@Autowired
+	private UtenteHasContributoRepository utenteHasContributoRepository;
+	
+	
+	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -136,6 +154,68 @@ public class UtenteServiceImpl implements UtenteService  {
 			return new ArrayList<>();
 		}
 		return list;
+	}
+
+	@Override
+	public void updatePercorsoFormativo(PercorsoFormativoBean percorsoFormativoBean) {
+
+		//cancello tutti gli esami che l'utente aveva prima
+		List<UtenteHasAttivitaDidattica> listToDelete= new ArrayList<>();
+		for (UtenteHasAttivitaDidattica utenteHasAttivitaDidattica: percorsoFormativoBean.getUtente().getUtenteHasAttivitaDidatticaSet()) {
+			listToDelete.add(utenteHasAttivitaDidattica);
+		}
+		utenteHasAttivitaDidatticaRepository.deleteAll(listToDelete);
+		utenteHasAttivitaDidatticaRepository.flush();
+		
+		//cancello il corso che avevo prima
+		utenteHasCorsoRepository.delete(percorsoFormativoBean.getUtente().getUtenteHasCorso());
+		utenteHasCorsoRepository.flush();
+		//salvo il nuovo corso
+		UtenteHasCorso utenteHasCorso= new UtenteHasCorso();
+		utenteHasCorso.setCorso(percorsoFormativoBean.getCorso());
+		utenteHasCorso.setUtente(percorsoFormativoBean.getUtente());
+		percorsoFormativoBean.getUtente().setUtenteHasCorso(utenteHasCorso);
+		utenteHasCorsoRepository.save(utenteHasCorso);
+		//salvo le nuove attivita didattiche
+		List<UtenteHasAttivitaDidattica> listToSave= new ArrayList<>();
+		//quelle obbligatorie
+		for (CorsoHasAttivitaDidattica corsoHasAttivitaDidattica: percorsoFormativoBean.getCorso().getCorsoHasAttivitaDidatticaSet()) {
+			if (corsoHasAttivitaDidattica.isObbligatorio()) {
+				UtenteHasAttivitaDidattica utenteHasAttivitaDidattica = new UtenteHasAttivitaDidattica();
+				utenteHasAttivitaDidattica.setAttivitaDidattica(corsoHasAttivitaDidattica.getAttivitaDidattica());
+				utenteHasAttivitaDidattica.setUtente(percorsoFormativoBean.getUtente());
+				listToSave.add(utenteHasAttivitaDidattica);
+			}
+		}
+		//quellio facoltativi
+		for (AttivitaDidattica attivitaDidattica:percorsoFormativoBean.getAttivitaDidatticaFacoltativaList()) {
+			UtenteHasAttivitaDidattica utenteHasAttivitaDidattica = new UtenteHasAttivitaDidattica();
+			utenteHasAttivitaDidattica.setAttivitaDidattica(attivitaDidattica);
+			utenteHasAttivitaDidattica.setUtente(percorsoFormativoBean.getUtente());
+			listToSave.add(utenteHasAttivitaDidattica);
+		}
+
+		percorsoFormativoBean.getUtente().setUtenteHasAttivitaDidatticaSet(new HashSet<UtenteHasAttivitaDidattica>(listToSave));
+		utenteHasAttivitaDidatticaRepository.saveAll(listToSave);
+		
+		percorsoFormativoBean.getUtente().setHasPercorsoFormativo(true);
+		utenteRepository.save(percorsoFormativoBean.getUtente());
+		
+	}
+
+	@Override
+	public void addTax(@Valid AggiungiTasseBean aggiungiTasseBean) {
+
+		
+		UtenteHasContributo utenteHasContributo = new UtenteHasContributo();
+		utenteHasContributo.setContributo(aggiungiTasseBean.getContributo());
+		utenteHasContributo.setData(aggiungiTasseBean.getData());
+		utenteHasContributo.setImporto(aggiungiTasseBean.getImporto());
+		utenteHasContributo.setUtente(aggiungiTasseBean.getUtente());
+		utenteHasContributoRepository.save(utenteHasContributo);
+		
+		
+		
 	}
 
 

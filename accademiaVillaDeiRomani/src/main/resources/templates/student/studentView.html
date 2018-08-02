@@ -9,11 +9,10 @@
 
 <title>User Page</title>
 
+<link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
 
 
 <link type="text/css" href="../../css/view.student.css" rel="stylesheet" />
-
-
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
 	rel="stylesheet">
@@ -69,33 +68,37 @@
 						</a></li>
 					</ul></li>
 
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" th:inline="text">[[#{gestioneTasse}]]<span
-						class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
-						</a></li>
-						<li><a><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
-						</a></li>
-					</ul></li>
+
 
 				<li sec:authorize="hasAuthority('ADMIN')" class="dropdown"><a
 					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{gestioneTasse}]]<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
+						<li><a th:href="@{/VillaDeiRomaniAccademy/admin/insertTax(matricola=${utente.matricola})}"><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
 						</a></li>
 						<li><a><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
 						</a></li>
 					</ul></li>
 
+				<li th:if="${utente.role.idRole==2}" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{percorsoFormativo}]]<span
+						class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li th:if="${not utente.hasPercorsoFormativo}"><a th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
+						</a></li>
+						<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span  class="glyphicon glyphicon-pencil"></span>[[#{modifica}]]
+						</a></li>
+						
+					</ul></li>
+
 			</ul>
-			
+
 
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown"><span class="glyphicon glyphicon-user"
-						th:inline="text"></span> [[*{utenteLogged.nome}]]<span class="caret"></span></a>
+						th:inline="text"></span> [[*{utenteLogged.nome}]]<span
+						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a th:href="@{/logout}"><span
 								class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -226,32 +229,32 @@
 		<section class="section1">
 			<hr class="sectionTitleRule">
 			<h2 class="sectionTitle">
-				<button  th:inline="text" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#tableEsami" aria-expanded="false" aria-controls="tableEsami">[[#{esami}]]</button>
+				<button th:inline="text" class="btn btn-primary" type="button"
+					data-toggle="collapse" data-target="#tableEsami"
+					aria-expanded="false" aria-controls="tableEsami">[[#{esami}]]</button>
 			</h2>
 			<hr class="sectionTitleRule2">
 			<div class="collapse" id="tableEsami">
-			<table class="table">
-				<thead>
-					<tr>
-						<th><span th:text="#{nome}"></span></th>
-						<th><span th:text="#{creditiFormativi}"></span></th>
-						<th><span th:text="#{annoScolastico}"></span></th>
-						<th><span th:text="#{dataEsame}"></span></th>
-						<th><span th:text="#{votoEsame}"></span></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr
-						th:each="utenteHasAttivitaDidattica : ${utente.utenteHasAttivitaDidatticaSet}">
-						<td
-							th:text="${utenteHasAttivitaDidattica?.attivitaDidattica.nome}"></td>
-						<td th:text="${utenteHasAttivitaDidattica?.attivitaDidattica.cf}"></td>
-						<td th:text="${utenteHasAttivitaDidattica?.annoScolastico}"></td>
-						<td th:text="${utenteHasAttivitaDidattica?.dataEsame}"></td>
-						<td th:text="${utenteHasAttivitaDidattica?.votoEsame}"></td>
-					</tr>
-				</tbody>
-			</table>
+				<table class="table">
+					<thead>
+						<tr>
+							<th><span th:text="#{nome}"></span></th>
+							<th><span th:text="#{creditiFormativi}"></span></th>
+							<th><span th:text="#{dataEsame}"></span></th>
+							<th><span th:text="#{votoEsame}"></span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							th:each="utenteHasAttivitaDidattica : ${utente.utenteHasAttivitaDidatticaSet}">
+							<td
+								th:text="${utenteHasAttivitaDidattica?.attivitaDidattica.nome}"></td>
+							<td th:text="${utenteHasAttivitaDidattica?.attivitaDidattica.cf}"></td>
+							<td th:text="${utenteHasAttivitaDidattica?.dataEsame}"></td>
+							<td th:text="${utenteHasAttivitaDidattica?.votoEsame}"></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</section>
 
@@ -261,33 +264,144 @@
 		<section class="section1">
 			<hr class="sectionTitleRule">
 			<h2 class="sectionTitle">
-  				<button  th:inline="text" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#tableTasse" aria-expanded="false" aria-controls="tableTasse">[[#{contributiPagati}]]</button>
+				<button th:inline="text" class="btn btn-primary" type="button"
+					data-toggle="collapse" data-target="#tableTasse"
+					aria-expanded="false" aria-controls="tableTasse">[[#{contributiPagati}]]</button>
 			</h2>
 			<hr class="sectionTitleRule2">
 			<div class="collapse" id="tableTasse">
-			<table class="table">
-				<thead>
-					<tr>
-						<th><span th:text="#{contributo}"></span></th>
-						<th><span th:text="#{importo}"></span></th>
-						<th><span th:text="#{data}"></span></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr
-						th:each="utenteHasContributo : ${utente.utenteHasContributiSet}">
-						<td th:text="${utenteHasContributo?.contributo.nome}"></td>
-						<td th:text="${utenteHasContributo?.importo}"></td>
-						<td th:text="${utenteHasContributo?.data}"></td>
-					</tr>
-				</tbody>
-			</table>
+				<table class="table" >
+					<thead>
+						<tr>
+							<th><span th:text="#{contributo}"></span></th>
+							<th><span th:text="#{importo}"></span></th>
+							<th><span th:text="#{data}"></span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							th:each="utenteHasContributo : ${utente.utenteHasContributiSet}">
+							<td th:text="${utenteHasContributo?.contributo.nome}"></td>
+							<td th:text="${utenteHasContributo?.importo}"></td>
+							<td th:text="${utenteHasContributo?.data}"></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</section>
 
-		
+
 
 	</section>
+	
+	
+	<!-- ------------- -->
+
+	<!-- MODALE PER LA AGGIUNTA DEL PERCORSO FORMATIVO -->
+
+	<!-- ------------- -->
+
+	<!-- Modal -->
+
+	<div th:if="${aggiungiPercorsoFormativo}"
+		class="modal fade" id="modalAggiuntaPercorsoFormativo" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{aggiungiPercorsoFormativo}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/aggiungiPercorsoFormativo::fragAggiungiPercorsoFormativo (${percorsoFormativoBean},${attivitaDidattiche},${corsi},${utente.matricola})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- SNACKBAR TASSE AGGIUNTE CON SUCCESSO -->
+	<div th:inline="text" class="snackbar" id="snackBarPercorsoFormativoAggiornato" th:if="${percorsoFormativoAggiornatoSuccessfully}">[[#{percorsoFormativoAggiornatoConSuccesso}]]</div>
+	
+	
+	<!-- ------------- -->
+	<!-- MODALE PER L'INSERIMENTO TASSE UTENTE -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${gestioneTasse != null}"
+		class="modal fade" id="modalGestioneTasse" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{inserimentoTasse}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/inserimentoTasse::fragInserimentoTasse(${contributi}, ${aggiungiTasseBean},${utente.matricola})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- SNACKBAR TASSE AGGIUNTE CON SUCCESSO -->
+	<div th:inline="text" class="snackbar" id="snackBarTaxCreated" th:if="${taxCreatedSuccessfully}">[[#{tasseAggiunteConSuccesso}]]</div>
+	
+	<!-- ------------- -->
+	<!-- MODALE PER L'INSERIMENTO TASSE UTENTE -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${gestioneTasse != null}"
+		class="modal fade" id="modalGestioneTasse" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{inserimentoTasse}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/inserimentoTasse::fragInserimentoTasse(${contributi}, ${aggiungiTasseBean},${utente.matricola})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- SNACKBAR TASSE AGGIUNTE CON SUCCESSO -->
+	<div th:inline="text" class="snackbar" id="snackBarTaxCreated" th:if="${taxCreatedSuccessfully}">[[#{tasseAggiunteConSuccesso}]]</div>
+	
+	
 </body>
 
+<script type="text/javascript" th:inline="javascript">
+
+
+
+	//per aprire il pannello report studente
+	var aggiungiPercorsoFormativo = [[${aggiungiPercorsoFormativo}]];
+	if (aggiungiPercorsoFormativo) {
+		$("#modalAggiuntaPercorsoFormativo").modal();
+	}
+	
+	//per aprire il pannello gestione tasse
+	var gestioneTasse = [[${gestioneTasse}]];
+	if (gestioneTasse) {
+		$("#modalGestioneTasse").modal();
+	}
+	
+	//per aprire snackbar percorso formativo aggiornato con successo
+ 	var taxCreatedSuccesfully = [[${taxCreatedSuccessfully}]];
+	if (taxCreatedSuccesfully){
+	    var x = document.getElementById("snackBarTaxCreated");
+	    x.className = "show snackbar";
+	    
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	} 
+	
+	//per aprire snackbar tassa generata con successo
+ 	var percorsoFormativoAggiornatoSuccessfully = [[${percorsoFormativoAggiornatoSuccessfully}]];
+	if (percorsoFormativoAggiornatoSuccessfully){
+	    var x = document.getElementById("snackBarPercorsoFormativoAggiornato");
+	    x.className = "show snackbar";
+	    
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	} 
+
+</script>
 </html>

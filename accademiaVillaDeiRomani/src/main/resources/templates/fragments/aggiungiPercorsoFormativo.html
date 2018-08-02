@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>Create User</title>
+
+<link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100"
+	rel="stylesheet">
+<link rel="stylesheet" href="../../css/animatedst.css" type="text/css"
+	media="all" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="container">
+
+	<div
+		th:fragment="fragAggiungiPercorsoFormativo (percorsoFormativoBean,attivitaDidattiche,corsi,matricola)">
+
+
+
+
+
+		<form autocomplete="off" th:action="@{/VillaDeiRomaniAccademy/student/submitNewPercorsoFormativo(matricola=${matricola})}"
+			th:object="${percorsoFormativoBean}" method="post"
+			class="form-horizontal" role="form">
+			<div class="row ">
+				<!-- prima colonna -->
+				<div class="col-md-10 col-md-offset-1">
+
+					<!-- corso -->
+					<div class="form-group">
+						<label for="select_corso"><span th:text="#{corso}"></span></label>
+						<select required="required" class="form-control"
+							th:field="*{corso}" id="select_corso">
+							<option value="0" th:text="#{selezionaCorso}"></option>
+							<option th:each="corso : ${corsi}" th:value="${corso.idCorso}"
+								th:text="${corso.nome}"></option>
+						</select>
+					</div>
+
+					<!-- Attivita didattica facoltativa -->
+					<div class="form-group hidden" id="divAttivitaFacoltativa">
+						<label for="attivitaFacoltativa" th:inline="text">[[#{esameASceltaHint}]]</label>
+						<select multiple="multiple" class="form-control selectpicker"
+							th:field="*{attivitaDidatticaFacoltativaList}"
+							id="attivitaFacoltativa" required="required">
+						</select>
+					</div>
+
+					<!-- Attivita didattica obbligatoria -->
+					<div class="form-group hidden " id="divAttivitaObbligatoria">
+						<label for="attivitaObbligatoria" th:inline="text">[[#{esamiObbligatori}]]</label>
+						<table style="text-align: center" class="table"
+							id="attivitaObbligatoria">
+
+						</table>
+					</div>
+
+					
+
+				</div>
+			</div>
+			<div class="row hidden" id="divSalva">
+						<div class="col-md-4 col-md-offset-4">
+							<button style="width: 100%; margin-bottom: 10%"
+								class="btn btn-primary" th:inline="text">[[#{salva}]]</button>
+						</div>
+			</div>
+		</form>
+
+		<script type="text/javascript" th:inline="javascript">
+		$('#select_corso').change(
+		        function() {
+		        		$("#divAttivitaFacoltativa").removeClass('hidden');
+		        		$("#divAttivitaObbligatoria").removeClass('hidden');
+		        		$("#divSalva").removeClass('hidden');
+		        		var corsi = [[${corsi}]];
+		        		var corsoIdSelected = $(this).val();
+		        		var corsoSelected;
+		        		var length=corsi.length;
+		        		for (var i=0;i<length;i++) {
+		        			if (corsi[i].idCorso==corsoIdSelected) {
+		        				corsoSelected=corsi[i];
+		        			}
+		        		}
+		        		if (!corsoSelected) {
+		        			$('#divAttivitaFacoltativa').addClass("hidden");
+		        			$('#divAttivitaObbligatoria').addClass("hidden");
+		        			$('#divSalva').addClass("hidden");
+		        			$('#attivitaFacoltativa').html("");
+		        			$("#attivitaObbligatoria").html("");
+		        			return;
+		        		}
+		        		length=corsoSelected.corsoHasAttivitaDidatticaSet.length;
+		        		var htmlFacoltativa="";
+		        		var  htmlObbligatoria='<thead ><tr><th style="text-align: center">'+[[#{nome}]]+'</th><th style="text-align: center">'+[[#{cf}]]+'</th><th style="text-align: center">'+[[#{anno}]]+'</th></tr></thead><tbody>';
+		                for ( var i=0;i<length;i++) {
+		                	if (corsoSelected.corsoHasAttivitaDidatticaSet[i].obbligatorio==0) {
+		                		htmlFacoltativa += '<option value='+corsoSelected.corsoHasAttivitaDidatticaSet[i].attivitaDidattica.idAttivitaDidattica+'>'+
+		                		corsoSelected.corsoHasAttivitaDidatticaSet[i].attivitaDidattica.nome+'</option>';
+		                	} else {
+		                		
+		                		 htmlObbligatoria +=' <tr>'+
+								'<td>'+corsoSelected.corsoHasAttivitaDidatticaSet[i].attivitaDidattica.nome+'</td>'+
+								'<td>'+corsoSelected.corsoHasAttivitaDidatticaSet[i].attivitaDidattica.cf+'</td>'+
+								'<td>'+corsoSelected.corsoHasAttivitaDidatticaSet[i].anno+'</td>'+
+								'</tr>';
+							/* 	var str = JSON.stringify(htmlObbligatoria, null, 4); 
+				                alert(str); */
+		 		                
+
+		                	}
+		                }
+		                htmlObbligatoria+="\<tbody>"
+		                $('#attivitaFacoltativa').html(htmlFacoltativa);
+		                $("#attivitaObbligatoria").html(htmlObbligatoria);
+		        });
+		
+		</script>
+
+
+	</div>
+
+
+
+
+
+</body>
+
+</html>

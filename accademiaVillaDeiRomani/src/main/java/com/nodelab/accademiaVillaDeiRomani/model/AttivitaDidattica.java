@@ -31,6 +31,10 @@ public class AttivitaDidattica implements Serializable{
 	@OneToMany(mappedBy = "attivitaDidattica")
 	@JsonBackReference
 	private Set<UtenteHasAttivitaDidattica> utenteHasAttivitaDidatticaSet;
+	
+	@OneToMany(mappedBy = "attivitaDidattica")
+	@JsonBackReference
+	private Set<CorsoHasAttivitaDidattica> corsoHasAttivitaDidatticaSet;
 
 	public int getIdAttivitaDidattica() {
 		return idAttivitaDidattica;
@@ -54,6 +58,22 @@ public class AttivitaDidattica implements Serializable{
 
 	public void setCf(int cf) {
 		this.cf = cf;
+	}
+
+	public Set<UtenteHasAttivitaDidattica> getUtenteHasAttivitaDidatticaSet() {
+		return utenteHasAttivitaDidatticaSet;
+	}
+
+	public void setUtenteHasAttivitaDidatticaSet(Set<UtenteHasAttivitaDidattica> utenteHasAttivitaDidatticaSet) {
+		this.utenteHasAttivitaDidatticaSet = utenteHasAttivitaDidatticaSet;
+	}
+
+	public Set<CorsoHasAttivitaDidattica> getCorsoHasAttivitaDidatticaSet() {
+		return corsoHasAttivitaDidatticaSet;
+	}
+
+	public void setCorsoHasAttivitaDidatticaSet(Set<CorsoHasAttivitaDidattica> corsoHasAttivitaDidatticaSet) {
+		this.corsoHasAttivitaDidatticaSet = corsoHasAttivitaDidatticaSet;
 	}
 	
 	

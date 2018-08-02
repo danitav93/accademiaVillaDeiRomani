@@ -202,5 +202,31 @@
 
 
 </body>
+<script type="text/javascript" th:inline="javascript">
+		alert("bingo");
+		$('#select_corso').change(
+				
+		        function() {
+		        		alert("bingo");
+		        		$("#divAttivitaFacoltativa").removeClass('hidden');
+		        		var corsi = [[${corsi}]];
+		        		var corsoIdSelected = $(this).val();
+		        		var corsoSelected;
+		        		for (var corso in corsi) {
+		        			if (corso.idCorso==corsoIdSelected) {
+		        				corsoSelected=corso;
+		        			}
+		        		}
+		                for ( var corsoHasAttivitaDidattica: corsoSelected.corsoHasAttivitaDidatticaSet) {
+		                    html += '<option th:value="corsoHasAttivitaDidattica.idAttivitaDidattica" th:text="${corsoHasAttivitaDidattica.attivitaDidattica.nome}">'
+		                             '</option>';
+		                }
+		                $('#agency').html(html);
+		            
+		        });
+		
+		
+	
+	</script>
 
 </html>

@@ -1,4 +1,4 @@
-package com.nodelab.accademiaVillaDeiRomani.model;
+package com.nodelab.accademiaVillaDeiRomani.model.formatter;
 
 import java.text.ParseException;
 import java.util.Locale;
@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
 
+import com.nodelab.accademiaVillaDeiRomani.model.UtenteHasCorso;
 import com.nodelab.accademiaVillaDeiRomani.repository.UtenteHasCorsoRepository;
 import com.nodelab.accademiaVillaDeiRomani.service.CorsoService;
 import com.nodelab.accademiaVillaDeiRomani.service.UtenteService;

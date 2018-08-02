@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiTasseBean;
+import com.nodelab.accademiaVillaDeiRomani.formBean.PercorsoFormativoBean;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBeanDataSource;
 
@@ -28,6 +30,10 @@ public interface UtenteService {
 	public void abilitaUtenteByMatricola(String matricola);
 
 	public List<ReportStudenteBeanDataSource> executeStudentReportRowQuery(String query);
+
+	public void updatePercorsoFormativo(PercorsoFormativoBean percorsoFormativoBean);
+
+	public void addTax(@Valid AggiungiTasseBean aggiungiTasseBean);
 
 	
 	

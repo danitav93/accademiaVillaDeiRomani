@@ -9,7 +9,9 @@
     margin: 0 auto;
 }
 
-#snackbar {
+
+
+.snackbar{
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
@@ -25,7 +27,7 @@
     font-size: 17px;
 }
 
-#snackbar.show {
+.snackbar.show{
     visibility: visible;
     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
@@ -50,3 +52,5 @@
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 }
+
+

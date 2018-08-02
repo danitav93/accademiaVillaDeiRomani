@@ -375,12 +375,8 @@
 		</div>
 
 	</div>
-
-
-
-
-
-	<div th:inline="text" id="snackbar" th:if="${userCreatedSuccessfully != null}">[[#{utenteCreatoConSuccesso}]]</div>
+	<!-- SNACKBAR UTENTE CREATO CON SUCCESSO -->
+	<div class="snackbar" th:inline="text" id="snackbarUserCreated" th:if="${userCreatedSuccessfully != null}">[[#{utenteCreatoConSuccesso}]]</div>
 
 	
 
@@ -423,8 +419,6 @@
 					th:replace="fragments/reportStudenti::fragReportStudenti (${reportStudenteBean},${attivitaDidattiche},${corsi},${contributi})"></div>
 
 
-
-				<!-- <div th:replace="fragments/createUserFragment::copy"></div> -->
 
 
 
@@ -504,18 +498,12 @@
 
 	
 
-	//per aprire snackbar
-
+	//per aprire snackbar utente creato con successo
 	var userCreatedSuccesfully = [[${userCreatedSuccessfully}]];
-
 	if (userCreatedSuccesfully){
-
-	    var x = document.getElementById("snackbar");
-
-	    x.className = "show";
-
+	    var x = document.getElementById("snackbarUserCreated");
+	    x.className = "show snackbar";
 	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-
 	}
 
 	

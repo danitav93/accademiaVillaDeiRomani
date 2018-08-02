@@ -42,7 +42,7 @@ public class UtenteHasContributo implements Serializable {
 	private Contributo contributo;
 	
 	@Column(name="importo")
-	private double importo;
+	private Double importo;
 	 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
@@ -89,11 +89,11 @@ public class UtenteHasContributo implements Serializable {
 
 
 
-	public double getImporto() {
+	public Double getImporto() {
 		return importo;
 	}
 
-	public void setImporto(double importo) {
+	public void setImporto(Double importo) {
 		this.importo = importo;
 	}
 

@@ -1,6 +1,6 @@
 package com.nodelab.accademiaVillaDeiRomani.service;
 
-import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBean;
+import com.nodelab.accademiaVillaDeiRomani.formBean.ReportStudenteBean;
 
 import net.sf.jasperreports.engine.JasperPrint;
 

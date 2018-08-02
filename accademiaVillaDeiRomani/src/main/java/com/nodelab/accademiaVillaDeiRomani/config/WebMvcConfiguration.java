@@ -14,13 +14,17 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer ;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
-import com.nodelab.accademiaVillaDeiRomani.model.UtenteHasCorsoFormatter;
+import com.nodelab.accademiaVillaDeiRomani.model.formatter.AttivitaDidatticaFormatter;
+import com.nodelab.accademiaVillaDeiRomani.model.formatter.UtenteHasCorsoFormatter;
 
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer  {
 
 	@Autowired
 	UtenteHasCorsoFormatter utenteHasCorsoFormatter;
+	
+	@Autowired
+	AttivitaDidatticaFormatter attivitaDidatticaFormatter;
 	
 	//security
 	@Bean
@@ -46,7 +50,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer  {
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("i18n/messages");
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setDefaultEncoding("ISO-8859-1");
         return messageSource;
     }
 	
@@ -60,6 +64,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer  {
     public void addFormatters(FormatterRegistry formatterRegistry) {
 
         formatterRegistry.addFormatter(utenteHasCorsoFormatter);
+        formatterRegistry.addFormatter(attivitaDidatticaFormatter);
 
     }
 

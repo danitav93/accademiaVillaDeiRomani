@@ -1,4 +1,4 @@
-package com.nodelab.accademiaVillaDeiRomani.report.bean;
+package com.nodelab.accademiaVillaDeiRomani.formBean;
 
 import java.util.Date;
 

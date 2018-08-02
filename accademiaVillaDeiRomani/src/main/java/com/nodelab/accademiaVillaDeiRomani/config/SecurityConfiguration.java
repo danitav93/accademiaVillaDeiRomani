@@ -55,6 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(Urls.loginPath).permitAll()
 				.antMatchers(Urls.registrationPath).permitAll()
 				.antMatchers(Urls.baseAuthenticatedUserPath+Urls.pathSeparator+Urls.adminSeparator+Urls.pathSeparator+"**").hasAnyAuthority(Ruoli.ruolo_amministratore)
+				.antMatchers(Urls.baseAuthenticatedUserPath+Urls.pathSeparator+Urls.studentSeparator+Urls.pathSeparator+"**").authenticated()
 			.and()
 			.formLogin()
 					.loginProcessingUrl(Urls.loginPath)

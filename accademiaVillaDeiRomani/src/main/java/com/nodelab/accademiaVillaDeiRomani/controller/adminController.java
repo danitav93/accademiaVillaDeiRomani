@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +25,10 @@ import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
 import com.nodelab.accademiaVillaDeiRomani.constant.Test;
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
+import com.nodelab.accademiaVillaDeiRomani.formBean.ReportStudenteBean;
 import com.nodelab.accademiaVillaDeiRomani.hibernate.search.UtenteSearch;
 import com.nodelab.accademiaVillaDeiRomani.model.Role;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
-import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBean;
 import com.nodelab.accademiaVillaDeiRomani.service.AttivitaDidatticaService;
 import com.nodelab.accademiaVillaDeiRomani.service.ContributoService;
 import com.nodelab.accademiaVillaDeiRomani.service.CorsoService;
@@ -56,24 +57,24 @@ public class adminController {
 
 	@Autowired
 	private RoleService roleService;
-	
+
 	@Autowired
 	private CorsoService corsoService;
-	
+
 	@Autowired
 	private AttivitaDidatticaService attivitaDidatticaService;
-	
+
 	@Autowired
 	private ContributoService contributoService;
-	
+
 	@Autowired
 	private ReportService reportService;
-	
-	
-	
+
+
+
 	@Autowired
 	MailService mailService;
-	
+
 	@Autowired
 	MessageService messageService;
 
@@ -165,9 +166,9 @@ public class adminController {
 	 * @return
 	 */
 	@RequestMapping(value = { Urls.submitNewUserPath}, method = RequestMethod.POST)
-	public ModelAndView submitNewUser(@Valid @ModelAttribute("newUser") Utente newUser, BindingResult bindingResult) {
+	public ModelAndView submitNewUser(@Valid @ModelAttribute("newUser") Utente newUser, BindingResult bindingResult, ModelMap model) {
 
-		ModelAndView modelAndView = new ModelAndView();
+		ModelAndView modelAndView;
 
 		//mi prendo l'utente loggato
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -186,6 +187,7 @@ public class adminController {
 
 
 		if (bindingResult.hasErrors()) {
+			modelAndView = new ModelAndView();
 			modelAndView.addObject("newUser",newUser);
 			modelAndView.addObject("utente",utenteLoggato);
 			modelAndView.addObject("ruoli",roleService.getListOfRoles());
@@ -194,21 +196,23 @@ public class adminController {
 		} else {
 
 			newUser= utenteService.saveNewUserFromAdmin(newUser);
-			
+
 			//mandiamo una mail con il link di conferma
 			mailService.sendRegistrationMail(newUser.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(newUser.getMatricola()).toString());
 
-			
-			modelAndView.addObject("utente", utenteLoggato);
-			
-			modelAndView.addObject("userCreatedSuccessfully", true);
 
-			modelAndView.setViewName(View.adminView);
+			model.addAttribute("matricola", utenteLoggato.getMatricola());
 
+			model.addAttribute("key","userCreatedSuccessfully");
 			
+			model.addAttribute("value",true);
+
+
+			modelAndView = new ModelAndView(Urls.redirect+Urls.adminPath,model);
+
+
 
 		}
-
 		return modelAndView;
 
 	}
@@ -224,14 +228,14 @@ public class adminController {
 		//mi prendo l'utente loggato
 		Utente utente = utenteService.findUtenteByMatricola(auth.getName());
 		model.addAttribute("utente", utente);
-		
+
 		ReportStudenteBean reportStudenteBean = new ReportStudenteBean();
 		model.addAttribute("reportStudenteBean", reportStudenteBean);
 
 		model.addAttribute("corsi",corsoService.getListOfCorsi());
 		model.addAttribute("attivitaDidattiche",attivitaDidatticaService.getListOfAttivitaDidattiche());
 		model.addAttribute("contributi",contributoService.getAllContributi());
-		
+
 		return View.adminView;
 
 	}
@@ -246,23 +250,52 @@ public class adminController {
 		try {
 			//genero il report
 			response.setContentType("application/x-download");
-		    response.setHeader("Content-disposition", "attachment;filename="+Report.studentiReportName);
+			response.setHeader("Content-disposition", "attachment;filename="+Report.studentiReportName);
 			JasperPrint report=reportService.generateStudentiReport(reportStudenteBean);
 			OutputStream outStream = response.getOutputStream();
 			JasperExportManager.exportReportToPdfStream(report, outStream);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	    
+
 	}
-	
-	
- 
-        
- 
-       
- 
-       
-	
-	
+
+
+
+	/**
+	 * Matodo che reindirizza alla admin view, può mettere una variabile opzionale (key,value) per mostrare eventuali snack bar 
+	 * @param matricola
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.adminPath}, method = RequestMethod.GET)
+	public ModelAndView submitLogin(@RequestParam(value = "matricola", required = true) String matricola,@RequestParam(value = "key", required = false) String key, @RequestParam(value = "value", required = false) String value){
+
+		ModelAndView modelAndView = new ModelAndView();
+
+		//mi prendo l'utente loggato e l'utente della student view
+		Utente utente = utenteService.findUtenteByMatricola(matricola);
+
+
+		//li aggiungo al model
+		modelAndView.addObject("utente",utente);
+
+		//aggiungo la variabile opzionale
+		if (key!=null && value!=null) {
+			modelAndView.addObject(key,value);
+		}
+
+		modelAndView.setViewName(View.adminView);
+
+
+		return modelAndView;
+
+	}
+
+
+
+
+
+
 }

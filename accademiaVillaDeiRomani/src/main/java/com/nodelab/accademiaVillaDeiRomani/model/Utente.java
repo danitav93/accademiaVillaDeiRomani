@@ -33,9 +33,9 @@ import com.nodelab.accademiaVillaDeiRomani.annotation.PasswordAnnotation;
 
 //pinooooooorere
 
-@Entity
-@Indexed
+@Entity(name="utente")
 @Table(name="utente")
+@Indexed
 public class Utente implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -116,6 +116,9 @@ public class Utente implements Serializable {
 	
 	@Column(name = "active")
 	private int active;
+	
+	@Column(name = "has_percorso_formativo")
+	private boolean hasPercorsoFormativo;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_role")
@@ -312,6 +315,14 @@ public class Utente implements Serializable {
 
 	public void setNazione(String nazione) {
 		this.nazione = nazione;
+	}
+
+	public boolean isHasPercorsoFormativo() {
+		return hasPercorsoFormativo;
+	}
+
+	public void setHasPercorsoFormativo(boolean hasPercorsoFormativo) {
+		this.hasPercorsoFormativo = hasPercorsoFormativo;
 	}
 	
 	

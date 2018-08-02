@@ -26,14 +26,11 @@ public class UtenteHasAttivitaDidattica implements Serializable{
 	@Column(name="id_utente_has_attivita_didattica")
 	private int idUtenteHasAttivitaDidattica;
 	
-	@Column(name="anno_scolastico")
-	private String annoScolastico;
-	
 	@Column(name="data_esame")
 	private Date dataEsame;
 	
 	@Column(name="voto_Esame")
-	private int votoEsame;
+	private Integer votoEsame;
 	
 	@ManyToOne
     @JoinColumn(name = "id_utente")
@@ -53,13 +50,7 @@ public class UtenteHasAttivitaDidattica implements Serializable{
 		this.idUtenteHasAttivitaDidattica = idUtenteHasAttivitaDidattica;
 	}
 
-	public String getAnnoScolastico() {
-		return annoScolastico;
-	}
-
-	public void setAnnoScolastico(String annoScolastico) {
-		this.annoScolastico = annoScolastico;
-	}
+	
 
 	public Date getDataEsame() {
 		return dataEsame;
@@ -69,11 +60,11 @@ public class UtenteHasAttivitaDidattica implements Serializable{
 		this.dataEsame = dataEsame;
 	}
 
-	public int getVotoEsame() {
+	public Integer getVotoEsame() {
 		return votoEsame;
 	}
 
-	public void setVotoEsame(int votoEsame) {
+	public void setVotoEsame(Integer votoEsame) {
 		this.votoEsame = votoEsame;
 	}
 

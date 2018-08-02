@@ -12,6 +12,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @NamedQuery(name="Corso.findAll", query="SELECT co FROM Corso co")
@@ -30,6 +31,10 @@ public class Corso implements Serializable {
 	@OneToMany(mappedBy = "corso")
 	@JsonBackReference
 	private Set<UtenteHasCorso> utenteHasCorsoSet;
+	
+	@OneToMany(mappedBy = "corso")
+	@JsonManagedReference
+	private Set<CorsoHasAttivitaDidattica> corsoHasAttivitaDidatticaSet;
 
 	public int getIdCorso() {
 		return idCorso;
@@ -53,6 +58,14 @@ public class Corso implements Serializable {
 
 	public void setUtenteHasCorsoSet(Set<UtenteHasCorso> utenteHasCorsoSet) {
 		this.utenteHasCorsoSet = utenteHasCorsoSet;
+	}
+
+	public Set<CorsoHasAttivitaDidattica> getCorsoHasAttivitaDidatticaSet() {
+		return corsoHasAttivitaDidatticaSet;
+	}
+
+	public void setCorsoHasAttivitaDidatticaSet(Set<CorsoHasAttivitaDidattica> corsoHasAttivitaDidatticaSet) {
+		this.corsoHasAttivitaDidatticaSet = corsoHasAttivitaDidatticaSet;
 	}
 	
 	
