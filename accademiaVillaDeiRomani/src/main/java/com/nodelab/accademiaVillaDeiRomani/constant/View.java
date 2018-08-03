@@ -36,7 +36,6 @@ public class View {
 	
 	public static final String studentView = "student/studentView";
 	
-	public static final String studentViewEdit = "student/studentViewEdit";
 	
 	
 	

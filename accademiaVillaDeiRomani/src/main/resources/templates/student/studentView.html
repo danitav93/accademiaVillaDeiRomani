@@ -56,16 +56,16 @@
 					th:href="@{/VillaDeiRomaniAccademy/admin/homeAdmin}"><span
 						class="glyphicon glyphicon-home"></span> Home</a></li>
 
-				<li sec:authorize="hasAuthority('ADMIN')"><a th:inline="text">[[#{modificaDatiPersonali}]]</a></li>
+				<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/VillaDeiRomaniAccademy/admin/editStudentPersonalData(matricola=${utente.matricola})}" th:inline="text">[[#{modificaDatiPersonali}]]</a></li>
 
 				<li sec:authorize="hasAuthority('ADMIN')" class="dropdown"><a
 					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{gestioneEsami}]]<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
-						</a></li>
-						<li><a><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
-						</a></li>
+						<li><a
+							th:href="@{/VillaDeiRomaniAccademy/admin/insertExam(matricola=${utente.matricola})}"><span
+								class="glyphicon glyphicon-pencil"></span>[[#{modifica}]] </a></li>
+						
 					</ul></li>
 
 
@@ -74,9 +74,10 @@
 					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{gestioneTasse}]]<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a th:href="@{/VillaDeiRomaniAccademy/admin/insertTax(matricola=${utente.matricola})}"><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
-						</a></li>
-						<li><a><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
+						<li><a
+							th:href="@{/VillaDeiRomaniAccademy/admin/insertTax(matricola=${utente.matricola})}"><span
+								class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]] </a></li>
+						<li><a th:href="@{/VillaDeiRomaniAccademy/admin/deleteTax(matricola=${utente.matricola})}"><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
 						</a></li>
 					</ul></li>
 
@@ -84,11 +85,13 @@
 					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{percorsoFormativo}]]<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li th:if="${not utente.hasPercorsoFormativo}"><a th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
-						</a></li>
-						<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span  class="glyphicon glyphicon-pencil"></span>[[#{modifica}]]
-						</a></li>
-						
+						<li th:if="${not utente.hasPercorsoFormativo}"><a
+							th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span
+								class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]] </a></li>
+						<li sec:authorize="hasAuthority('ADMIN')"><a
+							th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span
+								class="glyphicon glyphicon-pencil"></span>[[#{modifica}]] </a></li>
+
 					</ul></li>
 
 			</ul>
@@ -210,9 +213,7 @@
 					<span th:text="#{matricola}+': '+${utente.matricola}"></span>
 				</p>
 
-				<p>
-					<span th:text="#{ruolo}+': '+${utente.role.name}"></span>
-				</p>
+			
 
 				<p>
 					<span
@@ -270,7 +271,7 @@
 			</h2>
 			<hr class="sectionTitleRule2">
 			<div class="collapse" id="tableTasse">
-				<table class="table" >
+				<table class="table">
 					<thead>
 						<tr>
 							<th><span th:text="#{contributo}"></span></th>
@@ -293,8 +294,9 @@
 
 
 	</section>
-	
-	
+
+
+
 	<!-- ------------- -->
 
 	<!-- MODALE PER LA AGGIUNTA DEL PERCORSO FORMATIVO -->
@@ -303,8 +305,8 @@
 
 	<!-- Modal -->
 
-	<div th:if="${aggiungiPercorsoFormativo}"
-		class="modal fade" id="modalAggiuntaPercorsoFormativo" role="dialog">
+	<div th:if="${aggiungiPercorsoFormativo}" class="modal fade"
+		id="modalAggiuntaPercorsoFormativo" role="dialog">
 		<div class="modal-dialog">
 			<!-- Modal content-->
 			<div class="modal-content"
@@ -319,15 +321,17 @@
 		</div>
 	</div>
 	<!-- SNACKBAR TASSE AGGIUNTE CON SUCCESSO -->
-	<div th:inline="text" class="snackbar" id="snackBarPercorsoFormativoAggiornato" th:if="${percorsoFormativoAggiornatoSuccessfully}">[[#{percorsoFormativoAggiornatoConSuccesso}]]</div>
-	
-	
+	<div th:inline="text" class="snackbar"
+		id="snackBarPercorsoFormativoAggiornato"
+		th:if="${percorsoFormativoAggiornatoSuccessfully}">[[#{percorsoFormativoAggiornatoConSuccesso}]]</div>
+
+
 	<!-- ------------- -->
 	<!-- MODALE PER L'INSERIMENTO TASSE UTENTE -->
 	<!-- ------------- -->
 	<!-- Modal -->
-	<div th:if="${gestioneTasse != null}"
-		class="modal fade" id="modalGestioneTasse" role="dialog">
+	<div th:if="${aggiungiTasse}" class="modal fade"
+		id="modalAggiungiTasse" role="dialog">
 		<div class="modal-dialog">
 			<!-- Modal content-->
 			<div class="modal-content"
@@ -337,56 +341,147 @@
 					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{inserimentoTasse}]]</h4>
 				</div>
 				<div
-					th:replace="fragments/inserimentoTasse::fragInserimentoTasse(${contributi}, ${aggiungiTasseBean},${utente.matricola})"></div>
+					th:replace="fragments/tasse::fragInserimentoTasse(${contributi}, ${aggiungiTasseBean},${utente.matricola})"></div>
 			</div>
 		</div>
 	</div>
 	<!-- SNACKBAR TASSE AGGIUNTE CON SUCCESSO -->
-	<div th:inline="text" class="snackbar" id="snackBarTaxCreated" th:if="${taxCreatedSuccessfully}">[[#{tasseAggiunteConSuccesso}]]</div>
-	
+	<div th:inline="text" class="snackbar" id="snackBarTaxCreated"
+		th:if="${taxCreatedSuccessfully}">[[#{tasseAggiunteConSuccesso}]]</div>
 	<!-- ------------- -->
-	<!-- MODALE PER L'INSERIMENTO TASSE UTENTE -->
+	<!-- MODALE PER L'ELIMINAZIONE TASSE UTENTE -->
 	<!-- ------------- -->
 	<!-- Modal -->
-	<div th:if="${gestioneTasse != null}"
-		class="modal fade" id="modalGestioneTasse" role="dialog">
+	<div th:if="${eliminaTasse}" class="modal fade"
+		id="modalEliminaTasse" role="dialog">
 		<div class="modal-dialog">
 			<!-- Modal content-->
 			<div class="modal-content"
 				style="background-color: #428bca; color: white">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{inserimentoTasse}]]</h4>
+					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{eliminazioneTassa}]]</h4>
 				</div>
 				<div
-					th:replace="fragments/inserimentoTasse::fragInserimentoTasse(${contributi}, ${aggiungiTasseBean},${utente.matricola})"></div>
+					th:replace="fragments/tasse::fragEliminazioneTasse(${contributi},${contributoToDelete},${utente.matricola})"></div>
+			</div>
+		</div>
+	</div>
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+	<!-- ------------- -->
+	<!-- MODALE PER L'INSERIMENTO DI UN ESAME IN CARRIERA -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${aggiungiEsame}" class="modal fade"
+		id="modalAggiungiEsame" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{inserimentoEsame}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/aggiungiEsame::fragAggiungiEsame(${attivitaDidatticheAssociate}, ${aggiungiEsameBean},${utente.matricola})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- SNACKBAR ESAME AGGIUNTE CON SUCCESSO -->
+	<div th:inline="text" class="snackbar" id="snackbarEsameAggiunto"
+		th:if="${esameAddedSuccessfully}">[[#{esameAggiuntoConSuccesso}]]</div>
+	
+
+
+
+
+
+
+
+
+
+
+	<!-- ------------- -->
+	<!-- MODALE PER L'EDIT DEI DATI PERSONALI -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${editDatiPersonali}" class="modal fade"
+		id="modalEditDatiPersonali" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{editDatiPersonali}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/editDatiPersonali::fragDatiPersonali(${newUtente},${utente.matricola})"></div>
 			</div>
 		</div>
 	</div>
 	<!-- SNACKBAR TASSE AGGIUNTE CON SUCCESSO -->
-	<div th:inline="text" class="snackbar" id="snackBarTaxCreated" th:if="${taxCreatedSuccessfully}">[[#{tasseAggiunteConSuccesso}]]</div>
-	
-	
+	<div th:inline="text" class="snackbar" id="snackbarEditDatiPersonali"
+		th:if="editDatiPersonaliSuccessfully">[[#{editDatiPersonaliSuccessfully}]]</div>
+
+
+	<!-- SNACKBAR OPERAZIONE AVVENUTA CON SUCCESSO -->
+	<div th:inline="text" class="snackbar" id="snackBarOperationCompleted"
+		th:if="${operationCompletedSuccessfully}">[[#{operazioneAvvenutaConSuccesso}]]</div>	
+
+
 </body>
 
 <script type="text/javascript" th:inline="javascript">
 
+	//per aprire il pannello gestione tasse
+	var editDatiPersonali = [[${editDatiPersonali}]];
+	if (editDatiPersonali) {
+		$("#modalEditDatiPersonali").modal();
+	}
+	//per aprire snackbar tassa generata con successo
+	var editDatiPersonaliSuccessfully = [[${editDatiPersonaliSuccessfully}]];
+	if (editDatiPersonaliSuccessfully){ 		 
+		var x = document.getElementById("snackbarEditDatiPersonali");
+   		x.className = "show snackbar";
+    	setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	} 
 
-
-	//per aprire il pannello report studente
+	//per aprire il pannello del percorso formativo dell'utente
 	var aggiungiPercorsoFormativo = [[${aggiungiPercorsoFormativo}]];
 	if (aggiungiPercorsoFormativo) {
 		$("#modalAggiuntaPercorsoFormativo").modal();
 	}
-	
-	//per aprire il pannello gestione tasse
-	var gestioneTasse = [[${gestioneTasse}]];
-	if (gestioneTasse) {
-		$("#modalGestioneTasse").modal();
-	}
-	
 	//per aprire snackbar percorso formativo aggiornato con successo
- 	var taxCreatedSuccesfully = [[${taxCreatedSuccessfully}]];
+ 	var percorsoFormativoAggiornatoSuccessfully = [[${percorsoFormativoAggiornatoSuccessfully}]];
+	if (percorsoFormativoAggiornatoSuccessfully){
+	    var x = document.getElementById("snackBarPercorsoFormativoAggiornato");
+	    x.className = "show snackbar";
+	    
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	}
+ 	
+	
+	//per aprire il pannello inserimento tasse
+	var aggiungiTasse = [[${aggiungiTasse}]];
+	if (aggiungiTasse) {
+		$("#modalAggiungiTasse").modal();
+	}
+	//snackbar tassa generata con succeso
+	var taxCreatedSuccesfully = [[${taxCreatedSuccessfully}]];
 	if (taxCreatedSuccesfully){
 	    var x = document.getElementById("snackBarTaxCreated");
 	    x.className = "show snackbar";
@@ -394,14 +489,40 @@
 	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 	} 
 	
+	//per aprire il pannello eliminazione tasse
+	var eliminaTasse = [[${eliminaTasse}]];
+	if (eliminaTasse) {
+		$("#modalEliminaTasse").modal();
+	}
+	
+	
+	
+	//per aprire il pannello gestione esame
+	var aggiungiEsame = [[${aggiungiEsame}]];
+	if (aggiungiEsame) {
+		$("#modalAggiungiEsame").modal();
+	}
 	//per aprire snackbar tassa generata con successo
- 	var percorsoFormativoAggiornatoSuccessfully = [[${percorsoFormativoAggiornatoSuccessfully}]];
-	if (percorsoFormativoAggiornatoSuccessfully){
-	    var x = document.getElementById("snackBarPercorsoFormativoAggiornato");
+ 	var esameAddedSuccessfully = [[${esameAddedSuccessfully}]];
+	if (esameAddedSuccessfully){
+	    var x = document.getElementById("snackbarEsameAggiunto");
+	    x.className = "show snackbar";
+	    
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	}
+	
+
+	//per aprire snackbar operazione eseguita con successo
+ 	var operationCompletedSuccessfully = [[${operationCompletedSuccessfully}]];
+	if (operationCompletedSuccessfully){
+	    var x = document.getElementById("snackBarOperationCompleted");
 	    x.className = "show snackbar";
 	    
 	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 	} 
-
+	
+	
+	
+	
 </script>
 </html>

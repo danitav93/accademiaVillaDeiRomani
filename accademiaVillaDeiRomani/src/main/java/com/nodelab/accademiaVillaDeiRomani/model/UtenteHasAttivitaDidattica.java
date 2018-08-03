@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -26,7 +30,9 @@ public class UtenteHasAttivitaDidattica implements Serializable{
 	@Column(name="id_utente_has_attivita_didattica")
 	private int idUtenteHasAttivitaDidattica;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name="data_esame")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dataEsame;
 	
 	@Column(name="voto_Esame")

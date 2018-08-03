@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nodelab.accademiaVillaDeiRomani.constant.Test;
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
+import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiEsameBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiTasseBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.PercorsoFormativoBean;
+import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 import com.nodelab.accademiaVillaDeiRomani.service.AttivitaDidatticaService;
 import com.nodelab.accademiaVillaDeiRomani.service.ContributoService;
@@ -49,32 +52,6 @@ public class StudentController {
 	@Autowired
 	ContributoService contributoService;
 
-	/**
-	 * Quando si vuole editare la pagina di uno studente
-	 * @return
-	 */
-	@RequestMapping(value= {Urls.editStudentPath}, method = RequestMethod.GET)
-	public ModelAndView openEditStudenteView(@RequestParam(value = "matricola", required = true) String matricola){
-
-		ModelAndView modelAndView = new ModelAndView();
-
-		Utente utente = utenteService.findUtenteByMatricola(matricola);
-
-		modelAndView.addObject("utente", utente );
-
-		modelAndView.addObject("ruoli", roleService.getListOfRoles());
-
-		modelAndView.addObject("attivitaDidattiche",attivitaDidatticaService.getListOfAttivitaDidattiche());
-
-		modelAndView.addObject("utenteHasCorsiList",corsoService.getListOfUtenteHasCorso(utente));
-
-		modelAndView.addObject("contributi",contributoService.getAllContributi());
-
-		modelAndView.setViewName(View.studentViewEdit);
-
-		return modelAndView;
-
-	}
 
 	/**
 	 * Quando si vuole tornare alla home dell'admin
@@ -171,12 +148,112 @@ public class StudentController {
 
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//-----------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------
+	//gestione tasse
+	//-----------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------
 	/**
 	 * Quando richiedo di aprire il pannello inserisci tasse
 	 * @return
 	 */
 	@RequestMapping(value= {Urls.insertTaxPath}, method = RequestMethod.GET)
 	public String openInsertTax(@RequestParam(value="matricola", required=true) String matricola, Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utenteLogged", utenteLogged);
+		Utente utente = utenteService.findUtenteByMatricola(matricola);
+		model.addAttribute("utente", utente);
+		model.addAttribute("aggiungiTasse", true);
+		model.addAttribute("contributi", contributoService.getContributiNotPayedByUtente(utente));
+		model.addAttribute("aggiungiTasseBean", new AggiungiTasseBean());
+		return View.studentView;
+	}
+
+	
+	/**
+	 * Quando chiedo di generare un nuovo pagamento tasse
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitNewTaxPath}, method = RequestMethod.POST)
+	public ModelAndView submitNewTax(@Valid @ModelAttribute("aggiungiTasseBean") AggiungiTasseBean aggiungiTasseBean,BindingResult bindingResult,@RequestParam(value = "matricola", required = true) String matricola,ModelMap model) {
+
+
+		Utente utente = utenteService.findUtenteByMatricola(matricola);
+		aggiungiTasseBean.setUtente(utente);
+		utenteService.addTax(aggiungiTasseBean);
+
+
+		model.addAttribute("matricola",matricola);
+		model.addAttribute("key","taxCreatedSuccessfully");
+		model.addAttribute("value",true);
+		return new ModelAndView(Urls.redirect+Urls.studentPath,model);
+
+	}
+	/**
+	 * Quando richiedo di aprire il pannello elimina tasse
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.deleteTaxPath}, method = RequestMethod.GET)
+	public String openDeletetTax(@RequestParam(value="matricola", required=true) String matricola, Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utenteLogged", utenteLogged);
+		Utente utente = utenteService.findUtenteByMatricola(matricola);
+		model.addAttribute("utente", utente);
+		model.addAttribute("eliminaTasse", true);
+		model.addAttribute("contributi", contributoService.getContributiPayedByUtente(utente));
+		model.addAttribute("contributoToDelete", new Contributo());
+
+		return View.studentView;
+	}
+	/**
+	 * Quando chiedo di eliminare una tassa
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitDeleteTaxPath}, method = RequestMethod.POST)
+	public ModelAndView submitDeleteTax(Contributo contributo, @RequestParam(value = "matricola", required = true) String matricola,ModelMap model) {
+
+
+		Utente utente = utenteService.findUtenteByMatricola(matricola);
+		
+		utenteService.removeTax(utente,contributo);
+		
+		model.addAttribute("matricola",matricola);
+		model.addAttribute("key","operationCompletedSuccessfully");
+		model.addAttribute("value",true);
+		return new ModelAndView(Urls.redirect+Urls.studentPath,model);
+
+	}
+	
+	
+	
+
+
+	//-----------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------
+	//gestione esami
+	//-----------------------------------------------------------------------------
+	//-----------------------------------------------------------------------------
+	/**
+	 * Quando richiedo di aprire il pannello che inserisce un esame in carriera
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.insertExamPath}, method = RequestMethod.GET)
+	public String openInsertExam(@RequestParam(value="matricola", required=true) String matricola, Model model){
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		//mi prendo l'utente loggato
@@ -184,9 +261,9 @@ public class StudentController {
 		model.addAttribute("utenteLogged", utenteLogged);
 		Utente utente = utenteService.findUtenteByMatricola(matricola);
 		model.addAttribute("utente", utente);
-		model.addAttribute("gestioneTasse", true);
-		model.addAttribute("contributi", contributoService.getAllContributi());
-		model.addAttribute("aggiungiTasseBean", new AggiungiTasseBean());
+		model.addAttribute("aggiungiEsame", true);
+		model.addAttribute("attivitaDidatticheAssociate", attivitaDidatticaService.getAllAttivitaDidatticheByUtente(utente));
+		model.addAttribute("aggiungiEsameBean", new AggiungiEsameBean());
 		return View.studentView;
 
 
@@ -198,21 +275,85 @@ public class StudentController {
 	 * Quando chiedo di generare un nuovo pagamento tasse
 	 * @return
 	 */
-	@RequestMapping(value = { Urls.submitNewTaxPath}, method = RequestMethod.POST)
-	public ModelAndView submitStudentiReport(@Valid @ModelAttribute("aggiungiTasseBean") AggiungiTasseBean aggiungiTasseBean,@RequestParam(value = "matricola", required = true) String matricola,BindingResult bindingResult,ModelMap model) {
-		
-		
+	@RequestMapping(value = { Urls.submitNewExamPath}, method = RequestMethod.POST)
+	public ModelAndView submitNewExam(@Valid @ModelAttribute("aggiungiEsameBean") AggiungiEsameBean aggiungiEsameBean,@RequestParam(value = "matricola", required = true) String matricola,BindingResult bindingResult,ModelMap model) {
+
+
 		Utente utente = utenteService.findUtenteByMatricola(matricola);
-		aggiungiTasseBean.setUtente(utente);
-		utenteService.addTax(aggiungiTasseBean);
-		
-		
+		aggiungiEsameBean.setUtente(utente);
+
+		utenteService.addExam(aggiungiEsameBean);
+
+
 		model.addAttribute("matricola",matricola);
 		model.addAttribute("matricola",matricola);
-		model.addAttribute("key","taxCreatedSuccessfully");
+		model.addAttribute("key","esameAddedSuccessfully");
 		model.addAttribute("value",true);
 		return new ModelAndView(Urls.redirect+Urls.studentPath,model);
 
 	}
+
+	/**
+	 * Quando richiedo di aprire il pannello che modifica i dati personali dell utente
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.editPersonalDataStudentPath}, method = RequestMethod.GET)
+	public String editPersonalData(@RequestParam(value="matricola", required=true) String matricola, Model model){
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utenteLogged", utenteLogged);
+		Utente utente = utenteService.findUtenteByMatricola(matricola);
+		model.addAttribute("newUtente", utente);
+		model.addAttribute("utente", utente);
+		model.addAttribute("editDatiPersonali", true);
+		return View.studentView;
+
+	}
+
+
+
+	/**
+	 * Quando chiedo di generare un nuovo pagamento tasse
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitEditStudentePath}, method = RequestMethod.POST)
+	public ModelAndView submitEditPersonalData(@Valid @ModelAttribute("newUtente") Utente newUtente, BindingResult bindingResult,@RequestParam(value="matricola", required=true) String matricola,ModelMap model) {
+
+		ModelAndView modelAndView;
+		Utente oldUtente= utenteService.findUtenteByMatricola(matricola);
+		if (Test.EMAIL_CHECK) {
+			//controllo che non ci siano due utenti con la stessa mail
+			Utente utenteExists = utenteService.findUtenteByEmail(newUtente.getEmail());
+			
+			if (utenteExists != null) {
+				bindingResult
+				.rejectValue("email", "error.user",
+						"There is already a user registered with the email provided");
+			}
+		}
+		
+		if (bindingResult.getErrorCount()>2) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+			modelAndView = new ModelAndView();
+			modelAndView.addObject("utenteLogged", utenteLogged);
+			modelAndView.addObject("utente",oldUtente);
+			model.addAttribute("newUtente", newUtente);
+			model.addAttribute("editDatiPersonali", true);
+			modelAndView.setViewName(View.studentView);
+		} else {
+			newUtente=utenteService.saveUpdatedUser(oldUtente,newUtente);
+			model.addAttribute("matricola",newUtente.getMatricola());
+			model.addAttribute("key","editDatiPersonaliSuccessfully");
+			model.addAttribute("value",true);
+			modelAndView= new ModelAndView(Urls.redirect+Urls.studentPath,model);
+		}
+
+		return modelAndView;
+
+	}
+
 
 }

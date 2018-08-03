@@ -22,7 +22,7 @@ public class Contributo implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id_contributo")
-	private int idContributo;
+	private Integer idContributo;
 	
 	private String nome;
 
@@ -35,7 +35,7 @@ public class Contributo implements Serializable{
 		super();
 	}
 
-	public Contributo(int idContributo, String nome) {
+	public Contributo(Integer idContributo, String nome) {
 		super();
 		this.idContributo = idContributo;
 		this.nome = nome;
@@ -54,11 +54,11 @@ public class Contributo implements Serializable{
 		return utenteHasContributoSet;
 	}
 
-	public int getIdContributo() {
+	public Integer getIdContributo() {
 		return idContributo;
 	}
 
-	public void setIdContributo(int idContributo) {
+	public void setIdContributo(Integer idContributo) {
 		this.idContributo = idContributo;
 	}
 

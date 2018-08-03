@@ -59,17 +59,21 @@ public class Urls {
 	//----------
 				
 	//view
-	public static final String editStudentPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"studentEdit";
+	public static final String editPersonalDataStudentPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"editStudentPersonalData";
 	public static final String homeAdminPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"homeAdmin";
 	public static final String openPanelAggiungiPercorsoFormativoPath= baseAuthenticatedUserPath+pathSeparator+studentSeparator+pathSeparator+"openPanelAggiungiPercorsoFormativo";
 	public static final String studentPath = baseAuthenticatedUserPath+pathSeparator+studentSeparator+pathSeparator+"student";
 	public static final String insertTaxPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"insertTax";
+	public static final String deleteTaxPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"deleteTax";
+	public static final String insertExamPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"insertExam";
 
 	
 	//submit
-	public static final String submitEditStudentePath = baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitStudentEdit";
+	public static final String submitEditStudentePath = baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitStudentEditPersonalData";
 	public static final String submitNewPercorsoFormativoPath = baseAuthenticatedUserPath+pathSeparator+studentSeparator+pathSeparator+"submitNewPercorsoFormativo";
 	public static final String submitNewTaxPath = baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitNewTax";
+	public static final String submitDeleteTaxPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitDeleteTax";
+	public static final String submitNewExamPath = baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitNewExam";
 
 	
 	//----------

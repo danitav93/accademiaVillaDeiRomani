@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>Create User</title>
+
+<link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100"
+	rel="stylesheet">
+<link rel="stylesheet" href="../../css/animatedst.css" type="text/css"
+	media="all" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="container">
+
+	<div
+		th:fragment="fragAggiungiEsame(attivitaDidatticheAssociate, aggiungiEsameBean, matricola)">
+
+
+		<form autocomplete="off"
+			th:action="@{/VillaDeiRomaniAccademy/admin/submitNewExam(matricola=${matricola})}"
+			th:object="${aggiungiEsameBean}" method="post"
+			class="form-horizontal" role="form">
+			<div class="row ">
+				<!-- colonna -->
+
+				<div style="text-align: center" class="col-md-8 col-md-offset-2">
+
+					<!-- attivitaDidattica -->
+					<div class="form-group">
+						<label for="select_attivitaDidattica"><span
+							th:text="#{insegnamento}"></span></label> <label
+							th:if="${#fields.hasErrors('attivitaDidattica')}"
+							th:errors="*{attivitaDidattica}"
+							class="validation-message myStylesRedColor"></label> <select
+							required="required" class="form-control" th:field="*{attivitaDidattica}"
+							id="select_attivitaDidattica">
+							<option disabled value="" th:text="#{selezionaInsegnamento}"></option>
+							<option th:each="attivitaDidattica : ${attivitaDidatticheAssociate}"
+								th:value="${attivitaDidattica.idAttivitaDidattica}"
+								th:text="${attivitaDidattica.nome}"></option>
+						</select>
+					</div>
+
+					<!-- data esame -->
+					<div class="form-group">
+						<div style="text-align: center">
+							<label th:inline="text">[[#{dataEsame}]]</label> <input
+							required="required"
+								class="textbox-n form-control" type="date"
+								th:field="*{dataEsame}"  /> 
+						</div>
+
+					</div>
+
+					<!-- voto -->
+					<div class="form-group">
+
+						<label for="votoEsame" th:inline="text">[[#{votoEsame}]]</label>
+						<label th:if="${#fields.hasErrors('votoEsame')}"
+							th:errors="*{votoEsame}"
+							class="validation-message myStylesRedColor"></label> <input
+							required="required" id="votoEsame" type="number"
+							th:field="*{votoEsame}" th:placeholder="#{votoEsame}"
+							class="form-control" />
+
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<button style="width: 100%; margin-bottom: 10%"
+						class="btn btn-primary" th:inline="text">[[#{salva}]]</button>
+				</div>
+			</div>
+
+		</form>
+
+
+
+
+
+	</div>
+
+
+
+
+
+</body>
+
+</html>

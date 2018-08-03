@@ -12,9 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
+import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiEsameBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiTasseBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.PercorsoFormativoBean;
 import com.nodelab.accademiaVillaDeiRomani.model.AttivitaDidattica;
+import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
 import com.nodelab.accademiaVillaDeiRomani.model.CorsoHasAttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Matricola;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
@@ -54,9 +56,9 @@ public class UtenteServiceImpl implements UtenteService  {
 
 	@Autowired
 	private UtenteHasContributoRepository utenteHasContributoRepository;
-	
-	
-	
+
+
+
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
@@ -164,12 +166,15 @@ public class UtenteServiceImpl implements UtenteService  {
 		for (UtenteHasAttivitaDidattica utenteHasAttivitaDidattica: percorsoFormativoBean.getUtente().getUtenteHasAttivitaDidatticaSet()) {
 			listToDelete.add(utenteHasAttivitaDidattica);
 		}
+		
 		utenteHasAttivitaDidatticaRepository.deleteAll(listToDelete);
 		utenteHasAttivitaDidatticaRepository.flush();
-		
+
 		//cancello il corso che avevo prima
-		utenteHasCorsoRepository.delete(percorsoFormativoBean.getUtente().getUtenteHasCorso());
-		utenteHasCorsoRepository.flush();
+		if (percorsoFormativoBean.getUtente().getUtenteHasCorso()!=null) {
+			utenteHasCorsoRepository.delete(percorsoFormativoBean.getUtente().getUtenteHasCorso());
+			utenteHasCorsoRepository.flush();
+		}
 		//salvo il nuovo corso
 		UtenteHasCorso utenteHasCorso= new UtenteHasCorso();
 		utenteHasCorso.setCorso(percorsoFormativoBean.getCorso());
@@ -197,24 +202,67 @@ public class UtenteServiceImpl implements UtenteService  {
 
 		percorsoFormativoBean.getUtente().setUtenteHasAttivitaDidatticaSet(new HashSet<UtenteHasAttivitaDidattica>(listToSave));
 		utenteHasAttivitaDidatticaRepository.saveAll(listToSave);
-		
+
 		percorsoFormativoBean.getUtente().setHasPercorsoFormativo(true);
 		utenteRepository.save(percorsoFormativoBean.getUtente());
-		
+
 	}
 
 	@Override
 	public void addTax(@Valid AggiungiTasseBean aggiungiTasseBean) {
 
-		
+
 		UtenteHasContributo utenteHasContributo = new UtenteHasContributo();
 		utenteHasContributo.setContributo(aggiungiTasseBean.getContributo());
 		utenteHasContributo.setData(aggiungiTasseBean.getData());
 		utenteHasContributo.setImporto(aggiungiTasseBean.getImporto());
 		utenteHasContributo.setUtente(aggiungiTasseBean.getUtente());
 		utenteHasContributoRepository.save(utenteHasContributo);
+
+
+
+	}
+
+	@Override
+	public void addExam(@Valid AggiungiEsameBean aggiungiEsameBean) {
+
+		for (UtenteHasAttivitaDidattica utenteHasAttivitaDidattica: aggiungiEsameBean.getUtente().getUtenteHasAttivitaDidatticaSet()) {
+			//cerco l'esame che ho inserito tra quelli associati a'utente
+			if (aggiungiEsameBean.getAttivitaDidattica().getIdAttivitaDidattica()==utenteHasAttivitaDidattica.getAttivitaDidattica().getIdAttivitaDidattica()) {
+				utenteHasAttivitaDidattica.setDataEsame(aggiungiEsameBean.getDataEsame());
+				utenteHasAttivitaDidattica.setVotoEsame(aggiungiEsameBean.getVotoEsame());
+				utenteHasAttivitaDidatticaRepository.save(utenteHasAttivitaDidattica);
+				return;
+			}
+		}
+
+	}
+
+	@Override
+	public @Valid Utente saveUpdatedUser(Utente oldUtente, @Valid Utente newUtente) {
+
+		oldUtente.setNome(newUtente.getNome());
+		oldUtente.setCognome(newUtente.getCognome());
+		oldUtente.setDataNascita(newUtente.getDataNascita());
+		oldUtente.setNazione(newUtente.getNazione());
+		oldUtente.setIndirizzo(newUtente.getIndirizzo());
+		oldUtente.setSex(newUtente.getSex());
+		oldUtente.setCodiceFiscale(newUtente.getCodiceFiscale());
+		oldUtente.setTelefono(newUtente.getTelefono());
+		oldUtente.setEmail(newUtente.getEmail());
+
+
+		return utenteRepository.save(oldUtente);
+	}
+
+	@Override
+	public void removeTax(Utente utente, Contributo contributo) {
 		
-		
+		for (UtenteHasContributo utenteHasContributo:utente.getUtenteHasContributiSet()) {
+			if (utenteHasContributo.getContributo().getIdContributo()==contributo.getIdContributo()) {
+				utenteHasContributoRepository.delete(utenteHasContributo);
+			}
+		}
 		
 	}
 
