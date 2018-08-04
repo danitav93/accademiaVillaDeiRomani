@@ -121,17 +121,7 @@ public class RegistrationController {
 
 	}
 
-	//TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-	@RequestMapping(value= {"/registrationConSuccesso"}, method = RequestMethod.GET)
-	public ModelAndView abilitaUtente(){
-
-		ModelAndView modelAndView = new ModelAndView();
-
-		modelAndView.setViewName(View.registrationSucceded);
-
-		return modelAndView;
-
-	}
+	
 
 
 }
