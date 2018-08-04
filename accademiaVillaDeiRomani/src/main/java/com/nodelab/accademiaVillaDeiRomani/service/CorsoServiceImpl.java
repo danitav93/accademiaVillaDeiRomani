@@ -3,12 +3,16 @@ package com.nodelab.accademiaVillaDeiRomani.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nodelab.accademiaVillaDeiRomani.model.Corso;
+import com.nodelab.accademiaVillaDeiRomani.model.CorsoHasAttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 import com.nodelab.accademiaVillaDeiRomani.model.UtenteHasCorso;
+import com.nodelab.accademiaVillaDeiRomani.repository.CorsoHasAttivitaDidatticaRepository;
 import com.nodelab.accademiaVillaDeiRomani.repository.CorsoRepository;
 
 @Service("corsoService")
@@ -17,6 +21,9 @@ public class CorsoServiceImpl implements CorsoService {
 	@Autowired
 	private CorsoRepository corsoRepository;
 
+	@Autowired
+	private CorsoHasAttivitaDidatticaRepository corsoHasAttivitaDidatticaRepository;
+	
 	@Override
 	public List<Corso> getListOfCorsi() {
 		return corsoRepository.findAll();
@@ -48,6 +55,38 @@ public class CorsoServiceImpl implements CorsoService {
 	@Override
 	public Corso getCorsoById(int id) {
 		return corsoRepository.findById(id).get();
+	}
+
+	@Override
+	public void save(@Valid Corso corso) {
+		corsoRepository.save(corso);
+		
+	}
+
+	@Override
+	public void removeCorso(Corso corso) {
+		corsoRepository.delete(corso);
+	}
+
+	@Override
+	public void saveCorsoHasAttivitaDidattica(@Valid CorsoHasAttivitaDidattica corsoHasAttivitaDidattica) {
+		corsoHasAttivitaDidatticaRepository.save(corsoHasAttivitaDidattica);
+		
+	}
+
+	@Override
+	public void removeCorsoHasAttivitaDidattica(CorsoHasAttivitaDidattica corsoHasAttivitaDidattica) {
+		CorsoHasAttivitaDidattica corsoHasAttivitaDidatticaToDelete=corsoHasAttivitaDidatticaRepository.findByAttivitaDidatticaAndCorso(corsoHasAttivitaDidattica.getAttivitaDidattica(),corsoHasAttivitaDidattica.getCorso());
+		
+		corsoHasAttivitaDidatticaRepository.delete(corsoHasAttivitaDidatticaToDelete);	
+	}
+
+	@Override
+	public void updateCorsoHasAttivitaDidattica(@Valid CorsoHasAttivitaDidattica corsoHasAttivitaDidattica) {
+		CorsoHasAttivitaDidattica corsoHasAttivitaDidatticaToDelete=corsoHasAttivitaDidatticaRepository.findByAttivitaDidatticaAndCorso(corsoHasAttivitaDidattica.getAttivitaDidattica(),corsoHasAttivitaDidattica.getCorso());
+		corsoHasAttivitaDidatticaToDelete.setAnno(corsoHasAttivitaDidattica.getAnno());
+		corsoHasAttivitaDidatticaToDelete.setObbligatorio(corsoHasAttivitaDidattica.isObbligatorio());
+		corsoHasAttivitaDidatticaRepository.save(corsoHasAttivitaDidatticaToDelete);
 	}
 	
 	

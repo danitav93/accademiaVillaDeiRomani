@@ -39,13 +39,13 @@ public class CorsoHasAttivitaDidattica implements Serializable{
 	private boolean obbligatorio;
 	
 	@Column(name="anno")
-	private int anno;
+	private Integer anno;
 
-	public int getAnno() {
+	public Integer getAnno() {
 		return anno;
 	}
 
-	public void setAnno(int anno) {
+	public void setAnno(Integer anno) {
 		this.anno = anno;
 	}
 

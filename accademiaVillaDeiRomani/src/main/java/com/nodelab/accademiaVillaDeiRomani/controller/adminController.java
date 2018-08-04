@@ -27,6 +27,10 @@ import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
 import com.nodelab.accademiaVillaDeiRomani.formBean.ReportStudenteBean;
 import com.nodelab.accademiaVillaDeiRomani.hibernate.search.UtenteSearch;
+import com.nodelab.accademiaVillaDeiRomani.model.AttivitaDidattica;
+import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
+import com.nodelab.accademiaVillaDeiRomani.model.Corso;
+import com.nodelab.accademiaVillaDeiRomani.model.CorsoHasAttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Role;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 import com.nodelab.accademiaVillaDeiRomani.service.AttivitaDidatticaService;
@@ -204,7 +208,7 @@ public class adminController {
 			model.addAttribute("matricola", utenteLoggato.getMatricola());
 
 			model.addAttribute("key","userCreatedSuccessfully");
-			
+
 			model.addAttribute("value",true);
 
 
@@ -295,7 +299,627 @@ public class adminController {
 
 
 
+	//---------------------------------
+	//---------------------------------
+	//inizio gestione corsi
+	//---------------------------------
+	//---------------------------------
+	/**
+	 * Quando apro pannello per creare corso
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openCreateCoursePanelPath}, method = RequestMethod.GET)
+	public String openCreateCourse(Model model){
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("corso", new Corso());
+		model.addAttribute("createCourse", true);
+		return View.adminView;
+
+	}
 
 
+
+	/**
+	 * Quando submit nuovo corso
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitCreateCoursePath}, method = RequestMethod.POST)
+	public ModelAndView submitCreateCourse(@Valid @ModelAttribute("corso") Corso corso, BindingResult bindingResult,ModelMap model) {
+
+		ModelAndView modelAndView;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (bindingResult.hasErrors()) {
+
+			Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+			modelAndView = new ModelAndView();
+			modelAndView.addObject("utente", utenteLogged);
+			model.addAttribute("corso", new Corso());
+			model.addAttribute("createCourse", true);
+			modelAndView.setViewName(View.adminView);
+		} else {
+			corsoService.save(corso);
+			model.addAttribute("matricola",auth.getName());
+			model.addAttribute("key","operationCompletedSuccessfully");
+			model.addAttribute("value",true);
+			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+		}
+
+		return modelAndView;
+
+	}
+	/**
+	 * Quando richiedo di aprire il pannello elimina corso
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openDeleteCoursePanelPath}, method = RequestMethod.GET)
+	public String openDeletetCorso(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("corsoToDelete", new Corso());
+		model.addAttribute("corsi", corsoService.getListOfCorsi());
+		model.addAttribute("eliminateCourse", true);
+		return View.adminView;
+
+	}
+	/**
+	 * Quando chiedo di eliminare una corso
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitDeleteCoursePath}, method = RequestMethod.POST)
+	public ModelAndView submitDeleteCourse(Corso corso,ModelMap model) {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
+		corsoService.removeCorso(corso);
+
+		model.addAttribute("matricola",auth.getName());
+		model.addAttribute("key","operationCompletedSuccessfully");
+		model.addAttribute("value",true);
+		return  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+
+
+	}
+	/**
+	 * Quando richiedo di aprire il pannello modifica corso
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openEditCoursePanelPath}, method = RequestMethod.GET)
+	public String openEditCorso(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("corsi", corsoService.getListOfCorsi());
+		model.addAttribute("corso", new Corso());
+		model.addAttribute("editCourse", true);
+		return View.adminView;
+
+	}
+	/**
+	 * Quando chiedo di modificare una attivita didattica
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitEditCoursePath}, method = RequestMethod.POST)
+	public ModelAndView submitEditCourse(@Valid @ModelAttribute("corso") Corso corso, BindingResult bindingResult,ModelMap model) {
+
+		ModelAndView modelAndView;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (bindingResult.hasErrors()) {
+			modelAndView=new ModelAndView();
+			Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+			modelAndView.addObject("utente", utenteLogged);
+			modelAndView.addObject("corsi", corsoService.getListOfCorsi());
+			modelAndView.addObject("corso", corso);
+			modelAndView.addObject("editCourse", true);
+			modelAndView.setViewName(View.adminView);
+			return modelAndView;
+		} else {
+			corsoService.save(corso);
+			model.addAttribute("matricola",auth.getName());
+			model.addAttribute("key","operationCompletedSuccessfully");
+			model.addAttribute("value",true);
+			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+		}
+		return modelAndView;
+	}
+	/**
+	 * Quando richiedo di visualizzare i corsi
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openVisualizzaCoursePanelPath}, method = RequestMethod.GET)
+	public String openVisualizzazioneCorsi(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("corsi", corsoService.getListOfCorsi());
+		model.addAttribute("visualizeCourse", true);
+		return View.adminView;
+
+	}
+	//---------------------------------
+	//---------------------------------
+	//fine gestione corsi
+	//---------------------------------
+	//---------------------------------
+
+
+
+
+	//---------------------------------
+	//---------------------------------
+	//inizio gestione attivita didattiche
+	//---------------------------------
+	//---------------------------------
+	/**
+	 * Quando apro pannello per creare attivitaDidattica
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openCreateAttivitaDidatticaPanelPath}, method = RequestMethod.GET)
+	public String openCreateAttivitaDidattica(Model model){
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("corsi", corsoService.getListOfCorsi());
+		model.addAttribute("attivitaDidattica", new AttivitaDidattica());
+		model.addAttribute("createAttivitaDidattica", true);
+		return View.adminView;
+
+	}
+
+
+
+	/**
+	 * Quando submit nuova attivita didattica
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitCreateAttivitaDidatticaPath}, method = RequestMethod.POST)
+	public ModelAndView submitCreateAttivitaDidattica(@Valid @ModelAttribute("attivitaDidattica") AttivitaDidattica attivitaDidattica, BindingResult bindingResult,ModelMap model) {
+
+		ModelAndView modelAndView;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (bindingResult.hasErrors()) {
+			modelAndView=new ModelAndView();
+			Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+			modelAndView.addObject("utente", utenteLogged);
+			modelAndView.addObject("corsi", corsoService.getListOfCorsi());
+			modelAndView.addObject("attivitaDidattica", new AttivitaDidattica());
+			modelAndView.addObject("createAttivitaDidattica", true);
+			modelAndView.setViewName(View.adminView);
+			return modelAndView;
+		} else {
+			attivitaDidatticaService.save(attivitaDidattica);
+			model.addAttribute("matricola",auth.getName());
+			model.addAttribute("key","operationCompletedSuccessfully");
+			model.addAttribute("value",true);
+			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+		}
+
+		return modelAndView;
+
+	}
+	/**
+	 * Quando richiedo di aprire il pannello elimina attivita didattica
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openDeleteAttivitaDidatticaPanelPath}, method = RequestMethod.GET)
+	public String openDeleteAttivitaDidattica(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("attivitaDidatticaToDelete", new AttivitaDidattica());
+		model.addAttribute("attivitaDidattiche", attivitaDidatticaService.getListOfAttivitaDidattiche());
+		model.addAttribute("eliminateAttivitaDidattica", true);
+		return View.adminView;
+
+	}
+	/**
+	 * Quando chiedo di eliminare una attivita didattica
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitDeleteAttivitaDidatticaPath}, method = RequestMethod.POST)
+	public ModelAndView submitDeleteAttivitaDidattica(AttivitaDidattica attivitaDidattica,ModelMap model) {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
+		attivitaDidatticaService.removeAttivitaDidattica(attivitaDidattica);
+
+		model.addAttribute("matricola",auth.getName());
+		model.addAttribute("key","operationCompletedSuccessfully");
+		model.addAttribute("value",true);
+		return  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+
+
+	}
+	/**
+	 * Quando richiedo di aprire il pannello modifica attivitaDidattica
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openEditAttivitaDidatticaPanelPath}, method = RequestMethod.GET)
+	public String openEditAttivitaDidattica(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("attivitaDidattiche", attivitaDidatticaService.getListOfAttivitaDidattiche());
+		model.addAttribute("attivitaDidattica", new AttivitaDidattica());
+		model.addAttribute("editAttivitaDidattica", true);
+		return View.adminView;
+
+	}
+	/**
+	 * Quando chiedo di modificare una attivita didattica
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitEditAttivitaDidatticaPath}, method = RequestMethod.POST)
+	public ModelAndView submitEditAttivitaDidattica(@Valid @ModelAttribute("attivitaDidattica") AttivitaDidattica attivitaDidattica, BindingResult bindingResult,ModelMap model) {
+
+		ModelAndView modelAndView;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (bindingResult.hasErrors()) {
+			modelAndView=new ModelAndView();
+			Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+			modelAndView.addObject("utente", utenteLogged);
+			modelAndView.addObject("attivitaDidattiche", attivitaDidatticaService.getListOfAttivitaDidattiche());
+			modelAndView.addObject("attivitaDidattica", attivitaDidattica);
+			modelAndView.addObject("editAttivitaDidattica", true);
+			modelAndView.setViewName(View.adminView);
+			return modelAndView;
+		} else {
+			attivitaDidatticaService.save(attivitaDidattica);
+			model.addAttribute("matricola",auth.getName());
+			model.addAttribute("key","operationCompletedSuccessfully");
+			model.addAttribute("value",true);
+			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+		}
+		return modelAndView;
+	}
+	/**
+	 * Quando richiedo di aprire il pannello per la visualizzazione delle attivitaDidattiche
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openVisualizzaAttivitaDidatticaPanelPath}, method = RequestMethod.GET)
+	public String openVisualizzaAttivitaDidattica(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("attivitaDidattiche", attivitaDidatticaService.getListOfAttivitaDidattiche());
+		model.addAttribute("visualizeAttivitaDidattica", true);
+		return View.adminView;
+
+	}
+	//---------------------------------
+	//---------------------------------
+	//fine gestione attivita didattiche
+	//---------------------------------
+	//---------------------------------
+
+
+	//---------------------------------
+	//---------------------------------
+	//inizio gestione rel attivita-corsi
+	//---------------------------------
+	//---------------------------------
+	/**
+	 * Quando apro pannello per creare rel attivita-corsi
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openAddRelAttivitaCorsoPanelPath}, method = RequestMethod.GET)
+	public String openAddRelAttivitaCorso(Model model){
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("corsi", corsoService.getListOfCorsi());
+		model.addAttribute("attivitaDidattiche", attivitaDidatticaService.getListOfAttivitaDidattiche());
+		model.addAttribute("relCorsoAttivita", new CorsoHasAttivitaDidattica());
+		model.addAttribute("createRelAttivitaCorso", true);
+		return View.adminView;
+
+	}
+
+
+
+	/**
+	 * Quando submit nuova rel attivita-corsi
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitAddRelAttivitaCorsoPath}, method = RequestMethod.POST)
+	public ModelAndView submitAddRelAttivitaCorso(@Valid @ModelAttribute("corsoHasAttivitaDidattica") CorsoHasAttivitaDidattica corsoHasAttivitaDidattica, BindingResult bindingResult,ModelMap model) {
+
+		ModelAndView modelAndView;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (bindingResult.hasErrors()) {
+			modelAndView=new ModelAndView();
+			Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+			modelAndView.addObject("utente", utenteLogged);
+			modelAndView.addObject("corsi", corsoService.getListOfCorsi());
+			modelAndView.addObject("attivitaDidattiche", attivitaDidatticaService.getListOfAttivitaDidattiche());
+			modelAndView.addObject("relCorsoAttivita", new CorsoHasAttivitaDidattica());
+			modelAndView.addObject("createRelAttivitaCors", true);
+			modelAndView.setViewName(View.adminView);
+			return modelAndView;
+		} else {
+			corsoService.saveCorsoHasAttivitaDidattica(corsoHasAttivitaDidattica);
+			model.addAttribute("matricola",auth.getName());
+			model.addAttribute("key","operationCompletedSuccessfully");
+			model.addAttribute("value",true);
+			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+		}
+
+		return modelAndView;
+
+	}
+	/**
+	 * Quando richiedo di aprire il pannello elimina rel attivita-corsi
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openDeleteRelAttivitaCorsoPanelPath}, method = RequestMethod.GET)
+	public String openDeleteRelAttivitaCorsoPanel(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("corsi", corsoService.getListOfCorsi());
+		model.addAttribute("relCorsoAttivitaToDelete", new CorsoHasAttivitaDidattica());
+		model.addAttribute("deleteRelAttivitaCorso", true);
+		return View.adminView;
+
+	}
+	/**
+	 * Quando chiedo di eliminare una rel attivita-corsi
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitDeleteRelAttivitaCorsoPath}, method = RequestMethod.POST)
+	public ModelAndView submitRelAttivitaCorso(CorsoHasAttivitaDidattica corsoHasAttivitaDidattica,ModelMap model) {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
+		corsoService.removeCorsoHasAttivitaDidattica(corsoHasAttivitaDidattica);
+
+		model.addAttribute("matricola",auth.getName());
+		model.addAttribute("key","operationCompletedSuccessfully");
+		model.addAttribute("value",true);
+		return  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+
+
+	}
+	/**
+	 * Quando richiedo di aprire il pannello modifica rel attivita-corsi
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openEditRelAttivitaCorsoPanelPath}, method = RequestMethod.GET)
+	public String openEditRelAttivitaCorsoPanel(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("corsi", corsoService.getListOfCorsi());
+		model.addAttribute("relCorsoAttivita", new CorsoHasAttivitaDidattica());
+		model.addAttribute("editRelAttivitaCorso", true);
+		return View.adminView;
+
+	}
+	/**
+	 * Quando chiedo di modificare una rel attivita-corsi
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitEditRelAttivitaCorsoPath}, method = RequestMethod.POST)
+	public ModelAndView submitEditRelAttivitaCorso(@Valid @ModelAttribute("corsoHasAttivitaDidattica") CorsoHasAttivitaDidattica corsoHasAttivitaDidattica, BindingResult bindingResult,ModelMap model) {
+
+		ModelAndView modelAndView;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (bindingResult.hasErrors()) {
+			modelAndView=new ModelAndView();
+			Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+			modelAndView.addObject("utente", utenteLogged);
+			modelAndView.addObject("corsi", corsoService.getListOfCorsi());
+			modelAndView.addObject("relCorsoAttivita", new CorsoHasAttivitaDidattica());
+			modelAndView.addObject("editRelAttivitaCorso", true);
+			modelAndView.setViewName(View.adminView);
+			return modelAndView;
+		} else {
+			corsoService.updateCorsoHasAttivitaDidattica(corsoHasAttivitaDidattica);
+			model.addAttribute("matricola",auth.getName());
+			model.addAttribute("key","operationCompletedSuccessfully");
+			model.addAttribute("value",true);
+			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+		}
+		return modelAndView;
+	}
+	/**
+	 * Quando richiedo di aprire il pannello per la visualizzazione rel attivita-corsi
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openVisualizeRelAttivitaCorsoPanelPath}, method = RequestMethod.GET)
+	public String openVisualizeRelAttivitaCorso(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("corsi", corsoService.getListOfCorsi());
+		model.addAttribute("visualizeRelAttivitaCorso", true);
+		return View.adminView;
+
+	}
+	//---------------------------------
+	//---------------------------------
+	//fine gestione rel attivita-corsi
+	//---------------------------------
+	//---------------------------------
+
+
+	//---------------------------------
+	//---------------------------------
+	//inizio gestione tasse
+	//---------------------------------
+	//---------------------------------
+	/**
+	 * Quando apro pannello per creare tassa
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openCreateTassaPanelPath}, method = RequestMethod.GET)
+	public String openCreateTassa(Model model){
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("contributo", new Contributo());
+		model.addAttribute("createTassa", true);
+		return View.adminView;
+
+	}
+
+
+
+	/**
+	 * Quando submit nuovo tassa
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitCreateTassaPath}, method = RequestMethod.POST)
+	public ModelAndView submitCreateTassae(@Valid @ModelAttribute("contributo") Contributo contributo, BindingResult bindingResult,ModelMap model) {
+
+		ModelAndView modelAndView;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (bindingResult.hasErrors()) {
+
+			Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+			modelAndView = new ModelAndView();
+			modelAndView.addObject("utente", utenteLogged);
+			model.addAttribute("contributo", new Contributo());
+			model.addAttribute("createTassa", true);
+			modelAndView.setViewName(View.adminView);
+		} else {
+			contributoService.save(contributo);
+			model.addAttribute("matricola",auth.getName());
+			model.addAttribute("key","operationCompletedSuccessfully");
+			model.addAttribute("value",true);
+			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+		}
+
+		return modelAndView;
+
+	}
+	/**
+	 * Quando richiedo di aprire il pannello elimina tassa
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openDeleteTassaPanelPath}, method = RequestMethod.GET)
+	public String openDeletetTax(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("contributoToDelete", new Contributo());
+		model.addAttribute("contributi", contributoService.getAllContributi());
+		model.addAttribute("deleteTassa", true);
+		return View.adminView;
+
+	}
+	/**
+	 * Quando chiedo di eliminare una tassa
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitDeleteTassaPath}, method = RequestMethod.POST)
+	public ModelAndView submitDeleteTassa(Contributo contributo,ModelMap model) {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+
+		contributoService.removeContributo(contributo);
+
+		model.addAttribute("matricola",auth.getName());
+		model.addAttribute("key","operationCompletedSuccessfully");
+		model.addAttribute("value",true);
+		return  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+
+
+	}
+	/**
+	 * Quando richiedo di aprire il pannello modifica tassa
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openEditTassaPanelPath}, method = RequestMethod.GET)
+	public String openEditTassa(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("contributi", contributoService.getAllContributi());
+		model.addAttribute("contributoToUpdate", new Contributo());
+		model.addAttribute("editTassa", true);
+		return View.adminView;
+
+	}
+	/**
+	 * Quando chiedo di modificare una tassa
+	 * @return
+	 */
+	@RequestMapping(value = { Urls.submitEditTassaPath}, method = RequestMethod.POST)
+	public ModelAndView submitEditTassa(@Valid @ModelAttribute("contributo") Contributo contributo, BindingResult bindingResult,ModelMap model) {
+
+		ModelAndView modelAndView;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (bindingResult.hasErrors()) {
+			modelAndView=new ModelAndView();
+			Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+			modelAndView.addObject("utente", utenteLogged);
+			modelAndView.addObject("contributi", contributoService.getAllContributi());
+			modelAndView.addObject("contributo", new Contributo());
+			modelAndView.addObject("editTassa", true);
+			modelAndView.setViewName(View.adminView);
+			return modelAndView;
+		} else {
+			contributoService.save(contributo);
+			model.addAttribute("matricola",auth.getName());
+			model.addAttribute("key","operationCompletedSuccessfully");
+			model.addAttribute("value",true);
+			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+		}
+		return modelAndView;
+	}
+	/**
+	 * Quando richiedo di aprire il pannello per la visualizzazione delle tasse
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openVisualizaTassaPanelPath}, method = RequestMethod.GET)
+	public String openVisualizaTassa(Model model){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utenteLogged);
+		model.addAttribute("contributi", contributoService.getAllContributi());
+		model.addAttribute("visualizeTassa", true);
+		return View.adminView;
+
+	}
+	//---------------------------------
+	//---------------------------------
+	//fine gestione tasse
+	//---------------------------------
+	//---------------------------------
 
 }

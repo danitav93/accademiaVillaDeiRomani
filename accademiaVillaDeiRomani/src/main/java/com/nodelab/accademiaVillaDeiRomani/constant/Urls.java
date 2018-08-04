@@ -41,6 +41,22 @@ public class Urls {
 	//view
 	public static final String openNewUserPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openCreaUtentePanel";
 	public static final String openReportStudentiPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openReportStudentiPanel";
+	public static final String openCreateCoursePanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openCreateCoursePanel";
+	public static final String openDeleteCoursePanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openDeleteCoursePanel";
+	public static final String openEditCoursePanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openEditCoursePanel";
+	public static final String openVisualizzaCoursePanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openVisualizzaCoursePanel";
+	public static final String openCreateAttivitaDidatticaPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openCreateAttivitaDidatticaPanel";
+	public static final String openDeleteAttivitaDidatticaPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openDeleteAttivitaDidatticaPanel";
+	public static final String openEditAttivitaDidatticaPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openEditAttivitaDidatticaPanel";
+	public static final String openVisualizzaAttivitaDidatticaPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openVisualizzaAttivitaDidatticaPanel";
+	public static final String openAddRelAttivitaCorsoPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openAddRelAttivitaCorsoPanel";
+	public static final String openDeleteRelAttivitaCorsoPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openDeleteRelAttivitaCorsoPanel";
+	public static final String openEditRelAttivitaCorsoPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openEditRelAttivitaCorsoPanel";
+	public static final String openVisualizeRelAttivitaCorsoPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openVisualizeRelAttivitaCorsoPanel";
+	public static final String openCreateTassaPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openCreateTassaPanel";
+	public static final String openDeleteTassaPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openDeleteTassaPanel";
+	public static final String openEditTassaPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openEditTassaPanel";
+	public static final String openVisualizaTassaPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openVisualizaTassaPanel";
 	public static final String userSelectedPath = baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"userSelected";
 	public static final String adminPath = baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"admin";
 
@@ -48,9 +64,18 @@ public class Urls {
 	public static final String submitSearchPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"userSearch";
 	public static final String submitNewUserPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitNewUser";
 	public static final String submitStudentiReportPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitStudentiReport";
-
-
-	
+	public static final String submitCreateCoursePath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitCreateCourse";
+	public static final String submitDeleteCoursePath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitDeleteCorso";
+	public static final String submitEditCoursePath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitEditCourse";
+	public static final String submitCreateAttivitaDidatticaPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitCreateAttivitaDidattica";
+	public static final String submitDeleteAttivitaDidatticaPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitDeleteAttivitaDidattica";
+	public static final String submitEditAttivitaDidatticaPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitEditAttivitaDidattica";
+	public static final String submitAddRelAttivitaCorsoPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitAddRelAttivitaCorso";
+	public static final String submitDeleteRelAttivitaCorsoPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitDeleteRelAttivitaCorso";
+	public static final String submitEditRelAttivitaCorsoPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitEditRelAttivitaCorso";
+	public static final String submitCreateTassaPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitCreateTassa";
+	public static final String submitDeleteTassaPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitDeleteTassa";
+	public static final String submitEditTassaPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitEditTassa";
 	
 	
 	

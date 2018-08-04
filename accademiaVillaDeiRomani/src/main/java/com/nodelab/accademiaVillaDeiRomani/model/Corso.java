@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -23,9 +24,10 @@ public class Corso implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id_corso")
-	private int idCorso;
+	private Integer idCorso;
 	
 	@Column(name="nome")
+	@NotEmpty(message = "*Please provide name")
 	private String nome; 
 	
 	@OneToMany(mappedBy = "corso")
@@ -36,11 +38,11 @@ public class Corso implements Serializable {
 	@JsonManagedReference
 	private Set<CorsoHasAttivitaDidattica> corsoHasAttivitaDidatticaSet;
 
-	public int getIdCorso() {
+	public Integer getIdCorso() {
 		return idCorso;
 	}
 
-	public void setIdCorso(int idCorso) {
+	public void setIdCorso(Integer idCorso) {
 		this.idCorso = idCorso;
 	}
 

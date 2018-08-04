@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>Create User</title>
+
+<link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100"
+	rel="stylesheet">
+<link rel="stylesheet" href="../../css/animatedst.css" type="text/css"
+	media="all" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="container">
+
+	<div
+		th:fragment="fragAggiungiAttivitaDidattica(corsi,attivitaDidattica)">
+
+
+		<form autocomplete="off"
+			th:action="@{/VillaDeiRomaniAccademy/admin/submitCreateAttivitaDidattica}"
+			th:object="${attivitaDidattica}" method="post"
+			class="form-horizontal" role="form">
+			<div class="row ">
+				<!-- colonna -->
+				<div style="text-align: center" class="col-md-8 col-md-offset-2">
+
+					<!-- nome -->
+					<div class="form-group" style="text-align: center">
+						<label th:inline="text" for="registration_view_nome">[[#{nome}]]</label>
+						<label th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
+							class="validation-message myStylesRedColor"></label> <input
+							required="required" id="registration_view_nome" type="text"
+							th:field="*{nome}" th:placeholder="#{nome}" class="form-control" />
+					</div>
+
+					<!-- cf -->
+					<div class="form-group" style="text-align: center">
+						<label th:inline="text" for="cf">[[#{cf}]]</label> <label
+							th:if="${#fields.hasErrors('cf')}" th:errors="*{cf}"
+							class="validation-message myStylesRedColor"></label> <input
+							required="required" id="cf" type="number" th:field="*{cf}"
+							th:placeholder="#{cf}" class="form-control" />
+					</div>
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<button style="width: 100%; margin-bottom: 10%"
+						class="btn btn-primary" th:inline="text">[[#{salva}]]</button>
+				</div>
+			</div>
+		</form>
+
+
+
+
+
+	</div>
+
+
+
+	<div
+		th:fragment="fragEliminaAttivitaDidattica(attivitaDidattiche,attivitaDidatticaToDelete)">
+
+
+		<form autocomplete="off"
+			th:action="@{/VillaDeiRomaniAccademy/admin/submitDeleteAttivitaDidattica}"
+			th:object="${attivitaDidatticaToDelete}" method="post"
+			class="form-horizontal" role="form">
+			<div class="row ">
+				<!-- colonna -->
+
+				<div style="text-align: center" class="col-md-8 col-md-offset-2">
+
+					<!-- attivitaDidattica -->
+					<div class="form-group">
+						<label for="select_attivitaDidattica"><span
+							th:text="#{insegnamento}"></span></label> <select required="required"
+							class="form-control" th:field="*{idAttivitaDidattica}"
+							id="select_attivitaDidattica">
+							<option value="" th:text="#{selezionaInsegnamento}"></option>
+							<option th:each="attivitaDidattica : ${attivitaDidattiche}"
+								th:value="${attivitaDidattica.idAttivitaDidattica}"
+								th:text="${attivitaDidattica.nome}"></option>
+						</select>
+					</div>
+
+
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<button style="width: 100%; margin-bottom: 10%"
+						class="btn btn-primary" th:inline="text">[[#{elimina}]]</button>
+				</div>
+			</div>
+
+		</form>
+	</div>
+
+	<div
+		th:fragment="fragEditAttivitaDidattica (attivitaDidattiche,attivitaDidattica)">
+		<form autocomplete="off"
+			th:action="@{/VillaDeiRomaniAccademy/admin/submitEditAttivitaDidattica}"
+			th:object="${attivitaDidattica}" method="post"
+			class="form-horizontal" role="form">
+			<div class="row ">
+				<!-- prima colonna -->
+				<div class="col-md-10 col-md-offset-1">
+					<!-- attivitaDidattica -->
+					<div class="form-group">
+						<label for="select_attivitaDidattica"><span
+							th:text="#{insegnamento}"></span></label><select
+							required="required"
+							class="form-control" th:field="*{idAttivitaDidattica}"
+							id="select_attivitaDidattica">
+							<option  value="" th:text="#{selezionaInsegnamento}"></option>
+							<option th:each="attivitaDidattica : ${attivitaDidattiche}"
+								th:value="${attivitaDidattica.idAttivitaDidattica}"
+								th:text="${attivitaDidattica.nome}"></option>
+						</select>
+					</div>
+					<!-- nome -->
+					<div class="form-group hidden" id="divEditAttivitaNome">
+						<label for="editAttivitaNome" th:inline="text">[[#{nome}]]</label>
+						<label th:if="${#fields.hasErrors('nome')}"
+							th:errors="*{nome}"
+							class="validation-message myStylesRedColor"></label> <input
+							required="required" id="editAttivitaNome" type="text"
+							 th:field="*{nome}" th:placeholder="#{nome}"
+							class="form-control" />
+					</div>
+					
+					<!-- cf -->
+					<div class="form-group hidden" id="divEditAttivitaCf">
+						<label for="editAttivitaCf" th:inline="text">[[#{cf}]]</label>
+						<label th:if="${#fields.hasErrors('cf')}"
+							th:errors="*{cf}"
+							class="validation-message myStylesRedColor"></label> <input
+							required="required" id="editAttivitaCf" type="number"
+							 th:field="*{cf}" th:placeholder="#{cf}"
+							class="form-control" />
+
+					</div>
+				</div>
+			</div>
+			<div class="row hidden" id="divSalva">
+				<div class="col-md-4 col-md-offset-4">
+					<button style="width: 100%; margin-bottom: 10%"
+						class="btn btn-primary" th:inline="text">[[#{salva}]]</button>
+				</div>
+			</div>
+		</form>
+		<script type="text/javascript" th:inline="javascript">
+		$('#select_attivitaDidattica').change(
+		        function() {
+		        		
+		        		$("#divEditAttivitaNome").removeClass('hidden');
+		        		$("#divEditAttivitaCf").removeClass('hidden');
+		        		$("#divSalva").removeClass('hidden');
+		        		var attivitaDidattiche = [[${attivitaDidattiche}]];
+		        		var attivitaIdSelected = $(this).val();
+		        		var attivitaSelected;
+		        		var length=attivitaDidattiche.length;
+		        		for (var i=0;i<length;i++) {
+		        			if (attivitaDidattiche[i].idAttivitaDidattica==attivitaIdSelected) {
+		        				attivitaSelected=attivitaDidattiche[i];
+		        				break;
+		        			}
+		        		}
+		        		if (!attivitaSelected) {
+		        			$('#divEditAttivitaNome').addClass("hidden");
+		        			$('#divEditAttivitaCf').addClass("hidden");
+		        			$('#divSalva').addClass("hidden");
+		        			$('#editAttivitaNome').val("");
+		        			$("#editAttivitaCf").val("");
+		        			return;
+		        		}
+		                $('#editAttivitaNome').val(attivitaSelected.nome);
+		                $("#editAttivitaCf").val(attivitaSelected.cf);
+		        });
+		</script>
+	</div>
+
+	<div th:fragment="fragVisualizzaAttivitaDidattiche(attivitaDidattiche)">
+		<div class="row ">
+			<!-- colonna -->
+			<div class="col-md-8 col-md-offset-2">
+				<table class="table">
+					<thead>
+						<tr>
+							<th><span th:text="#{nome}"></span></th>	
+							<th><span th:text="#{cf}"></span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="attivitaDidattica : ${attivitaDidattiche}">
+							<td th:text="${attivitaDidattica.nome}"></td>
+							<td th:text="${attivitaDidattica.cf}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+
+
+
+
+
+
+	</div>
+
+</body>
+
+</html>

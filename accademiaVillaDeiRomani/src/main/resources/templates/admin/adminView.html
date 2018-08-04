@@ -7,7 +7,6 @@
 
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-
 	xmlns:th="http://www.thymeleaf.org">
 
 
@@ -39,39 +38,34 @@
 
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
-
 	rel="stylesheet">
 
 
 
 <link rel="stylesheet" href="../../css/animatedst.css" type="text/css"
-
 	media="all" />
 
 
 
 <link rel="stylesheet"
-
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-
-
-
-
-
-
 <script
-
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
 
+<script th:src="@{../../js/navBar.js}"></script>
+
+
+
+
+
 
 
 
 
 
 <script
-
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
@@ -117,17 +111,13 @@
 
 
 				<li class="dropdown"><a class="dropdown-toggle"
-
 					data-toggle="dropdown" th:inline="text">[[#{gestioneUtenti}]]<span
-
 						class="caret"></span></a>
 
 					<ul class="dropdown-menu">
 
 						<li><a
-
 							th:href="@{/VillaDeiRomaniAccademy/admin/openCreaUtentePanel}"
-
 							th:inline="text"><span class="glyphicon glyphicon-plus"></span>[[#{crea}]]
 
 						</a></li>
@@ -138,19 +128,112 @@
 
 
 
+
+
 				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" th:inline="text">[[#{gestioneDidattica}]]<span
+						class="caret"></span></a>
 
-					data-toggle="dropdown" th:inline="text">[[#{report}]]<span
+					<ul class="dropdown-menu">
 
+						<li class="dropdown dropdown-submenu"><a th:inline="text"
+							class="dropdown-toggle" data-toggle="dropdown"><span
+								class="glyphicon"></span>[[#{insegnamenti}]] </a>
+							<ul class="dropdown-menu">
+								<li><a
+									th:href="@{/VillaDeiRomaniAccademy/admin/openCreateAttivitaDidatticaPanel}"
+									th:inline="text"><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
+								</a></li>
+								<li><a
+									th:href="@{/VillaDeiRomaniAccademy/admin/openDeleteAttivitaDidatticaPanel}"
+									th:inline="text"><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
+								</a></li>
+								<li><a
+									th:href="@{/VillaDeiRomaniAccademy/admin/openEditAttivitaDidatticaPanel}"
+									th:inline="text"><span class="glyphicon glyphicon-pencil"></span>[[#{modifica}]]
+								</a></li>
+								<li><a
+									th:href="@{/VillaDeiRomaniAccademy/admin/openVisualizzaAttivitaDidatticaPanel}"
+									th:inline="text"><span class="glyphicon glyphicon-eye-open"></span>[[#{visualizza}]]
+								</a></li>
+							</ul></li>
+
+						<li class="dropdown dropdown-submenu"><a th:inline="text"
+							class="dropdown-toggle" data-toggle="dropdown"><span
+								class="glyphicon"></span>[[#{corsi}]] </a>
+							<ul class="dropdown-menu">
+								<li><a
+									th:href="@{/VillaDeiRomaniAccademy/admin/openCreateCoursePanel}"
+									th:inline="text"><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
+								</a></li>
+								<li><a
+									th:href="@{/VillaDeiRomaniAccademy/admin/openDeleteCoursePanel}"
+									th:inline="text"><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
+								</a></li>
+								<li><a
+									th:href="@{/VillaDeiRomaniAccademy/admin/openEditCoursePanel}"
+									th:inline="text"><span class="glyphicon glyphicon-pencil"></span>[[#{modifica}]]
+								</a></li>
+								<li><a
+									th:href="@{/VillaDeiRomaniAccademy/admin/openVisualizzaCoursePanel}"
+									th:inline="text"><span class="glyphicon glyphicon-eye-open"></span>[[#{visualizza}]]
+								</a></li>
+							</ul></li>
+
+
+						<li class="dropdown dropdown-submenu"><a th:inline="text"
+							class="dropdown-toggle" data-toggle="dropdown">[[#{relazioni}]]
+						</a>
+							<ul class="dropdown-menu">
+								<li class="dropdown dropdown-submenu"><a th:inline="text"
+									class="dropdown-toggle" data-toggle="dropdown">[[#{corso_insegnamento}]]
+								</a>
+									<ul class="dropdown-menu">
+										<li><a th:inline="text"
+											th:href="@{/VillaDeiRomaniAccademy/admin/openAddRelAttivitaCorsoPanel}"><span
+												class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]] </a></li>
+										<li><a
+											th:href="@{/VillaDeiRomaniAccademy/admin/openDeleteRelAttivitaCorsoPanel}"
+											th:inline="text"><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
+										</a></li>
+										<li><a
+											th:href="@{/VillaDeiRomaniAccademy/admin/openEditRelAttivitaCorsoPanel}"
+											th:inline="text"><span class="glyphicon glyphicon-pencil"></span>[[#{modifica}]]
+										</a></li>
+										<li><a
+											th:href="@{/VillaDeiRomaniAccademy/admin/openVisualizeRelAttivitaCorsoPanel}"
+											th:inline="text"><span
+												class="glyphicon glyphicon-eye-open"></span>[[#{visualizza}]]
+										</a></li>
+									</ul></li>
+
+							</ul></li>
+
+					</ul></li>
+
+
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" th:inline="text">[[#{gestioneTasse}]]<span
 						class="caret"></span></a>
 
 					<ul class="dropdown-menu">
 
 						<li><a
-
-							th:href="@{/VillaDeiRomaniAccademy/admin/openReportStudentiPanel}"
-
-							th:inline="text">[[#{studenti}]] </a></li>
+							th:href="@{/VillaDeiRomaniAccademy/admin/openCreateTassaPanel}"
+							th:inline="text"><span class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]]
+						</a></li>
+						<li><a
+							th:href="@{/VillaDeiRomaniAccademy/admin/openDeleteTassaPanel}"
+							th:inline="text"><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
+						</a></li>
+						<li><a
+							th:href="@{/VillaDeiRomaniAccademy/admin/openEditTassaPanel}"
+							th:inline="text"><span class="glyphicon glyphicon-pencil"></span>[[#{modifica}]]
+						</a></li>
+						<li><a
+							th:href="@{/VillaDeiRomaniAccademy/admin/openVisualizaTassaPanel}"
+							th:inline="text"><span class="glyphicon glyphicon-eye-open"></span>[[#{visualizza}]]
+						</a></li>
 
 					</ul></li>
 
@@ -158,6 +241,18 @@
 
 
 
+
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" th:inline="text">[[#{report}]]<span
+						class="caret"></span></a>
+
+					<ul class="dropdown-menu">
+
+						<li><a
+							th:href="@{/VillaDeiRomaniAccademy/admin/openReportStudentiPanel}"
+							th:inline="text">[[#{studenti}]] </a></li>
+
+					</ul></li>
 
 
 			</ul>
@@ -167,15 +262,12 @@
 			<ul class="nav navbar-nav navbar-right">
 
 				<li class="dropdown"><a class="dropdown-toggle"
-
 					data-toggle="dropdown"><span class="glyphicon glyphicon-user"
-
 						th:inline="text"></span> [[*{utente.nome}]]<span class="caret"></span></a>
 
 					<ul class="dropdown-menu">
 
 						<li><a th:href="@{/logout}"><span
-
 								class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 
 					</ul></li>
@@ -209,9 +301,7 @@
 	<div class="row" style="position: relative; margin-top: 10%;">
 
 		<form action="#"
-
 			th:action="@{/VillaDeiRomaniAccademy/admin/userSearch}"
-
 			th:object="${search}">
 
 			<div class="col-lg-2 "></div>
@@ -221,7 +311,6 @@
 				<div class="input-group">
 
 					<input class="form-control" name="search" id="search_input"
-
 						placeholder="Inserire Matricola, Nome, Cognome"></input>
 
 					<div class="input-group-btn">
@@ -229,7 +318,6 @@
 
 
 						<button type="submit" style="width: 100%;"
-
 							class=" btn btn-primary">
 
 							<span th:text="#{cerca}"></span>
@@ -257,7 +345,6 @@
 	<!-- ------------- -->
 
 	<div th:if="${not #lists.isEmpty(users)}"
-
 		style="position: relative; margin-top: 5%; color: white; background-color: black; opacity: 0.5; font-weight: bold">
 
 		<table class="table">
@@ -283,7 +370,6 @@
 
 
 				<tr class="rigaTabellaUtente"
-
 					th:onclick="'javascript:rowClicked(\''+${userFound.matricola}+'\');'">
 
 
@@ -315,9 +401,7 @@
 	<!-- ------------- -->
 
 	<div th:if="${users != null} and ${#lists.isEmpty(users)}"
-
 		th:inline="text"
-
 		style="text-align: center; position: relative; margin-top: 5%; color: white; background-color: black; opacity: 0.5; font-weight: bold">
 
 		[[#{resultsNotFound}]]</div>
@@ -331,54 +415,29 @@
 
 
 	<!-- ------------- -->
-
 	<!-- MODALE PER LA CREAZIONE DI UN UTENTE -->
-
 	<!-- ------------- -->
-
 	<!-- Modal -->
-
 	<div th:if="${newUser != null}  and ${ruoli != null}"
-
 		class="modal fade" id="modalCreateUser" role="dialog">
-
 		<div class="modal-dialog">
-
 			<!-- Modal content-->
-
 			<div class="modal-content"
-
 				style="background-color: #428bca; color: white">
-
 				<div class="modal-header">
-
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-
 					<h4 class="modal-title" th:inline="text">[[#{creaUnUtente}]]</h4>
-
 				</div>
-
 				<div
-
-					th:replace="fragments/createUserFragment::fragCreateUser (${newUser},${ruoli})"></div>
-
-
-
-				<!-- <div th:replace="fragments/createUserFragment::copy"></div> -->
-
-
-
-
-
+					th:replace="fragments/admin/createUserFragment::fragCreateUser (${newUser},${ruoli})"></div>
 			</div>
-
 		</div>
-
 	</div>
 	<!-- SNACKBAR UTENTE CREATO CON SUCCESSO -->
-	<div class="snackbar" th:inline="text" id="snackbarUserCreated" th:if="${userCreatedSuccessfully != null}">[[#{utenteCreatoConSuccesso}]]</div>
+	<div class="snackbar" th:inline="text" id="snackbarUserCreated"
+		th:if="${userCreatedSuccessfully != null}">[[#{utenteCreatoConSuccesso}]]</div>
 
-	
+
 
 
 
@@ -387,50 +446,202 @@
 
 
 	<!-- ------------- -->
-
 	<!-- MODALE PER LA GENERAZIONE DEL REPORT UTENTE -->
-
 	<!-- ------------- -->
-
 	<!-- Modal -->
-
-	<div th:if="${reportStudenteBean != null}"
-
-		class="modal fade" id="modalReportStudente" role="dialog">
-
+	<div th:if="${reportStudenteBean != null}" class="modal fade"
+		id="modalReportStudente" role="dialog">
 		<div class="modal-dialog">
-
 			<!-- Modal content-->
-
 			<div class="modal-content"
-
 				style="background-color: #428bca; color: white">
-
 				<div class="modal-header">
-
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-
 					<h4 class="modal-title" th:inline="text">[[#{reportStudenti}]]</h4>
-
 				</div>
-
 				<div
-
-					th:replace="fragments/reportStudenti::fragReportStudenti (${reportStudenteBean},${attivitaDidattiche},${corsi},${contributi})"></div>
-
-
-
-
-
-
-
+					th:replace="fragments/admin/reportStudenti::fragReportStudenti (${reportStudenteBean},${attivitaDidattiche},${corsi},${contributi})"></div>
 			</div>
-
 		</div>
-
 	</div>
 
 
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- INIZIO MODALI CORSI -->
+	<!-- ------------- -->
+	<!-- ------------- -->
+
+	<!-- ------------- -->
+	<!-- MODALE PER LA CREAZIONE DI UN CORSO -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${createCourse}" class="modal fade" id="modalCreateCourse"
+		role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{aggiungiCroso}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/corso::fragAggiungiCorso (${corso})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER L ELIMINAZIONE DI UN CORSO -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${eliminateCourse}" class="modal fade"
+		id="modalEliminateCourse" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{eliminazioneCorso}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/corso::fragEliminaCorso (${corsi},${corsoToDelete})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER LA MODIFICA DI UN CORSO -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${editCourse}" class="modal fade" id="modalEditCourse"
+		role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{modificaCorso}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/corso::fragEditCorso (${corsi},${corso})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER LA VISUALIZZAZIONE DEI CORSI -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${visualizeCourse}" class="modal fade"
+		id="modalVisualizeCourse" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{corsi}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/corso::fragVisualizzaCorso (${corsi})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- FINE MODALI CORSI -->
+	<!-- ------------- -->
+	<!-- ------------- -->
+
+
+
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- INIZIO MODALI ATTIVITA DIDATTICHE -->
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- MODALE PER LA CREAZIONE DI UNA ATTIVITA DIDATTICA -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${createAttivitaDidattica}" class="modal fade"
+		id="modalCreateAttivitaDidattica" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{aggiungiInsegnamento}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/attivitaDidattica::fragAggiungiAttivitaDidattica (${corsi},${attivitaDidattica})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER L ELIMINAZIONE DI UNA ATTIVITA DIDATTICA -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${eliminateAttivitaDidattica}" class="modal fade"
+		id="modalEliminateAttivitaDidattica" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{eliminazioneInsegnamento}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/attivitaDidattica::fragEliminaAttivitaDidattica (${attivitaDidattiche},${attivitaDidatticaToDelete})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER LA MODIFICA DI UNA ATTIVITA DIDATTICA -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${editAttivitaDidattica}" class="modal fade"
+		id="modalEditAttivitaDidattica" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{modificaInsegnamento}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/attivitaDidattica::fragEditAttivitaDidattica (${attivitaDidattiche},${attivitaDidattica})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER LA VISUALIZZAZIONE DEI CORSI -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${visualizeAttivitaDidattica}" class="modal fade"
+		id="modalVisualizeAttivitaDidattica" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{insegnamenti}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/attivitaDidattica::fragVisualizzaAttivitaDidattiche (${attivitaDidattiche})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- FINE MODALI ATTIVITA DIDATTICHE -->
+	<!-- ------------- -->
+	<!-- ------------- -->
 
 
 
@@ -439,6 +650,182 @@
 
 
 
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- INIZIO MODALI DELLE REL CORSI-ATTIVITA DIDATTICHEE -->
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- MODALE PER LA CREAZIONE DI UNA REL CORSI-ATTIVITA DIDATTICHE -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${createRelAttivitaCorso}" class="modal fade"
+		id="modalCreateRelAttivitaCorso" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{aggiungiRelazione}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/relAttivitaCorso::fragAggiungiRelAttivitaCorso (${corsi},${attivitaDidattiche},${relCorsoAttivita})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER L ELIMINAZIONE DI UNA REL CORSI-ATTIVITA DIDATTICHE -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${deleteRelAttivitaCorso}" class="modal fade"
+		id="modalDeleteRelAttivitaCorso" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{eliminaRelazione}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/relAttivitaCorso::fragEliminaRelAttivitaCorso (${corsi},${relCorsoAttivitaToDelete})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER LA MODIFICA DI UNA REL CORSI-ATTIVITA DIDATTICHE -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${editRelAttivitaCorso}" class="modal fade"
+		id="modalEditRelAttivitaCorso" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{modificaRelazione}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/relAttivitaCorso::fragEditRelAttivitaCorso (${corsi},${relCorsoAttivita})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER LA VISUALIZZAZIONE DELLE REL CORSI-ATTIVITA DIDATTICHE -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${visualizeRelAttivitaCorso}" class="modal fade"
+		id="modalVisualizeRelAttivitaCorso" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{insegnamenti}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/relAttivitaCorso::fragVisualizeRelAttivitaCorso (${corsi})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- FINE MODALI DELLE REL CORSI-ATTIVITA DIDATTICHE -->
+	<!-- ------------- -->
+	<!-- ------------- -->
+
+
+
+
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- INIZIO MODALI DELLE TASSE -->
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- MODALE PER LA CREAZIONE DI UNA TASSA -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${createTassa}" class="modal fade" id="modalCreateTassa"
+		role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{aggiungiTassa}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/tasse::fragAggiungiTassa (${contributo})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER L ELIMINAZIONE DI UNA TASSA -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${deleteTassa}" class="modal fade" id="modalDeleteTassa"
+		role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{eliminaTassa}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/tasse::fragEliminaTassa (${contributi},${contributoToDelete})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER LA MODIFICA DI UNA TASSA -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${editTassa}" class="modal fade" id="modalEditTassa"
+		role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{modificaTassa}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/tasse::fragEditTassa (${contributi},${contributoToUpdate})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- MODALE PER LA VISUALIZZAZIONE DI UNA TASSA -->
+	<!-- ------------- -->
+	<!-- Modal -->
+	<div th:if="${visualizeTassa}" class="modal fade"
+		id="modalVisualizeTassa" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content"
+				style="background-color: #428bca; color: white">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" th:inline="text">[[#{tasse}]]</h4>
+				</div>
+				<div
+					th:replace="fragments/admin/tasse::fragVisualizeTassa (${contributi})"></div>
+			</div>
+		</div>
+	</div>
+	<!-- ------------- -->
+	<!-- ------------- -->
+	<!-- FINE MODALI DELLE TASSE -->
+	<!-- ------------- -->
+	<!-- ------------- -->
 
 
 
@@ -446,7 +833,9 @@
 
 
 
-
+	<!-- SNACKBAR OPERAZIONE AVVENUTA CON SUCCESSO -->
+	<div th:inline="text" class="snackbar" id="snackBarOperationCompleted"
+		th:if="${operationCompletedSuccessfully}">[[#{operazioneAvvenutaConSuccesso}]]</div>
 
 
 
@@ -460,16 +849,10 @@
 
 <script type="text/javascript" th:inline="javascript">
 
-	
-
 	//per il click sulla tabella degli utenti
-
 	function rowClicked(value) {
-
 		location.href = "/VillaDeiRomaniAccademy/admin/userSelected?matricola="
-
 				+ value;
-
 	}
 
 	
@@ -477,27 +860,17 @@
 	//per aprire il pannello crea nuovo utente
 
 	var newUser = [[${newUser}]];
-
 	if (newUser) {
-
 		$("#modalCreateUser").modal();
-
 	}
 
 	
 
 	//per aprire il pannello report studente
-
 	var reportStudenteBean = [[${reportStudenteBean}]];
-
 	if (reportStudenteBean) {
-
 		$("#modalReportStudente").modal();
-
 	}
-
-	
-
 	//per aprire snackbar utente creato con successo
 	var userCreatedSuccesfully = [[${userCreatedSuccessfully}]];
 	if (userCreatedSuccesfully){
@@ -507,7 +880,112 @@
 	}
 
 	
+	//inizio gestione corsi
+	//per aprire il pannello aggiungi corso
+	var createCourse = [[${createCourse}]];
+	if (createCourse) {
+		$("#modalCreateCourse").modal();
+	}
+	//per aprire il pannello elimina corso
+	var eliminateCourse = [[${eliminateCourse}]];
+	if (eliminateCourse) {
+		$("#modalEliminateCourse").modal();
+	}
+	//per aprire il pannello modifica corso
+	var editCourse = [[${editCourse}]];
+	if (editCourse) {
+		$("#modalEditCourse").modal();
+	}
+	//per aprire il pannello visualizza corsi
+	var visualizeCourse = [[${visualizeCourse}]];
+	if (visualizeCourse) {
+		$("#modalVisualizeCourse").modal();
+	}
+	//fine gestione corsi
+	
+	
+	//inizio gestione attivita didattiche
+	//per aprire il pannello aggiungi attivita didattiche
+	var createAttivitaDidattica = [[${createAttivitaDidattica}]];
+	if (createAttivitaDidattica) {
+		$("#modalCreateAttivitaDidattica").modal();
+	}
+	//per aprire il pannello eliminia attivita didattica
+	var eliminateAttivitaDidattica = [[${eliminateAttivitaDidattica}]];
+	if (eliminateAttivitaDidattica) {
+		$("#modalEliminateAttivitaDidattica").modal();
+	}
+	//per aprire il pannello modifica attivita didattica
+	var editAttivitaDidattica = [[${editAttivitaDidattica}]];
+	if (editAttivitaDidattica) {
+		$("#modalEditAttivitaDidattica").modal();
 
+	}
+	//per aprire il pannello visualizza attivita didattiche
+	var visualizeAttivitaDidattica = [[${visualizeAttivitaDidattica}]];
+	if (visualizeAttivitaDidattica) {
+		$("#modalVisualizeAttivitaDidattica").modal();
+	}
+	//fine gestione attivita didattiche
+	
+	
+	
+	//inizio gestione rel attivita-corsi
+	//per aprire il pannello aggiungi rel attivita-corsi
+	var createRelAttivitaCorso = [[${createRelAttivitaCorso}]];
+	if (createRelAttivitaCorso) {
+		$("#modalCreateRelAttivitaCorso").modal();
+	}
+	//per aprire il pannello eliminia rel attivita-corsi
+	var deleteRelAttivitaCorso = [[${deleteRelAttivitaCorso}]];
+	if (deleteRelAttivitaCorso) {
+		$("#modalDeleteRelAttivitaCorso").modal();
+	}
+	//per aprire il pannello modifica rel attivita-corsi
+	var editRelAttivitaCorso = [[${editRelAttivitaCorso}]];
+	if (editRelAttivitaCorso) {
+		$("#modalEditRelAttivitaCorso").modal();
+
+	}
+	//per aprire il pannello visualizza rel attivita-corsi
+	var visualizeRelAttivitaCorso = [[${visualizeRelAttivitaCorso}]];
+	if (visualizeRelAttivitaCorso) {
+		$("#modalVisualizeRelAttivitaCorso").modal();
+	}
+	//fine gestione attivita didattiche
+	
+	//inizio gestione tasse
+	//per aprire il pannello aggiungi tassa
+	var createTassa = [[${createTassa}]];
+	if (createTassa) {
+		$("#modalCreateTassa").modal();
+	}
+	//per aprire il pannello eliminia tassa
+	var deleteTassa = [[${deleteTassa}]];
+	if (deleteTassa) {
+		$("#modalDeleteTassa").modal();
+	}
+	//per aprire il pannello modifica tassa
+	var editTassa = [[${editTassa}]];
+	if (editTassa) {
+		$("#modalEditTassa").modal();
+
+	}
+	//per aprire il pannello visualizza tasse
+	var visualizeTassa = [[${visualizeTassa}]];
+	if (visualizeTassa) {
+		$("#modalVisualizeTassa").modal();
+	}
+	//fine gestione tasse
+	
+	//per aprire snackbar operazione eseguita con successo
+ 	var operationCompletedSuccessfully = [[${operationCompletedSuccessfully}]];
+	if (operationCompletedSuccessfully){
+	    var x = document.getElementById("snackBarOperationCompleted");
+	    x.className = "show snackbar";
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	} 
+	
 </script>
 
 

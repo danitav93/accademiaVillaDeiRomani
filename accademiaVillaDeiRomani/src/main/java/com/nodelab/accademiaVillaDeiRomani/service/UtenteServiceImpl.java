@@ -179,8 +179,8 @@ public class UtenteServiceImpl implements UtenteService  {
 		UtenteHasCorso utenteHasCorso= new UtenteHasCorso();
 		utenteHasCorso.setCorso(percorsoFormativoBean.getCorso());
 		utenteHasCorso.setUtente(percorsoFormativoBean.getUtente());
+		utenteHasCorso=utenteHasCorsoRepository.save(utenteHasCorso);
 		percorsoFormativoBean.getUtente().setUtenteHasCorso(utenteHasCorso);
-		utenteHasCorsoRepository.save(utenteHasCorso);
 		//salvo le nuove attivita didattiche
 		List<UtenteHasAttivitaDidattica> listToSave= new ArrayList<>();
 		//quelle obbligatorie
@@ -192,7 +192,7 @@ public class UtenteServiceImpl implements UtenteService  {
 				listToSave.add(utenteHasAttivitaDidattica);
 			}
 		}
-		//quellio facoltativi
+		//quelli facoltativi
 		for (AttivitaDidattica attivitaDidattica:percorsoFormativoBean.getAttivitaDidatticaFacoltativaList()) {
 			UtenteHasAttivitaDidattica utenteHasAttivitaDidattica = new UtenteHasAttivitaDidattica();
 			utenteHasAttivitaDidattica.setAttivitaDidattica(attivitaDidattica);
@@ -200,9 +200,9 @@ public class UtenteServiceImpl implements UtenteService  {
 			listToSave.add(utenteHasAttivitaDidattica);
 		}
 
+		listToSave=utenteHasAttivitaDidatticaRepository.saveAll(listToSave);
 		percorsoFormativoBean.getUtente().setUtenteHasAttivitaDidatticaSet(new HashSet<UtenteHasAttivitaDidattica>(listToSave));
-		utenteHasAttivitaDidatticaRepository.saveAll(listToSave);
-
+		
 		percorsoFormativoBean.getUtente().setHasPercorsoFormativo(true);
 		utenteRepository.save(percorsoFormativoBean.getUtente());
 

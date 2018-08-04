@@ -3,6 +3,8 @@ package com.nodelab.accademiaVillaDeiRomani.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ public class ContributoServiceImpl implements ContributoService{
 
 	@Autowired
 	private ContributoRepository contributoRepository;
-	
+
 
 
 	@Override
@@ -36,7 +38,7 @@ public class ContributoServiceImpl implements ContributoService{
 		} else {
 			return contributoRepository.findAll();
 		}
-		
+
 	}
 
 	@Override
@@ -47,5 +49,16 @@ public class ContributoServiceImpl implements ContributoService{
 		}
 		return toReturn;
 	}
-	
+
+	@Override
+	public void save(@Valid Contributo contributo) {
+		contributoRepository.save(contributo);		
+	}
+
+	@Override
+	public void removeContributo(Contributo contributo) {
+		contributoRepository.delete(contributo);
+		
+	}
+
 }

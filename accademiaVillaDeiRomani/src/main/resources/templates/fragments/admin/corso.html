@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>Create User</title>
+
+<link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Roboto:100"
+	rel="stylesheet">
+<link rel="stylesheet" href="../../css/animatedst.css" type="text/css"
+	media="all" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+
+<body class="container">
+
+	<div th:fragment="fragAggiungiCorso(corso)">
+		<form autocomplete="off"
+			th:action="@{/VillaDeiRomaniAccademy/admin/submitCreateCourse}"
+			th:object="${corso}" method="post" class="form-horizontal"
+			role="form">
+			<div class="row ">
+				<!-- colonna -->
+				<div style="text-align: center" class="col-md-8 col-md-offset-2">
+					<!-- nome -->
+					<div class="form-group">
+						<div style="text-align: center" class="col-sm-12">
+							<label th:inline="text" for="registration_view_nome">[[#{nome}]]</label>
+							<label th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
+								class="validation-message myStylesRedColor"></label> <input
+								required="required" id="registration_view_nome" type="text"
+								th:field="*{nome}" th:placeholder="#{nome}" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<button style="width: 100%; margin-bottom: 10%"
+						class="btn btn-primary" th:inline="text">[[#{salva}]]</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+
+	<div th:fragment="fragEliminaCorso(corsi,corsoToDelete)">
+		<form autocomplete="off"
+			th:action="@{/VillaDeiRomaniAccademy/admin/submitDeleteCorso}"
+			th:object="${corsoToDelete}" method="post" class="form-horizontal"
+			role="form">
+			<div class="row ">
+				<!-- colonna -->
+				<div style="text-align: center" class="col-md-8 col-md-offset-2">
+					<!-- corso -->
+					<div class="form-group">
+						<label for="corso"><span th:text="#{corso}"></span></label>
+						<select required="required" class="form-control"
+							th:field="*{idCorso}" id="corso">
+							<option value="" th:text="#{selezionaCorso}"></option>
+							<option th:each="corso : ${corsi}" th:value="${corso.idCorso}"
+								th:text="${corso.nome}"></option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4">
+					<button style="width: 100%; margin-bottom: 10%"
+						class="btn btn-primary" th:inline="text">[[#{elimina}]]</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<div
+		th:fragment="fragEditCorso (corsi,corso)">
+		<form autocomplete="off"
+			th:action="@{/VillaDeiRomaniAccademy/admin/submitEditCourse}"
+			th:object="${corso}" method="post"
+			class="form-horizontal" role="form">
+			<div class="row ">
+				<!-- prima colonna -->
+				<div class="col-md-10 col-md-offset-1">
+					<!-- corso -->
+					<div class="form-group">
+						<label for="select_corso"><span th:text="#{corso}"></span></label>
+						<select required="required" class="form-control"
+							th:field="*{idCorso}" id="select_corso">
+							<option value="0" th:text="#{selezionaCorso}"></option>
+							<option th:each="corso : ${corsi}" th:value="${corso.idCorso}"
+								th:text="${corso.nome}"></option>
+						</select>
+					</div>
+					<!-- nome -->
+					<div class="form-group hidden" id="divEditCorsoNome">
+						<label for="editCorsoNome" th:inline="text">[[#{nome}]]</label>
+						<label th:if="${#fields.hasErrors('nome')}"
+							th:errors="*{nome}"
+							class="validation-message myStylesRedColor"></label> <input
+							required="required" id="editCorsoNome" type="text"
+							 th:field="*{nome}" th:placeholder="#{nome}"
+							class="form-control" />
+					</div>
+					
+				</div>
+			</div>
+			<div class="row hidden" id="divSalva">
+				<div class="col-md-4 col-md-offset-4">
+					<button style="width: 100%; margin-bottom: 10%"
+						class="btn btn-primary" th:inline="text">[[#{salva}]]</button>
+				</div>
+			</div>
+		</form>
+		<script type="text/javascript" th:inline="javascript">
+		$('#select_corso').change(
+		        function() {
+		        		
+		        		$("#divEditCorsoNome").removeClass('hidden');
+		        		$("#divSalva").removeClass('hidden');
+		        		var corsi = [[${corsi}]];
+		        		var idCorsoSelected = $(this).val();
+		        		var corsoSelected;
+		        		var length=corsi.length;
+		        		for (var i=0;i<length;i++) {
+		        			if (corsi[i].idCorso==idCorsoSelected) {
+		        				corsoSelected=corsi[i];
+		        				break;
+		        			}
+		        		}
+		        		if (!corsoSelected) {
+		        			$('#divEditCorsoNome').addClass("hidden");
+		        			$('#divSalva').addClass("hidden");
+		        			$('#editCorsoNome').val("");
+		        			return;
+		        		}
+		                $('#editCorsoNome').val(corsoSelected.nome);
+		        });
+		</script>
+	</div>
+	
+	<div th:fragment="fragVisualizzaCorso(corsi)">
+		<div class="row ">
+			<!-- colonna -->
+			<div  class="col-md-8 col-md-offset-2">
+				<table class="table">
+					<thead>
+						<tr>
+							<th><span th:text="#{nome}"></span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="corso : ${corsi}">
+							<td th:text="${corso.nome}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>

@@ -2,6 +2,8 @@ package com.nodelab.accademiaVillaDeiRomani.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 
@@ -12,6 +14,10 @@ public interface ContributoService {
 	List<Contributo> getContributiNotPayedByUtente(Utente utente);
 
 	List<Contributo> getContributiPayedByUtente(Utente utente);
+
+	void save(@Valid Contributo contributo);
+
+	void removeContributo(Contributo contributo);
 
 	
 }

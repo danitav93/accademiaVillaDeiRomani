@@ -27,20 +27,10 @@ public class Contributo implements Serializable{
 	private String nome;
 
 	@OneToMany(mappedBy = "contributo")
-	@Column(name="utente_has_contributi")
 	@JsonBackReference
 	private Set<UtenteHasContributo> utenteHasContributoSet;
 
-	public Contributo() {
-		super();
-	}
-
-	public Contributo(Integer idContributo, String nome) {
-		super();
-		this.idContributo = idContributo;
-		this.nome = nome;
-	}
-
+	
 	
 	public String getNome() {
 		return nome;
@@ -50,9 +40,7 @@ public class Contributo implements Serializable{
 	}
 
 
-	public Set<UtenteHasContributo> getUtente_has_contributi() {
-		return utenteHasContributoSet;
-	}
+	
 
 	public Integer getIdContributo() {
 		return idContributo;

@@ -22,11 +22,11 @@ public class AttivitaDidattica implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id_attivita_didattica")
-	private int idAttivitaDidattica;
+	private Integer idAttivitaDidattica;
 	
 	private String nome; 
 	
-	private int cf;
+	private Integer cf;
 	
 	@OneToMany(mappedBy = "attivitaDidattica")
 	@JsonBackReference
@@ -36,11 +36,11 @@ public class AttivitaDidattica implements Serializable{
 	@JsonBackReference
 	private Set<CorsoHasAttivitaDidattica> corsoHasAttivitaDidatticaSet;
 
-	public int getIdAttivitaDidattica() {
+	public Integer getIdAttivitaDidattica() {
 		return idAttivitaDidattica;
 	}
 
-	public void setIdAttivitaDidattica(int idAttivitaDidattica) {
+	public void setIdAttivitaDidattica(Integer idAttivitaDidattica) {
 		this.idAttivitaDidattica = idAttivitaDidattica;
 	}
 
@@ -52,11 +52,11 @@ public class AttivitaDidattica implements Serializable{
 		this.nome = nome;
 	}
 
-	public int getCf() {
+	public Integer getCf() {
 		return cf;
 	}
 
-	public void setCf(int cf) {
+	public void setCf(Integer cf) {
 		this.cf = cf;
 	}
 
