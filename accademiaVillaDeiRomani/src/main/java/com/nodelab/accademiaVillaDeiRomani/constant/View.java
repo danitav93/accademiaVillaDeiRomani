@@ -16,6 +16,8 @@ public class View {
 	public static final String loginView = "genericUser/loginView";
 	public static final String registrationView = "genericUser/registrationView";
 	public static final String registrationSucceded = "genericUser/registrationSucceded";
+	public static final String forgotPassword = "genericUser/forgotPassword";
+	public static final String updatePassword = "genericUser/updatePassword";
 
 
 	//----------

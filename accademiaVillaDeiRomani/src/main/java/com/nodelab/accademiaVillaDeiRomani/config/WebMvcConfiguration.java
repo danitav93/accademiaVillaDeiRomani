@@ -11,6 +11,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer ;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
@@ -33,6 +34,11 @@ public class WebMvcConfiguration implements WebMvcConfigurer  {
 		return bCryptPasswordEncoder;
 	}
 
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+	
 	//multilanguage
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {

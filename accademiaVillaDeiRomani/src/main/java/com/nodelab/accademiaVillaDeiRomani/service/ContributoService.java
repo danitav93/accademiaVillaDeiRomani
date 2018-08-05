@@ -15,7 +15,7 @@ public interface ContributoService {
 
 	List<Contributo> getContributiPayedByUtente(Utente utente);
 
-	void save(@Valid Contributo contributo);
+	Contributo save(@Valid Contributo contributo);
 
 	void removeContributo(Contributo contributo);
 

@@ -17,8 +17,6 @@
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
 	rel="stylesheet">
 
-<link rel="stylesheet" href="../../css/animatedst.css" type="text/css"
-	media="all" />
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -47,52 +45,66 @@
 
 		<div class="container-fluid">
 
-
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#"> <img
+					th:src="@{../../img/logo_villa_b.png}" class="imgNav" alt="">
+				</a>
+			</div>
 			<ul class="nav navbar-nav">
 
-				<li><a><span></span> Logo</a></li>
 
-				<li sec:authorize="hasAuthority('ADMIN')"><a
+
+				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN','TEACHER') "><a
 					th:href="@{/VillaDeiRomaniAccademy/admin/homeAdmin}"><span
 						class="glyphicon glyphicon-home"></span> Home</a></li>
 
-				<li sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/VillaDeiRomaniAccademy/admin/editStudentPersonalData(matricola=${utente.matricola})}" th:inline="text">[[#{modificaDatiPersonali}]]</a></li>
+				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')"><a
+					th:href="@{/VillaDeiRomaniAccademy/admin/editStudentPersonalData(matricola=${utente.matricola})}"
+					th:inline="text"><span class="glyphicon glyphicon-pencil"></span>[[#{modificaDatiPersonali}]]</a></li>
 
-				<li sec:authorize="hasAuthority('ADMIN')" class="dropdown"><a
-					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{gestioneEsami}]]<span
+				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')"
+					class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" th:inline="text">[[#{gestioneEsami}]]<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a
 							th:href="@{/VillaDeiRomaniAccademy/admin/insertExam(matricola=${utente.matricola})}"><span
 								class="glyphicon glyphicon-pencil"></span>[[#{modifica}]] </a></li>
-						
+
 					</ul></li>
 
-
-
-				<li sec:authorize="hasAuthority('ADMIN')" class="dropdown"><a
-					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{gestioneTasse}]]<span
+				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')"
+					class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" th:inline="text">[[#{gestioneTasse}]]<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a
 							th:href="@{/VillaDeiRomaniAccademy/admin/insertTax(matricola=${utente.matricola})}"><span
 								class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]] </a></li>
-						<li><a th:href="@{/VillaDeiRomaniAccademy/admin/deleteTax(matricola=${utente.matricola})}"><span class="glyphicon glyphicon-remove"></span>[[#{elimina}]]
-						</a></li>
+						<li sec:authorize="hasAuthority('SUPERADMIN')"><a
+							th:href="@{/VillaDeiRomaniAccademy/admin/deleteTax(matricola=${utente.matricola})}"><span
+								class="glyphicon glyphicon-remove"></span>[[#{elimina}]] </a></li>
 					</ul></li>
 
-				<li th:if="${utente.role.idRole==2}" class="dropdown"><a
+				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN','STUDENT')"
+					th:if="${utente.role.idRole==2}" class="dropdown"><a
 					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{percorsoFormativo}]]<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li th:if="${not utente.hasPercorsoFormativo}"><a
 							th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span
 								class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]] </a></li>
-						<li sec:authorize="hasAuthority('ADMIN')"><a
+						<li th:if="${utente.hasPercorsoFormativo}"
+							sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')"><a
 							th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span
 								class="glyphicon glyphicon-pencil"></span>[[#{modifica}]] </a></li>
 
 					</ul></li>
+
+				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')" th:if="${utente.active==0}"><a
+					th:href="@{/VillaDeiRomaniAccademy/admin/abilitazioneStudenteDiretta(matricola=${utente.matricola})}"
+					th:inline="text"><span class="glyphicon glyphicon-ok"></span>[[#{abilita}]]</a></li>
+
 
 			</ul>
 
@@ -213,7 +225,7 @@
 					<span th:text="#{matricola}+': '+${utente.matricola}"></span>
 				</p>
 
-			
+
 
 				<p>
 					<span
@@ -352,8 +364,8 @@
 	<!-- MODALE PER L'ELIMINAZIONE TASSE UTENTE -->
 	<!-- ------------- -->
 	<!-- Modal -->
-	<div th:if="${eliminaTasse}" class="modal fade"
-		id="modalEliminaTasse" role="dialog">
+	<div th:if="${eliminaTasse}" class="modal fade" id="modalEliminaTasse"
+		role="dialog">
 		<div class="modal-dialog">
 			<!-- Modal content-->
 			<div class="modal-content"
@@ -367,19 +379,19 @@
 			</div>
 		</div>
 	</div>
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	<!-- ------------- -->
 	<!-- MODALE PER L'INSERIMENTO DI UN ESAME IN CARRIERA -->
@@ -403,7 +415,7 @@
 	<!-- SNACKBAR ESAME AGGIUNTE CON SUCCESSO -->
 	<div th:inline="text" class="snackbar" id="snackbarEsameAggiunto"
 		th:if="${esameAddedSuccessfully}">[[#{esameAggiuntoConSuccesso}]]</div>
-	
+
 
 
 
@@ -440,7 +452,7 @@
 
 	<!-- SNACKBAR OPERAZIONE AVVENUTA CON SUCCESSO -->
 	<div th:inline="text" class="snackbar" id="snackBarOperationCompleted"
-		th:if="${operationCompletedSuccessfully}">[[#{operazioneAvvenutaConSuccesso}]]</div>	
+		th:if="${operationCompletedSuccessfully}">[[#{operazioneAvvenutaConSuccesso}]]</div>
 
 
 </body>

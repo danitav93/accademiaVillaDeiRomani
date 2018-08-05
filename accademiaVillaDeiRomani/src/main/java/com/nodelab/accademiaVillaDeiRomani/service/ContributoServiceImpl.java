@@ -51,8 +51,8 @@ public class ContributoServiceImpl implements ContributoService{
 	}
 
 	@Override
-	public void save(@Valid Contributo contributo) {
-		contributoRepository.save(contributo);		
+	public Contributo save(@Valid Contributo contributo) {
+		return contributoRepository.save(contributo);		
 	}
 
 	@Override

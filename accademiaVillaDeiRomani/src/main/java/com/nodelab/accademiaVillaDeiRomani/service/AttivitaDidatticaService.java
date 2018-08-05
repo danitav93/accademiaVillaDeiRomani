@@ -14,7 +14,7 @@ public interface AttivitaDidatticaService {
 
 	List<AttivitaDidattica> getAllAttivitaDidatticheByUtente(Utente utente);
 
-	void save(@Valid AttivitaDidattica attivitaDidattica);
+	AttivitaDidattica save(@Valid AttivitaDidattica attivitaDidattica);
 
 	void removeAttivitaDidattica(AttivitaDidattica attivitaDidattica);
 

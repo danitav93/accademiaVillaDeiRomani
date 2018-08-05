@@ -3,10 +3,13 @@ package com.nodelab.accademiaVillaDeiRomani.controller;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,6 +56,9 @@ import net.sf.jasperreports.engine.JasperPrint;
 @Controller
 public class adminController {
 
+    private Logger logger = LoggerFactory.getLogger(adminController.class);
+
+	
 	@Autowired
 	private UtenteSearch utenteSearch; 
 
@@ -96,6 +102,8 @@ public class adminController {
 		Utente utente = utenteService.findUtenteByMatricola(auth.getName());
 		model.addAttribute("utente", utente);
 
+		logger.info("UTENTE MATRICOLA: "+utente.getMatricola()+" ESEGUE RICERCA: "+query);
+
 		List<Utente> searchResults = null;
 		try {
 			searchResults = utenteSearch.search(query);
@@ -105,6 +113,9 @@ public class adminController {
 			searchResults=new ArrayList<>();
 		}
 		model.addAttribute("users", searchResults);
+		
+
+		
 		return View.adminView;
 
 	}
@@ -120,6 +131,8 @@ public class adminController {
 
 		Utente utente = utenteService.findUtenteByMatricola(matricola);
 
+
+		
 		model.addAttribute("utente", utente);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -127,6 +140,7 @@ public class adminController {
 		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
 		model.addAttribute("utenteLogged", utenteLogged);
 
+		logger.info("UTENTE MATRICOLA: "+utenteLogged.getMatricola()+" APRE PAGINA UTENTE MATRICOLA: "+utente.getMatricola());
 
 		switch (utente.getRole().getName()) {
 
@@ -202,7 +216,9 @@ public class adminController {
 			newUser= utenteService.saveNewUserFromAdmin(newUser);
 
 			//mandiamo una mail con il link di conferma
-			mailService.sendRegistrationMail(newUser.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(newUser.getMatricola()).toString());
+			String token = UUID.randomUUID().toString();
+			utenteService.createRegistrationverificationToken(token,newUser);
+			mailService.sendRegistrationMail(newUser.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(newUser.getMatricola()).toString(),token);
 
 
 			model.addAttribute("matricola", utenteLoggato.getMatricola());
@@ -211,7 +227,8 @@ public class adminController {
 
 			model.addAttribute("value",true);
 
-
+			logger.warn("UTENTE MATRICOLA: "+utenteLoggato.getMatricola()+" CREA NUOVO UTENTE MATRICOLA:"+newUser.getMatricola()+" ROLE: "+newUser.getRole().getName());
+			
 			modelAndView = new ModelAndView(Urls.redirect+Urls.adminPath,model);
 
 
@@ -240,6 +257,7 @@ public class adminController {
 		model.addAttribute("attivitaDidattiche",attivitaDidatticaService.getListOfAttivitaDidattiche());
 		model.addAttribute("contributi",contributoService.getAllContributi());
 
+
 		return View.adminView;
 
 	}
@@ -258,6 +276,12 @@ public class adminController {
 			JasperPrint report=reportService.generateStudentiReport(reportStudenteBean);
 			OutputStream outStream = response.getOutputStream();
 			JasperExportManager.exportReportToPdfStream(report, outStream);
+
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			//mi prendo l'utente loggato
+			Utente utente = utenteService.findUtenteByMatricola(auth.getName());
+			logger.info("UTENTE MATRICOLA: "+utente.getMatricola()+" GENERA REPORT STUDENTI");
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -274,7 +298,7 @@ public class adminController {
 	 * @return
 	 */
 	@RequestMapping(value= {Urls.adminPath}, method = RequestMethod.GET)
-	public ModelAndView submitLogin(@RequestParam(value = "matricola", required = true) String matricola,@RequestParam(value = "key", required = false) String key, @RequestParam(value = "value", required = false) String value){
+	public ModelAndView openAdminView(@RequestParam(value = "matricola", required = true) String matricola,@RequestParam(value = "key", required = false) String key, @RequestParam(value = "value", required = false) String value){
 
 		ModelAndView modelAndView = new ModelAndView();
 
@@ -342,11 +366,14 @@ public class adminController {
 			model.addAttribute("createCourse", true);
 			modelAndView.setViewName(View.adminView);
 		} else {
-			corsoService.save(corso);
+			corso=corsoService.save(corso);
 			model.addAttribute("matricola",auth.getName());
 			model.addAttribute("key","operationCompletedSuccessfully");
 			model.addAttribute("value",true);
 			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+			
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+" CREA CORSO: ID="+corso.getIdCorso()+" NOME="+corso.getNome());
+
 		}
 
 		return modelAndView;
@@ -383,6 +410,9 @@ public class adminController {
 		model.addAttribute("matricola",auth.getName());
 		model.addAttribute("key","operationCompletedSuccessfully");
 		model.addAttribute("value",true);
+		
+		logger.warn("UTENTE MATRICOLA: "+auth.getName()+" ELIMINA CORSO: ID="+corso.getIdCorso()+" NOME="+corso.getNome());
+
 		return  new ModelAndView(Urls.redirect+Urls.adminPath, model);
 
 
@@ -428,6 +458,8 @@ public class adminController {
 			model.addAttribute("key","operationCompletedSuccessfully");
 			model.addAttribute("value",true);
 			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+" MODIFICA CORSO: ID="+corso.getIdCorso()+" NOME="+corso.getNome());
+
 		}
 		return modelAndView;
 	}
@@ -500,11 +532,14 @@ public class adminController {
 			modelAndView.setViewName(View.adminView);
 			return modelAndView;
 		} else {
-			attivitaDidatticaService.save(attivitaDidattica);
+			attivitaDidattica=attivitaDidatticaService.save(attivitaDidattica);
 			model.addAttribute("matricola",auth.getName());
 			model.addAttribute("key","operationCompletedSuccessfully");
 			model.addAttribute("value",true);
 			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+			
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+" CREA ATTIVITA DIDATTICA: ID="+attivitaDidattica.getIdAttivitaDidattica()+" NOME="+attivitaDidattica.getNome());
+
 		}
 
 		return modelAndView;
@@ -541,6 +576,10 @@ public class adminController {
 		model.addAttribute("matricola",auth.getName());
 		model.addAttribute("key","operationCompletedSuccessfully");
 		model.addAttribute("value",true);
+		
+		logger.warn("UTENTE MATRICOLA: "+auth.getName()+" ELIMINA ATTIVITA DIDATTICA: ID="+attivitaDidattica.getIdAttivitaDidattica()+" NOME="+attivitaDidattica.getNome());
+
+		
 		return  new ModelAndView(Urls.redirect+Urls.adminPath, model);
 
 
@@ -586,6 +625,9 @@ public class adminController {
 			model.addAttribute("key","operationCompletedSuccessfully");
 			model.addAttribute("value",true);
 			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+			
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+" MODIFICA ATTIVITA DIDATTICA: ID="+attivitaDidattica.getIdAttivitaDidattica()+" NOME="+attivitaDidattica.getNome());
+
 		}
 		return modelAndView;
 	}
@@ -658,11 +700,15 @@ public class adminController {
 			modelAndView.setViewName(View.adminView);
 			return modelAndView;
 		} else {
-			corsoService.saveCorsoHasAttivitaDidattica(corsoHasAttivitaDidattica);
+			corsoHasAttivitaDidattica=corsoService.saveCorsoHasAttivitaDidattica(corsoHasAttivitaDidattica);
 			model.addAttribute("matricola",auth.getName());
 			model.addAttribute("key","operationCompletedSuccessfully");
 			model.addAttribute("value",true);
 			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+			
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+" CREA UTENTE-HAS-ATTIVITA-DIDATTICA: NOME-CORSO="+corsoHasAttivitaDidattica.getCorso().getNome()+" NOME ATTIVITà="+corsoHasAttivitaDidattica.getAttivitaDidattica().getNome());
+
+			
 		}
 
 		return modelAndView;
@@ -699,6 +745,9 @@ public class adminController {
 		model.addAttribute("matricola",auth.getName());
 		model.addAttribute("key","operationCompletedSuccessfully");
 		model.addAttribute("value",true);
+		
+		logger.warn("UTENTE MATRICOLA: "+auth.getName()+" ELIMINA UTENTE-HAS-ATTIVITA-DIDATTICA: NOME-CORSO="+corsoHasAttivitaDidattica.getCorso().getNome()+" NOME ATTIVITà="+corsoHasAttivitaDidattica.getAttivitaDidattica().getNome());
+		
 		return  new ModelAndView(Urls.redirect+Urls.adminPath, model);
 
 
@@ -743,6 +792,9 @@ public class adminController {
 			model.addAttribute("matricola",auth.getName());
 			model.addAttribute("key","operationCompletedSuccessfully");
 			model.addAttribute("value",true);
+			
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+" MODIFICA UTENTE-HAS-ATTIVITA-DIDATTICA: NOME-CORSO="+corsoHasAttivitaDidattica.getCorso().getNome()+" NOME ATTIVITà="+corsoHasAttivitaDidattica.getAttivitaDidattica().getNome());
+			
 			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
 		}
 		return modelAndView;
@@ -812,11 +864,15 @@ public class adminController {
 			model.addAttribute("createTassa", true);
 			modelAndView.setViewName(View.adminView);
 		} else {
-			contributoService.save(contributo);
+			contributo=contributoService.save(contributo);
 			model.addAttribute("matricola",auth.getName());
 			model.addAttribute("key","operationCompletedSuccessfully");
 			model.addAttribute("value",true);
 			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
+			
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+" CREA CONTRIBUTO: ID="+contributo.getIdContributo()+" NOME= "+contributo.getNome());
+
+			
 		}
 
 		return modelAndView;
@@ -853,6 +909,9 @@ public class adminController {
 		model.addAttribute("matricola",auth.getName());
 		model.addAttribute("key","operationCompletedSuccessfully");
 		model.addAttribute("value",true);
+		
+		logger.warn("UTENTE MATRICOLA: "+auth.getName()+" ELIMINA CONTRIBUTO: ID="+contributo.getIdContributo()+" NOME= "+contributo.getNome());
+
 		return  new ModelAndView(Urls.redirect+Urls.adminPath, model);
 
 
@@ -897,6 +956,9 @@ public class adminController {
 			model.addAttribute("matricola",auth.getName());
 			model.addAttribute("key","operationCompletedSuccessfully");
 			model.addAttribute("value",true);
+			
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+" MODIFICA CONTRIBUTO: ID="+contributo.getIdContributo()+" NOME= "+contributo.getNome());
+
 			modelAndView =  new ModelAndView(Urls.redirect+Urls.adminPath, model);
 		}
 		return modelAndView;

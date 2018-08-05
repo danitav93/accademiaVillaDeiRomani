@@ -58,8 +58,8 @@ public class CorsoServiceImpl implements CorsoService {
 	}
 
 	@Override
-	public void save(@Valid Corso corso) {
-		corsoRepository.save(corso);
+	public Corso save(@Valid Corso corso) {
+		return corsoRepository.save(corso);
 		
 	}
 
@@ -69,8 +69,8 @@ public class CorsoServiceImpl implements CorsoService {
 	}
 
 	@Override
-	public void saveCorsoHasAttivitaDidattica(@Valid CorsoHasAttivitaDidattica corsoHasAttivitaDidattica) {
-		corsoHasAttivitaDidatticaRepository.save(corsoHasAttivitaDidattica);
+	public CorsoHasAttivitaDidattica saveCorsoHasAttivitaDidattica(@Valid CorsoHasAttivitaDidattica corsoHasAttivitaDidattica) {
+		return corsoHasAttivitaDidatticaRepository.save(corsoHasAttivitaDidattica);
 		
 	}
 

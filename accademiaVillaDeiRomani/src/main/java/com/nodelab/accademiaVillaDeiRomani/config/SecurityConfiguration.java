@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
+import com.nodelab.accademiaVillaDeiRomani.constant.Privileges;
 import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
 
 @Configuration
@@ -54,8 +55,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(Urls.pathSeparator).denyAll() 
 				.antMatchers(Urls.loginPath).permitAll()
 				.antMatchers(Urls.registrationPath).permitAll()
-				.antMatchers(Urls.baseAuthenticatedUserPath+Urls.pathSeparator+Urls.adminSeparator+Urls.pathSeparator+"**").hasAnyAuthority(Ruoli.ruolo_amministratore)
+				.antMatchers(Urls.baseAuthenticatedUserPath+Urls.pathSeparator+Urls.adminSeparator+Urls.pathSeparator+"**").hasAnyAuthority(Ruoli.ruolo_amministratore,Ruoli.ruolo_super_amministratore)
 				.antMatchers(Urls.baseAuthenticatedUserPath+Urls.pathSeparator+Urls.studentSeparator+Urls.pathSeparator+"**").authenticated()
+				.antMatchers(Urls.updatePassword,Urls.openUpdatePasswordView).hasAuthority(Privileges.CHANGE_PASSWORD_PRIVILEGE)
 			.and()
 			.formLogin()
 					.loginProcessingUrl(Urls.loginPath)

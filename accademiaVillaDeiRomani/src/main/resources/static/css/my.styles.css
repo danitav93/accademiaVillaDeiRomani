@@ -1,9 +1,25 @@
 @charset "ISO-8859-1";
 
+.vertical-center {
+  min-height: 100%;  
+  min-height: 100vh; 
+  display: flex;
+  align-items: center;
+}
+
+.imgNav{
+	max-width:110px;
+	margin-top:-9px;
+}
+
 .myStylesRedColor {
 	color: orange;
 }
 
+.mainColor {
+	background-color: #428bca;
+	 color: white;
+}
 
 .center_div{
     margin: 0 auto;
@@ -15,10 +31,12 @@
     visibility: hidden;
     min-width: 250px;
     margin-left: -125px;
-    background-color: #333;
-    color: #fff;
+    background-color: #428bca;
+    color: white;
     text-align: center;
-    border-radius: 2px;
+    border-radius: 10px;
+    border-color:white;
+    border-style:solid;
     padding: 16px;
     position: fixed;
     z-index: 1;

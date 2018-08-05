@@ -1,9 +1,11 @@
 package com.nodelab.accademiaVillaDeiRomani.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ import com.nodelab.accademiaVillaDeiRomani.model.AttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
 import com.nodelab.accademiaVillaDeiRomani.model.CorsoHasAttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Matricola;
+import com.nodelab.accademiaVillaDeiRomani.model.PasswordResetToken;
+import com.nodelab.accademiaVillaDeiRomani.model.RegistrationVerificationToken;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 import com.nodelab.accademiaVillaDeiRomani.model.UtenteHasAttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.UtenteHasContributo;
@@ -26,6 +30,8 @@ import com.nodelab.accademiaVillaDeiRomani.model.UtenteHasCorso;
 import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBeanDataSource;
 import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBeanDataSourceRowMapper;
 import com.nodelab.accademiaVillaDeiRomani.repository.MatricolaRepository;
+import com.nodelab.accademiaVillaDeiRomani.repository.PasswordResetTokenRepository;
+import com.nodelab.accademiaVillaDeiRomani.repository.RegistrationVerificationTokenRepository;
 import com.nodelab.accademiaVillaDeiRomani.repository.RoleRepository;
 import com.nodelab.accademiaVillaDeiRomani.repository.UtenteHasAttivitaDidatticaRepository;
 import com.nodelab.accademiaVillaDeiRomani.repository.UtenteHasContributoRepository;
@@ -57,7 +63,11 @@ public class UtenteServiceImpl implements UtenteService  {
 	@Autowired
 	private UtenteHasContributoRepository utenteHasContributoRepository;
 
+	@Autowired
+	private PasswordResetTokenRepository passwordResetTokenRepository;
 
+	@Autowired
+	private RegistrationVerificationTokenRepository registrationVerificationTokenRepository;
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -166,7 +176,7 @@ public class UtenteServiceImpl implements UtenteService  {
 		for (UtenteHasAttivitaDidattica utenteHasAttivitaDidattica: percorsoFormativoBean.getUtente().getUtenteHasAttivitaDidatticaSet()) {
 			listToDelete.add(utenteHasAttivitaDidattica);
 		}
-		
+
 		utenteHasAttivitaDidatticaRepository.deleteAll(listToDelete);
 		utenteHasAttivitaDidatticaRepository.flush();
 
@@ -202,7 +212,7 @@ public class UtenteServiceImpl implements UtenteService  {
 
 		listToSave=utenteHasAttivitaDidatticaRepository.saveAll(listToSave);
 		percorsoFormativoBean.getUtente().setUtenteHasAttivitaDidatticaSet(new HashSet<UtenteHasAttivitaDidattica>(listToSave));
-		
+
 		percorsoFormativoBean.getUtente().setHasPercorsoFormativo(true);
 		utenteRepository.save(percorsoFormativoBean.getUtente());
 
@@ -257,13 +267,69 @@ public class UtenteServiceImpl implements UtenteService  {
 
 	@Override
 	public void removeTax(Utente utente, Contributo contributo) {
-		
+
 		for (UtenteHasContributo utenteHasContributo:utente.getUtenteHasContributiSet()) {
 			if (utenteHasContributo.getContributo().getIdContributo()==contributo.getIdContributo()) {
 				utenteHasContributoRepository.delete(utenteHasContributo);
 			}
 		}
-		
+
+	}
+
+	@Transactional
+	@Override
+	public void createPasswordResetTokenForUser(Utente utente, String token) {
+		//cancello tutti i vecchi token
+		passwordResetTokenRepository.deleteByUtente(utente);
+		passwordResetTokenRepository.flush();
+		PasswordResetToken newToken = new PasswordResetToken();
+		newToken.setToken(token);
+		newToken.setUtente(utente);
+		Calendar cal = Calendar.getInstance();
+		//dopo quanto scade il link
+		cal.add(Calendar.DATE,1);
+		newToken.setExpiryDate(cal.getTime());
+		passwordResetTokenRepository.save(newToken);
+	}
+
+	@Transactional
+	@Override
+	public void changeUserPassword(Utente user, String password) {
+		user.setPassword(bCryptPasswordEncoder.encode(password));
+		utenteRepository.save(user);
+		//cancello tutti i vecchi token
+		passwordResetTokenRepository.deleteByUtente(user);
+	}
+
+	@Transactional
+	@Override
+	public void createRegistrationverificationToken(String token, Utente utente) {
+		//cancello tutti i vecchi token
+		registrationVerificationTokenRepository.deleteByUtente(utente);
+		registrationVerificationTokenRepository.flush();
+		RegistrationVerificationToken newToken = new RegistrationVerificationToken();
+		newToken.setToken(token);
+		newToken.setUtente(utente);
+		Calendar cal = Calendar.getInstance();
+		//dopo quanto scade il link
+		cal.add(Calendar.DATE,1);
+		newToken.setExpiryDate(cal.getTime());
+		registrationVerificationTokenRepository.save(newToken);
+
+	}
+
+	@Override
+	public RegistrationVerificationToken getRegistrationVerificationToken(String token) {
+		return registrationVerificationTokenRepository.findByToken(token);
+	}
+
+	@Transactional
+	@Override
+	public void abilitaUtente(Utente utente) {
+		utente.setActive(1);
+		utenteRepository.save(utente);
+		//cancello tutti i vecchi token
+		registrationVerificationTokenRepository.deleteByUtente(utente);
 	}
 
 

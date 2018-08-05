@@ -9,12 +9,9 @@ p {
 
 .container {
 	background-image: url("../img/s_black.png");
-	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 	text-align: center;
-
-	/*    background-color: #cccccc;  */
 }
 
 .form-signin-heading {

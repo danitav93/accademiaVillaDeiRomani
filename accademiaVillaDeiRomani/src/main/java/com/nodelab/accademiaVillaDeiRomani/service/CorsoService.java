@@ -19,11 +19,11 @@ public interface CorsoService {
 
 	Corso getCorsoById(int id);
 
-	void save(@Valid Corso corso);
+	Corso save(@Valid Corso corso);
 
 	void removeCorso(Corso corso);
 
-	void saveCorsoHasAttivitaDidattica(@Valid CorsoHasAttivitaDidattica corsoHasAttivitaDidattica);
+	CorsoHasAttivitaDidattica saveCorsoHasAttivitaDidattica(@Valid CorsoHasAttivitaDidattica corsoHasAttivitaDidattica);
 
 	void removeCorsoHasAttivitaDidattica(CorsoHasAttivitaDidattica corsoHasAttivitaDidattica);
 

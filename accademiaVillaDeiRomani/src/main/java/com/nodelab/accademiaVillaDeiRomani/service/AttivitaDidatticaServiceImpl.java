@@ -44,8 +44,8 @@ public class AttivitaDidatticaServiceImpl implements AttivitaDidatticaService{
 	}
 
 	@Override
-	public void save(@Valid AttivitaDidattica attivitaDidattica) {
-		attivitaDidatticaRepository.save(attivitaDidattica);
+	public AttivitaDidattica save(@Valid AttivitaDidattica attivitaDidattica) {
+		return attivitaDidatticaRepository.save(attivitaDidattica);
 	}
 
 	@Override

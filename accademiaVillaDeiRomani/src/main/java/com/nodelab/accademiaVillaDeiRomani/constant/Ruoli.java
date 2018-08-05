@@ -12,6 +12,8 @@ public class Ruoli {
 	
 	public static final String ruolo_studente = "STUDENT";
 
+	public static final String ruolo_super_amministratore = "SUPERADMIN";
+
 	
 	
 }

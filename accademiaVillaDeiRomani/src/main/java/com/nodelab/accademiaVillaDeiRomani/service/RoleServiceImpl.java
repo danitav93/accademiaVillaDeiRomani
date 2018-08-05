@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
 import com.nodelab.accademiaVillaDeiRomani.model.Role;
 import com.nodelab.accademiaVillaDeiRomani.repository.RoleRepository;
 
@@ -16,7 +17,15 @@ public class RoleServiceImpl implements RoleService {
 	
 	@Override
 	public List<Role> getListOfRoles() {
-		return roleRepository.findAll();
+		List<Role> roles=roleRepository.findAll();
+		Role toRemove=new Role();
+		for (Role role:roles) {
+			if (role.getName().equals(Ruoli.ruolo_super_amministratore)) {
+				toRemove=role;
+			}
+		}
+		roles.remove(toRemove);
+		return roles;
 	}
 
 }

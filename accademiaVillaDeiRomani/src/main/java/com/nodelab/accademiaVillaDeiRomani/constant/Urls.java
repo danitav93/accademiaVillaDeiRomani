@@ -11,7 +11,7 @@ public class Urls {
 	public static final String adminSeparator="admin";
 	public static final String studentSeparator="student";
 	public static final String redirect="redirect:";
-
+	public static final String dominio="http://localhost:8080";
 
 	//----------
 	//login controller
@@ -29,10 +29,19 @@ public class Urls {
 	//view
 	public static final String registrationPath=pathSeparator+"registration";
 	public static final String downloadAutoDichiarazionePath=pathSeparator+"downloadAutoDichiarazione";
-	public static final String abilitaUtentePath = pathSeparator+"abilita";;
+	public static final String abilitaUtentePath = pathSeparator+"abilita";
+	public static final String registrazioneAvvenutaConSuccessoPath = pathSeparator+"registrationSucceded";
+	public static final String openResetPasswordView = pathSeparator+"openResetPasswordView";
+	public static final String openUpdatePasswordView=pathSeparator+"openUpdatePasswordView";
+	public static final String resetPasswordMailConfirmationPath =pathSeparator+"resetPasswordMailConfirmation";
+
+
+	
 
 	//submit
 	public static final String submitRegistrationPath = pathSeparator+"submitRegistration";
+	public static final String resetPassword = pathSeparator+"resetPassword";
+	public static final String updatePassword = pathSeparator+"updatePassword";
 
 	//----------
 	//Admin controller
@@ -91,6 +100,7 @@ public class Urls {
 	public static final String insertTaxPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"insertTax";
 	public static final String deleteTaxPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"deleteTax";
 	public static final String insertExamPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"insertExam";
+	public static final String abilitazioneStudenteDirettaPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"abilitazioneStudenteDiretta";
 
 	
 	//submit
@@ -106,6 +116,13 @@ public class Urls {
 	//----------
 	public static final String accessDenied= pathSeparator+"accessDenied";
 	public static final String errorPath = "/error";
+	
+	
+	
+	
+	//mails
+	public static final String abilita = dominio+pathSeparator+"abilita";
+	public static final String resetPasswordMailConfirmation =dominio+pathSeparator+"resetPasswordMailConfirmation";
 
 	
 	

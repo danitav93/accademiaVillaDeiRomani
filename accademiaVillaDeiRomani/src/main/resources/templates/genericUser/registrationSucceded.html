@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org" style="height: 100%;margin:0;padding:0;">
 
 
 
@@ -15,6 +15,9 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <link type="text/css" href="../../css/view.login.css" rel="stylesheet">
+
+<link type="text/css" href="../../css/my.styles.css" rel="stylesheet">
+
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
 	rel="stylesheet">
@@ -32,21 +35,22 @@
 
 
 
-<body class="container">
+<body  class="container" style="color:white">
 
 
-<div>Registrazione avvenuta con sucesso!</div>
 
-
-	<a th:href="@{/login}" style="text-decoration: none">
-					<button class="btn btn-lg btn-info btn-block" name="Login"
-						th:text="Login"></button>
-				</a>
-				
-
-	
-	
-
+	<div class="vertical-center" >
+	<div class="  row" >
+		<!-- colonna -->
+		<div style="text-align: center" class="  col-md-10 col-md-offset-1 ">
+		<img  th:src="@{../../img/logo_villa_b.png}" >
+			<h1 th:inline="text">[[#{congratulazioni}]]</h1>
+			<h3> [[#{registrationSuccededWelcolme}]]   </h3>
+			<h3 th:inline="text">[[#{registrationSucceded1}]] <b><span th:text="${utente.email}"></span></b> </h3>
+			
+		</div>
+	</div>
+</div>
 </body>
 
 

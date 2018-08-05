@@ -13,6 +13,8 @@
 		<class>com.nodelab.accademiaVillaDeiRomani.model.UtenteHasContributo</class>
 		<class>com.nodelab.accademiaVillaDeiRomani.model.UtenteHasCorso</class>
 		<class>com.nodelab.accademiaVillaDeiRomani.model.CorsoHasAttivitaDidattica</class>
+		<class>com.nodelab.accademiaVillaDeiRomani.model.PasswordResetToken</class>
+		<class>com.nodelab.accademiaVillaDeiRomani.model.RegistrationVerificationToken</class>
 
 	</persistence-unit>
 </persistence>
