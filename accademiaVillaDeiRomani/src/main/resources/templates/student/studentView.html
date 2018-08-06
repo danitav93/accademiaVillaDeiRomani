@@ -30,7 +30,7 @@
 
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+<script th:src="@{../../js/rightNavBar.js}"></script>
 
 
 
@@ -101,7 +101,8 @@
 
 					</ul></li>
 
-				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')" th:if="${utente.active==0}"><a
+				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')"
+					th:if="${utente.active==0}"><a
 					th:href="@{/VillaDeiRomaniAccademy/admin/abilitazioneStudenteDiretta(matricola=${utente.matricola})}"
 					th:inline="text"><span class="glyphicon glyphicon-ok"></span>[[#{abilita}]]</a></li>
 
@@ -109,17 +110,7 @@
 			</ul>
 
 
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown"><span class="glyphicon glyphicon-user"
-						th:inline="text"></span> [[*{utenteLogged.nome}]]<span
-						class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a th:href="@{/logout}"><span
-								class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-					</ul></li>
-
-			</ul>
+			<div th:replace="fragments/common::fragRightNavBar(${utenteLogged})"></div>
 
 		</div>
 	</nav>

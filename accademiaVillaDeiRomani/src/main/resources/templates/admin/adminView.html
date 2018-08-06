@@ -30,6 +30,8 @@
 
 <link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
 <link type="text/css" href="../../css/view.admin.css" rel="stylesheet" />
+<link type="text/css" href="../../css/flags/css/flag-icon"
+	rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
 	rel="stylesheet">
 <link rel="stylesheet"
@@ -40,7 +42,8 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
+<script
+	th:src="@{../../js/rightNavBar.js}"></script>
 
 
 
@@ -220,23 +223,8 @@
 			</ul>
 
 
-
-			<ul class="nav navbar-nav navbar-right">
-
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown"><span class="glyphicon glyphicon-user"
-						th:inline="text"></span> [[*{utente.nome}]]<span class="caret"></span></a>
-
-					<ul class="dropdown-menu">
-
-						<li><a th:href="@{/logout}"><span
-								class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-
-					</ul></li>
-
-
-
-			</ul>
+			<div th:replace="fragments/common::fragRightNavBar(${utente})"></div>
+			
 
 		</div>
 
@@ -273,7 +261,7 @@
 				<div class="input-group">
 
 					<input class="form-control" name="search" id="search_input"
-						placeholder="Inserire Matricola, Nome, Cognome"></input>
+						th:placeholder="#{userSearchBarHint}"></input>
 
 					<div class="input-group-btn">
 
@@ -957,7 +945,7 @@
 	    x.className = "show snackbar";
 	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 	} 
-	
+
 </script>
 
 

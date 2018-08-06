@@ -14,13 +14,13 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<link type="text/css" href="../../css/view.login.css" rel="stylesheet">
-<link type="text/css" href="../../css/my.styles.css" rel="stylesheet">
+<link type="text/css" href="css/view.login.css" rel="stylesheet">
+<link type="text/css" href="css/my.styles.css" rel="stylesheet">
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
 	rel="stylesheet">
 
-<link rel="stylesheet" href="../../css/animatedst.css" type="text/css"
+<link rel="stylesheet" href="css/animatedst.css" type="text/css"
 	media="all" />
 
 <script
@@ -31,11 +31,25 @@
 
 </head>
 
-
+<script
+	th:src="@{js/rightNavBar.js}"></script>
 
 <body class="container">
 
+	<nav class="navbar navbar-inverse navbar-fixed-top navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#"> <img
+					th:src="@{/img/logo_villa_b.png}" class="imgNav" alt="">
+				</a>
+			</div>
 
+			<div th:replace="fragments/common::fragRightNavBarNoLogout"></div>
+
+
+		</div>
+
+	</nav>
 
 	<div>
 		<br> <br> <br> <img th:src="@{/img/logo_villa_b.png}"
@@ -71,13 +85,13 @@
 					<div align="center" th:if="${param.error}">
 						<p th:inline="text" style="color: orange;">[[#{errorLogin}]]</p>
 					</div>
-					<div align="center" >
-						<a style="color:white" th:href="@{/openResetPasswordView}"
-  								th:text="#{passwordDimenticata}"></a>
+					<div align="center">
+						<a style="color: white" th:href="@{/openResetPasswordView}"
+							th:text="#{passwordDimenticata}"></a>
 					</div>
 					<br />
 					<button class="btn btn-lg btn-primary btn-block" name="Submit"
-						value="Login" type="Submit" th:text="Entra"></button>
+						value="Login" type="Submit" th:text="#{accedi}"></button>
 
 				</form>
 
@@ -88,8 +102,8 @@
 					<button class="btn btn-lg btn-info btn-block" name="Registrati"
 						th:text="#{registrati}"></button>
 				</a>
-				
-				
+
+
 			</div>
 
 		</div>
@@ -97,11 +111,11 @@
 
 
 	</div>
-	
+
 	<!-- SNACKBAR OPERAZIONE AVVENUTA CON SUCCESSO -->
 	<div th:inline="text" class="snackbar" id="snackBarParameter"
 		th:if="${parameter}">[[*{parameter}]]</div>
-	
+
 
 </body>
 

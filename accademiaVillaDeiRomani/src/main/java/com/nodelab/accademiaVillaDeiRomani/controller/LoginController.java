@@ -17,6 +17,7 @@ import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
+import com.nodelab.accademiaVillaDeiRomani.service.EncryptedPropertyService;
 import com.nodelab.accademiaVillaDeiRomani.service.MessageService;
 import com.nodelab.accademiaVillaDeiRomani.service.UtenteService;
 
@@ -94,7 +95,15 @@ public class LoginController {
 
 	}
 
+	@Autowired
+	EncryptedPropertyService encryptedPropertyService;
 
+	@RequestMapping(value={"/test"}, method = RequestMethod.GET)
+	public void test() {
+
+		logger.info("w"+encryptedPropertyService.getEncryptedPropery("password.db.locale")+"w");
+
+	}
 
 
 }

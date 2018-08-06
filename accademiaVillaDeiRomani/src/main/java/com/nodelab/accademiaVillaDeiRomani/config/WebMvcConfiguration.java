@@ -10,10 +10,12 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer ;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.nodelab.accademiaVillaDeiRomani.model.formatter.AttivitaDidatticaFormatter;
 import com.nodelab.accademiaVillaDeiRomani.model.formatter.UtenteHasCorsoFormatter;
@@ -40,6 +42,13 @@ public class WebMvcConfiguration implements WebMvcConfigurer  {
     }
 	
 	//multilanguage
+	
+	@Bean
+	public LocaleResolver localeResolver() {
+	    SessionLocaleResolver slr = new SessionLocaleResolver();
+	    return slr;
+	}
+	
 	@Bean
 	public LocaleChangeInterceptor localeChangeInterceptor() {
 		LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
