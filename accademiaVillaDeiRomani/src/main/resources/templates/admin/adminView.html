@@ -7,7 +7,8 @@
 
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
 
 
@@ -74,9 +75,9 @@
 					th:src="@{../../img/logo_villa_b.png}" class="imgNav" alt="">
 				</a>
 			</div>
-			<ul class="nav navbar-nav"  >
-				<li sec:authorize="hasAnyAuthority('SUPERADMIN')" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" th:inline="text">[[#{gestioneUtenti}]]<span
+			<ul class="nav navbar-nav">
+				<li sec:authorize="hasAnyAuthority('SUPERADMIN')" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{gestioneUtenti}]]<span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a
@@ -85,8 +86,8 @@
 						</a></li>
 					</ul></li>
 
-				<li sec:authorize="hasAnyAuthority('SUPERADMIN')" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" th:inline="text">[[#{gestioneDidattica}]]<span
+				<li sec:authorize="hasAnyAuthority('SUPERADMIN')" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{gestioneDidattica}]]<span
 						class="caret"></span></a>
 
 					<ul class="dropdown-menu">
@@ -167,8 +168,8 @@
 					</ul></li>
 
 
-				<li sec:authorize="hasAnyAuthority('SUPERADMIN')" class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" th:inline="text">[[#{gestioneTasse}]]<span
+				<li sec:authorize="hasAnyAuthority('SUPERADMIN')" class="dropdown"><a
+					class="dropdown-toggle" data-toggle="dropdown" th:inline="text">[[#{gestioneTasse}]]<span
 						class="caret"></span></a>
 
 					<ul class="dropdown-menu">
@@ -192,11 +193,6 @@
 
 					</ul></li>
 
-
-
-
-
-
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" th:inline="text">[[#{report}]]<span
 						class="caret"></span></a>
@@ -206,8 +202,19 @@
 						<li><a
 							th:href="@{/VillaDeiRomaniAccademy/admin/openReportStudentiPanel}"
 							th:inline="text">[[#{studenti}]] </a></li>
-
 					</ul></li>
+
+				<li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown" th:inline="text">[[#{backup}]]<span
+						class="caret"></span></a>
+
+					<ul class="dropdown-menu">
+
+						<li sec:authorize="hasAnyAuthority('SUPERADMIN')"><a
+							th:href="@{/VillaDeiRomaniAccademy/admin/submitBackup}"
+							th:inline="text"><span class="glyphicon glyphicon-hdd"></span></a></li>
+					</ul></li>
+
 
 
 			</ul>
@@ -785,7 +792,9 @@
 
 
 
-
+	<!-- SNACKBAR OPERAZIONE NON AVVENUTA CON SUCCESSO -->
+	<div th:inline="text" class="snackbar" id="snackBarError"
+		th:if="${error}">[[#{erroreDuranteOperazione}]]</div>
 
 
 	<!-- SNACKBAR OPERAZIONE AVVENUTA CON SUCCESSO -->
@@ -937,6 +946,14 @@
  	var operationCompletedSuccessfully = [[${operationCompletedSuccessfully}]];
 	if (operationCompletedSuccessfully){
 	    var x = document.getElementById("snackBarOperationCompleted");
+	    x.className = "show snackbar";
+	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+	} 
+	
+	//per aprire snackbar operazione eseguita con successo
+ 	var error = [[${error}]];
+	if (error){
+	    var x = document.getElementById("snackBarError");
 	    x.className = "show snackbar";
 	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 	} 

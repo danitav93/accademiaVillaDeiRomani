@@ -7,22 +7,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
-import javax.validation.ReportAsSingleViolation;
-import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.validator.constraints.Length;
+import com.nodelab.accademiaVillaDeiRomani.validators.PasswordConstraintValidator;
 
 
 @Documented
-@Constraint(validatedBy = {})
-@Target({ ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
+@Constraint(validatedBy = PasswordConstraintValidator.class)
+@Target({ ElementType.TYPE, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@ReportAsSingleViolation
-@NotEmpty
-@Length(min=5)
 public @interface PasswordAnnotation {
 
-public abstract String message() default "";
+public abstract String message() default "Invalid Password";
 	
     public abstract Class<?>[] groups() default {};
 

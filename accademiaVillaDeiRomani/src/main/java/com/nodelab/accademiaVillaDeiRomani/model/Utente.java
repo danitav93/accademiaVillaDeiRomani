@@ -47,7 +47,7 @@ public class Utente implements Serializable {
 	private int idUtente;
 	
 	@Transient
-	@PasswordAnnotation(message="*Your password must have at least 5 characters")
+	@PasswordAnnotation
 	private String password;
 
 	

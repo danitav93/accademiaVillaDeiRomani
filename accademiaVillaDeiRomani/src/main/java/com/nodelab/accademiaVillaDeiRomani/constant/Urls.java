@@ -85,7 +85,8 @@ public class Urls {
 	public static final String submitCreateTassaPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitCreateTassa";
 	public static final String submitDeleteTassaPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitDeleteTassa";
 	public static final String submitEditTassaPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitEditTassa";
-	
+	public static final String submitBackupPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitBackup";
+
 	
 	
 	//----------

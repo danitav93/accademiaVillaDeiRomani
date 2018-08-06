@@ -11,16 +11,20 @@
 <link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
 	rel="stylesheet">
+
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script th:src="@{../../js/password_strength.js}"></script>
+<script th:src="@{../../js/dist/jquery-strength.js}"></script>
+
 
 </head>
 
-<body class="container mainColor" >
+<body class="container mainColor">
 	<!-- navbar-inverse navbar-fixed-top -->
 	<nav class="navbar navbar-fixed-top navbar-inverse  navbar-default">
 		<div class="container-fluid">
@@ -183,13 +187,14 @@
 					<!-- password -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_paswword">Password</label> <label
+							<label for="password">Password</label> <label 
 								th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_paswword" type="password"
-								th:field="*{password}" th:placeholder="Password"
-								class="form-control" />
+								maxlength="30" id="password" type="password" required="required"
+								th:field="*{password}" th:placeholder="Password" name="password"
+								class="form-control password-input"/> 
 						</div>
+						<div class="pwstrength_viewport_progress"></div>
 					</div>
 
 
@@ -199,6 +204,7 @@
 							<button th:inline="text" type="submit"
 								class="btn btn-primary btn-block">[[#{submit}]]</button>
 						</div>
+
 					</div>
 
 
@@ -219,5 +225,22 @@
 
 
 </body>
-
+<script type="text/javascript">
+$(".password-input").strength({
+	  templates: {
+	    toggle:
+	    	'<span class="input-group-addon"><a style="color:inherit;text-decoration: none;" id="eyeIcon"><span class="glyphicon glyphicon-eye-open {toggleClass}" title="Show/Hide Password"></a></span></span>'
+	  },
+	});
+$('#eyeIcon').click( 
+		function(e) {
+			if ($(this).find('span').hasClass( "glyphicon-eye-open" ))  {
+				$(this).find('span').removeClass('glyphicon-eye-open');
+				$(this).find('span').addClass('glyphicon-eye-close');
+			} else {
+				$(this).find('span').addClass('glyphicon-eye-open');
+				$(this).find('span').removeClass('glyphicon-eye-close');
+			}
+} );
+</script>
 </html>

@@ -37,6 +37,7 @@ import com.nodelab.accademiaVillaDeiRomani.model.CorsoHasAttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Role;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 import com.nodelab.accademiaVillaDeiRomani.service.AttivitaDidatticaService;
+import com.nodelab.accademiaVillaDeiRomani.service.BackupService;
 import com.nodelab.accademiaVillaDeiRomani.service.ContributoService;
 import com.nodelab.accademiaVillaDeiRomani.service.CorsoService;
 import com.nodelab.accademiaVillaDeiRomani.service.MailService;
@@ -80,7 +81,8 @@ public class adminController {
 	@Autowired
 	private ReportService reportService;
 
-
+	@Autowired
+	private BackupService backupService;
 
 	@Autowired
 	MailService mailService;
@@ -984,4 +986,33 @@ public class adminController {
 	//---------------------------------
 	//---------------------------------
 
+	/**
+	 * backup
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.submitBackupPath}, method = RequestMethod.GET)
+	public ModelAndView backup(ModelMap model){
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		try {
+			backupService.generateBackUp();
+			
+			model.addAttribute("matricola",auth.getName());
+			model.addAttribute("key","operationCompletedSuccessfully");
+			model.addAttribute("value",true);
+			
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+"HA GENERATO BACKUP CORRETTAMENTE");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("matricola",auth.getName());
+			model.addAttribute("key","error");
+			model.addAttribute("value",true);
+		}
+		
+		return new ModelAndView(Urls.redirect+Urls.adminPath, model);
+
+	}
+	
+	
 }
