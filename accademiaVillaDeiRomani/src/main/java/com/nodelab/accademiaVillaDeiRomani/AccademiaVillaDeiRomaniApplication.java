@@ -13,9 +13,7 @@ public class AccademiaVillaDeiRomaniApplication  {
 		System.setProperty("jasypt.encryptor.password", "Guit.1993!");
 		SpringApplication.run(AccademiaVillaDeiRomaniApplication.class, args);
 		
-		
-		vcbvcbcvbcvbcv pino
-		
+		ginoooooooooooooooooooooooooooooooooo		
 		
 	}
 }*/
