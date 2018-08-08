@@ -11,7 +11,6 @@ public class Urls {
 	public static final String adminSeparator="admin";
 	public static final String studentSeparator="student";
 	public static final String redirect="redirect:";
-	public static final String dominio="http://localhost:8080";
 
 	//----------
 	//login controller
@@ -122,8 +121,8 @@ public class Urls {
 	
 	
 	//mails
-	public static final String abilita = dominio+pathSeparator+"abilita";
-	public static final String resetPasswordMailConfirmation =dominio+pathSeparator+"resetPasswordMailConfirmation";
+	public static final String abilita = pathSeparator+"abilita";
+	public static final String resetPasswordMailConfirmation =pathSeparator+"resetPasswordMailConfirmation";
 
 	
 	

@@ -19,5 +19,7 @@ public interface ApplicationInfoService {
 	public String getEmailUsername();
 
 	public String getEmailPassword();
+
+	public String getDominio();
 	
 }

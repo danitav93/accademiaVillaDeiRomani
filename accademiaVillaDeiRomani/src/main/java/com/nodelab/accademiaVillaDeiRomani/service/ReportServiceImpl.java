@@ -12,7 +12,10 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import com.nodelab.accademiaVillaDeiRomani.constant.Application;
@@ -25,6 +28,12 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class ReportServiceImpl implements ReportService {
+	
+	@Value(value = "classpath:static/img/logo_villa.png")
+	private Resource logoImageResource;
+	
+	@Value(value = "classpath:static/report/studenti.jasper")
+	private Resource studentReportResource;
 	
 	@Autowired
 	UtenteService utenteService;
@@ -43,9 +52,7 @@ public class ReportServiceImpl implements ReportService {
 	        Map<String, Object> params = new HashMap<String, Object>();
 	        
 	        //mi prendo il logo e lo metto come parametro del report
-	        ClassLoader classLoader = getClass().getClassLoader();
-	    	File imagePath = new File(classLoader.getResource("static/img/logoBig.jpeg").getFile());
-	        BufferedImage classpathImage = ImageIO.read(imagePath);
+	        BufferedImage classpathImage = ImageIO.read(logoImageResource.getFile());
 	        params.put("logo", classpathImage);
 	        
 	        //mi prendo la data corrente e la metto come parametro del report
@@ -83,7 +90,7 @@ public class ReportServiceImpl implements ReportService {
 	        params.put("filtri", filtri);
 	        
 	        
-	        File reportPath = new File(classLoader.getResource("static/report/studenti.jasper").getFile());
+	        File reportPath = studentReportResource.getFile();
 	        return JasperFillManager.fillReport(reportPath.getAbsolutePath(), params, getStudentiDataSource(reportStudenteBean));
 	}
 
@@ -97,34 +104,34 @@ public class ReportServiceImpl implements ReportService {
 		List<ReportStudenteBeanDataSource> studenti= new ArrayList<>();
 		
 		//costruisco la query
-		String query="SELECT U.NOME,U.COGNOME,U.MATRICOLA,U.TELEFONO,U.EMAIL FROM UTENTE U ";
-		String whereClauses=" WHERE U.ID_ROLE=2";
+		String query="select u.nome,u.cognome,u.matricola,u.telefono,u.email from utente u ";
+		String whereClauses=" where u.id_role=2";
 		String and=" AND ";
 		
 		if (reportStudenteBean.getCorso()!=null) {
-			query=query+" JOIN UTENTE_HAS_CORSO UC ON U.ID_UTENTE=UC.ID_UTENTE JOIN CORSO C ON C.ID_CORSO=UC.ID_CORSO";
-			whereClauses=whereClauses+and+"C.ID_CORSO="+reportStudenteBean.getCorso().getIdCorso();
+			query=query+" join utente_has_corso uc on u.id_utente=uc.id_utente join corso c on c.id_corso=uc.id_corso";
+			whereClauses=whereClauses+and+"c.id_corso="+reportStudenteBean.getCorso().getIdCorso();
         }
         if (reportStudenteBean.getAttivitaDidattica()!=null && !reportStudenteBean.isEsameSostenuto()) {
-        	query=query+" JOIN UTENTE_HAS_ATTIVITA_DIDATTICA UA ON U.ID_UTENTE=UA.ID_UTENTE JOIN ATTIVITA_DIDATTICA A ON A.ID_ATTIVITA_DIDATTICA=UA.ID_ATTIVITA_DIDATTICA";
-			whereClauses=whereClauses+and+"A.ID_ATTIVITA_DIDATTICA="+reportStudenteBean.getAttivitaDidattica().getIdAttivitaDidattica();
+        	query=query+" join utente_has_attivita_didattica ua on u.id_utente=ua.id_utente join attivita_didattica a on a.id_attivita_didattica=ua.id_attivita_didattica";
+			whereClauses=whereClauses+and+"a.id_attivita_didattica="+reportStudenteBean.getAttivitaDidattica().getIdAttivitaDidattica();
         }
         if (reportStudenteBean.getAttivitaDidattica()!=null && reportStudenteBean.isEsameSostenuto()) {
-        	query=query+" JOIN UTENTE_HAS_ATTIVITA_DIDATTICA UA ON U.ID_UTENTE=UA.ID_UTENTE JOIN ATTIVITA_DIDATTICA A ON A.ID_ATTIVITA_DIDATTICA=UA.ID_ATTIVITA_DIDATTICA";
-			whereClauses=whereClauses+and+"A.ID_ATTIVITA_DIDATTICA="+reportStudenteBean.getAttivitaDidattica().getIdAttivitaDidattica()+and+"NOT UA.VOTO_ESAME is NULL";
+        	query=query+" join utente_has_attivita_didattica ua on u.id_utente=ua.id_utente join attivita_didattica a on a.id_attivita_didattica=ua.id_attivita_didattica";
+			whereClauses=whereClauses+and+"a.id_attivita_didattica="+reportStudenteBean.getAttivitaDidattica().getIdAttivitaDidattica()+and+"not ua.voto_esame is null";
         }
         if (reportStudenteBean.getContributo()!=null) {
-			whereClauses=whereClauses+and+"U.ID_UTENTE NOT IN(SELECT P.ID_UTENTE FROM UTENTE P JOIN  UTENTE_HAS_CONTRIBUTO UT ON UT.ID_UTENTE=P.ID_UTENTE JOIN CONTRIBUTO T ON T.ID_CONTRIBUTO=UT.ID_CONTRIBUTO WHERE T.ID_CONTRIBUTO="+reportStudenteBean.getContributo().getIdContributo()+")";
+			whereClauses=whereClauses+and+"u.id_utente not in(select p.id_utente from utente p join  utente_has_contributo ut on ut.id_utente=p.id_utente join contributo t on t.id_contributo=ut.id_contributo where t.id_contributo="+reportStudenteBean.getContributo().getIdContributo()+")";
         }
         if (reportStudenteBean.getaImmatricolazioneDate()!=null && reportStudenteBean.getDaImmatricolazioneDate()!=null && reportStudenteBean.getaImmatricolazioneDate().after(reportStudenteBean.getDaImmatricolazioneDate())) {
-			whereClauses=whereClauses+and+"U.DATA_ISCRIZIONE BETWEEN \""+simpleFormat.format(reportStudenteBean.getDaImmatricolazioneDate())+"\""+and+"\""+simpleFormat.format(reportStudenteBean.getaImmatricolazioneDate())+"\"";
+			whereClauses=whereClauses+and+"u.data_iscrizione between \""+simpleFormat.format(reportStudenteBean.getDaImmatricolazioneDate())+"\""+and+"\""+simpleFormat.format(reportStudenteBean.getaImmatricolazioneDate())+"\"";
         }
         if (reportStudenteBean.getDaAnni()!=null && reportStudenteBean.getaAnni()!=null && reportStudenteBean.getDaAnni()<=reportStudenteBean.getaAnni()) {
-			whereClauses=whereClauses+and+"TIMESTAMPDIFF(YEAR,"+" U.DATA_NASCITA"+", NOW()) BETWEEN "+reportStudenteBean.getDaAnni()+and+reportStudenteBean.getaAnni();
+			whereClauses=whereClauses+and+"timestampdiff(year,"+" u.data_nascita"+", now()) between "+reportStudenteBean.getDaAnni()+and+reportStudenteBean.getaAnni();
         }
         
         if (reportStudenteBean.getSex()!=null) {
-			whereClauses=whereClauses+and+"U.SEX="+reportStudenteBean.getSex();
+			whereClauses=whereClauses+and+"u.sex="+reportStudenteBean.getSex();
         }
 		
 		query=query+whereClauses+";";

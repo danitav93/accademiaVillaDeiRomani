@@ -54,6 +54,10 @@ public interface UtenteService {
 
 	public void abilitaUtente(Utente utente);
 
+	public void deleteUtente( Utente utente);
+
+	
+
 	
 
 	

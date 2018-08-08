@@ -332,6 +332,12 @@ public class UtenteServiceImpl implements UtenteService  {
 		registrationVerificationTokenRepository.deleteByUtente(utente);
 	}
 
+	@Override
+	public void deleteUtente( Utente utente) {
+		utenteRepository.delete(utente);
+		
+	}
+
 
 
 

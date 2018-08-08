@@ -30,8 +30,6 @@
 
 <link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
 <link type="text/css" href="../../css/view.admin.css" rel="stylesheet" />
-<link type="text/css" href="../../css/flags/css/flag-icon"
-	rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
 	rel="stylesheet">
 <link rel="stylesheet"
@@ -42,8 +40,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<script
-	th:src="@{../../js/rightNavBar.js}"></script>
+<script th:src="@{../../js/rightNavBar.js}"></script>
 
 
 
@@ -207,13 +204,13 @@
 							th:inline="text">[[#{studenti}]] </a></li>
 					</ul></li>
 
-				<li class="dropdown"><a class="dropdown-toggle"
+				<li sec:authorize="hasAnyAuthority('SUPERADMIN')" class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" th:inline="text">[[#{backup}]]<span
 						class="caret"></span></a>
 
 					<ul class="dropdown-menu">
 
-						<li sec:authorize="hasAnyAuthority('SUPERADMIN')"><a
+						<li ><a
 							th:href="@{/VillaDeiRomaniAccademy/admin/submitBackup}"
 							th:inline="text"><span class="glyphicon glyphicon-hdd"></span></a></li>
 					</ul></li>
@@ -224,7 +221,7 @@
 
 
 			<div th:replace="fragments/common::fragRightNavBar(${utente})"></div>
-			
+
 
 		</div>
 
@@ -800,10 +797,14 @@
 
 
 <script type="text/javascript" th:inline="javascript">
-
+	function getDomain(){
+		var url=location.href;
+		var n= url.indexOf("/VillaDeiRomaniAccademy");
+		return url.substring(0,n);
+	}
 	//per il click sulla tabella degli utenti
 	function rowClicked(value) {
-		location.href = "/VillaDeiRomaniAccademy/admin/userSelected?matricola="
+		location.href = getDomain()+"/VillaDeiRomaniAccademy/admin/userSelected?matricola="
 				+ value;
 	}
 
@@ -945,6 +946,8 @@
 	    x.className = "show snackbar";
 	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 	} 
+	
+	
 
 </script>
 

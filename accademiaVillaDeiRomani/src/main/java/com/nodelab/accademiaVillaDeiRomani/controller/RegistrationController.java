@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -38,9 +39,9 @@ import com.nodelab.accademiaVillaDeiRomani.service.UtenteService;
 @Controller
 public class RegistrationController {
 
-    private Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+	private Logger logger = LoggerFactory.getLogger(RegistrationController.class);
 
-	
+
 	@Autowired
 	private UtenteService utenteService;
 
@@ -85,10 +86,10 @@ public class RegistrationController {
 		Utente utente = verificationToken.getUtente();
 		utenteService.abilitaUtente(utente);
 		model.addAttribute("parameter",messageService.getMessage("utenteAbilitatoConSuccesso"));
-		
+
 		logger.info("UTENTE ABILITATO TRAMITE MAIL: MATRICOLA= "+utente.getMatricola());
 
-		
+
 		return new ModelAndView(Urls.redirect+Urls.loginPath,model);
 	}
 
@@ -120,10 +121,18 @@ public class RegistrationController {
 			//mandiamo una mail con il link di conferma
 			String token = UUID.randomUUID().toString();
 			utenteService.createRegistrationverificationToken(token,utente);
-			mailService.sendRegistrationMail(utente.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(utente.getMatricola()).toString(),token);
+			try {
+				mailService.sendRegistrationMail(utente.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(utente.getMatricola()).toString(),token);
+			} catch (MailException e) {
+				e.printStackTrace();
+				utenteService.deleteUtente(utente);
+				model.addAttribute("parameter",messageService.getMessage("erroreDuranteLaRegistrazione"));
+				return new ModelAndView(Urls.redirect+Urls.loginPath,model);
+
+			}
 			model.addAttribute("matricola", utente.getMatricola());
 			modelAndView=new ModelAndView(Urls.redirect+Urls.registrazioneAvvenutaConSuccessoPath,model);
-			
+
 			logger.info("UTENTE REGISTRATO: MATRICOLA= "+utente.getMatricola());
 
 		}
@@ -151,7 +160,7 @@ public class RegistrationController {
 	@RequestMapping(value= {Urls.openResetPasswordView}, method = RequestMethod.GET)
 	public ModelAndView openResetPassword(@RequestParam(value = "success", required = false) Boolean success,@RequestParam(value = "error", required = false) String error){
 		ModelAndView modelAndView = new ModelAndView();
-		
+
 		if (success!=null) {
 			modelAndView.addObject("success",success);
 		}
@@ -172,8 +181,8 @@ public class RegistrationController {
 	@ResponseBody
 	public ModelAndView resetPassword(@RequestParam(value="email",required=true) String userEmail, ModelMap model) {
 
-		
-		
+
+
 		Utente utente = utenteService.findUtenteByEmail(userEmail);
 		if (utente == null) {
 			model.addAttribute("error",messageService.getMessage("notEmailFound"));
@@ -183,7 +192,7 @@ public class RegistrationController {
 			utenteService.createPasswordResetTokenForUser(utente, token);
 			mailService.sendResetPasswordMail(userEmail,messageService.getMessage("resetPasswordEmailSubject"),token, utente);
 			model.addAttribute("success",true);
-			
+
 			logger.info("UTENTE HA RICHIESTO RESET PASSWORD: EMAIL= "+userEmail);
 		}
 		return new ModelAndView(Urls.redirect+Urls.openResetPasswordView,model);	
@@ -224,13 +233,13 @@ public class RegistrationController {
 		Utente user = (Utente) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		utenteService.changeUserPassword(user, passwordBean.getPassword());
 		model.addAttribute("parameter","Password aggiornata con successo");
-		
+
 		logger.info("UTENTE HA RESETTATO LA PASSWORD: MATRICOLA= "+user.getMatricola());
 
-		
+
 		return new ModelAndView(Urls.redirect+Urls.loginPath,model);
 	}
-	
+
 	/**
 	 * Quando richiedo la pagina di update password
 	 * @return

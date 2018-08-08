@@ -47,7 +47,9 @@ public class MailServiceImpl implements MailService {
 	        messageHelper.addInline(imageResourceName, logoImageResource);
 	       
 	    };
+	   
 	    emailSender.send(messagePreparator);
+	    
 	}
 
 
