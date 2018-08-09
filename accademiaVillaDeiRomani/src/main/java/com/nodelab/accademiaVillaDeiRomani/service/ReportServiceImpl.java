@@ -1,7 +1,6 @@
 package com.nodelab.accademiaVillaDeiRomani.service;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,7 +50,7 @@ public class ReportServiceImpl implements ReportService {
 	        Map<String, Object> params = new HashMap<String, Object>();
 	        
 	        //mi prendo il logo e lo metto come parametro del report
-	        BufferedImage classpathImage = ImageIO.read(logoImageResource.getFile());
+	        BufferedImage classpathImage = ImageIO.read(logoImageResource.getInputStream());
 	        params.put("logo", classpathImage);
 	        
 	        //mi prendo la data corrente e la metto come parametro del report
@@ -90,8 +88,8 @@ public class ReportServiceImpl implements ReportService {
 	        params.put("filtri", filtri);
 	        
 	        
-	        File reportPath = studentReportResource.getFile();
-	        return JasperFillManager.fillReport(reportPath.getAbsolutePath(), params, getStudentiDataSource(reportStudenteBean));
+	        
+	        return JasperFillManager.fillReport(studentReportResource.getInputStream(), params, getStudentiDataSource(reportStudenteBean));
 	}
 
 	/**

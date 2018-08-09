@@ -15,6 +15,6 @@
 		<class>com.nodelab.accademiaVillaDeiRomani.model.CorsoHasAttivitaDidattica</class>
 		<class>com.nodelab.accademiaVillaDeiRomani.model.PasswordResetToken</class>
 		<class>com.nodelab.accademiaVillaDeiRomani.model.RegistrationVerificationToken</class>
-
+		<class>com.nodelab.accademiaVillaDeiRomani.model.GoogleAccessToken</class>
 	</persistence-unit>
 </persistence>

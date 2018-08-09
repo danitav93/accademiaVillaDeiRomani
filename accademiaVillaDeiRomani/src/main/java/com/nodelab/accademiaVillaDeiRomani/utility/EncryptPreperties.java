@@ -11,9 +11,9 @@ public class EncryptPreperties {
 	public static void main(String[] args) {
 		BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
 		
-		String privateData = "Guit.1993!";
+		String privateData = "";
 		
-		textEncryptor.setPasswordCharArray("Guit.1993!".toCharArray());
+		textEncryptor.setPasswordCharArray("".toCharArray());
 		
 		String myEncryptedText = textEncryptor.encrypt(privateData);
 		

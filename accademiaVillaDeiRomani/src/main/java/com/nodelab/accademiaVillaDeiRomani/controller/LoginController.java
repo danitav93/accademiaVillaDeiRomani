@@ -105,5 +105,34 @@ public class LoginController {
 
 	}
 
+	
+/*	*//**
+	 * Gmail
+	 * @param model
+	 * @return method for gmail
+	 *//*
+	@RequestMapping(value={"/"}, method = RequestMethod.GET)
+	public String GMail(@RequestParam(value = "code", required = true) String code) {
+
+		try {
+			GoogleTokenResponse response =
+			        new GoogleAuthorizationCodeTokenRequest(
+			                new NetHttpTransport(), 
+			                new JacksonFactory(),
+			                "clientId", 
+			                "secretKey",
+			              code, 
+			              "http://localhost:8080/")
+			        .execute();
+			logger.info("REFRESH TOKEN:  "+response.getRefreshToken());
+			logger.info("ACCESS TOKEN:  "+response.getRefreshToken());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return View.loginView;
+
+	}*/
 
 }

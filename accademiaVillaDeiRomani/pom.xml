@@ -126,6 +126,17 @@
 			<artifactId>jasypt-spring-boot-starter</artifactId>
 			<version>LATEST</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-oauth2</artifactId>
+			<version>LATEST</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-gmail</artifactId>
+			<version>v1-rev92-1.24.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

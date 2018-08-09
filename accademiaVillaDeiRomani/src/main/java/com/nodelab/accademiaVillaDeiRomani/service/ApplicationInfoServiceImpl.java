@@ -136,6 +136,50 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
 		return null;
 	}
 
+	@Override
+	public String getGoogleClientId() {
+		switch (encryptedPropertyService.getEncryptedPropery("ambiente")) {
+		case Application.AMBIENTE_LOCALE:
+			return encryptedPropertyService.getEncryptedPropery("google.clientId.locale");
+		case Application.AMBIENTE_SVILUPPO:
+			return encryptedPropertyService.getEncryptedPropery("google.clientId.sviluppo");
+		case Application.AMBIENTE_PRODUZIONE:
+			return encryptedPropertyService.getEncryptedPropery("google.clientId.produzione");
+		}
+		return null;
+	}
+
+	@Override
+	public String getGoogleClientSecret() {
+		switch (encryptedPropertyService.getEncryptedPropery("ambiente")) {
+		case Application.AMBIENTE_LOCALE:
+			return encryptedPropertyService.getEncryptedPropery("google.clientSecret.locale");
+		case Application.AMBIENTE_SVILUPPO:
+			return encryptedPropertyService.getEncryptedPropery("google.clientSecret.sviluppo");
+		case Application.AMBIENTE_PRODUZIONE:
+			return encryptedPropertyService.getEncryptedPropery("google.clientSecret.produzione");
+		}
+		return null;
+	}
+
+	@Override
+	public String getGoogleRefreshToken() {
+		switch (encryptedPropertyService.getEncryptedPropery("ambiente")) {
+		case Application.AMBIENTE_LOCALE:
+			return encryptedPropertyService.getEncryptedPropery("google.refreshToken.locale");
+		case Application.AMBIENTE_SVILUPPO:
+			return encryptedPropertyService.getEncryptedPropery("google.refreshToken.sviluppo");
+		case Application.AMBIENTE_PRODUZIONE:
+			return encryptedPropertyService.getEncryptedPropery("google.refreshToken.produzione");
+		}
+		return null;
+	}
+
+	@Override
+	public String getGoogleYTokenUrl() {
+		return encryptedPropertyService.getEncryptedPropery("google.token.url");
+	}
+
 
 
 

@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -123,7 +122,7 @@ public class RegistrationController {
 			utenteService.createRegistrationverificationToken(token,utente);
 			try {
 				mailService.sendRegistrationMail(utente.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(utente.getMatricola()).toString(),token);
-			} catch (MailException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				utenteService.deleteUtente(utente);
 				model.addAttribute("parameter",messageService.getMessage("erroreDuranteLaRegistrazione"));
@@ -190,7 +189,13 @@ public class RegistrationController {
 
 			String token = UUID.randomUUID().toString();
 			utenteService.createPasswordResetTokenForUser(utente, token);
-			mailService.sendResetPasswordMail(userEmail,messageService.getMessage("resetPasswordEmailSubject"),token, utente);
+			try {
+				mailService.sendResetPasswordMail(userEmail,messageService.getMessage("resetPasswordEmailSubject"),token, utente);
+			} catch (Exception e) {
+				model.addAttribute("error",messageService.getMessage("erroreDuranteOperazione"));
+				logger.info("UTENTE HA RICHIESTO RESET PASSWORD: EMAIL= "+userEmail);
+				return new ModelAndView(Urls.redirect+Urls.openResetPasswordView,model);	
+			}
 			model.addAttribute("success",true);
 
 			logger.info("UTENTE HA RICHIESTO RESET PASSWORD: EMAIL= "+userEmail);

@@ -22,7 +22,7 @@ public class MailConfiguration {
         javaMailSender.setHost(applicationInfoService.getEmailHost());
         javaMailSender.setPort( Integer.parseInt(applicationInfoService.getEmailPort()));
         javaMailSender.setUsername(applicationInfoService.getEmailUsername());
-        javaMailSender.setPassword(applicationInfoService.getEmailPassword());
+     //   javaMailSender.setPassword(applicationInfoService.getEmailPassword());
         
         javaMailSender.setJavaMailProperties(getMailProperties());
         return javaMailSender;
@@ -32,6 +32,9 @@ public class MailConfiguration {
         Properties properties = new Properties();
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.starttls.enable", "true");
+        properties.setProperty("mail.smtp.auth.mechanisms", "XOAUTH2");
+        properties.setProperty("mail.debug", "false");
+
         return properties;
     }
 }

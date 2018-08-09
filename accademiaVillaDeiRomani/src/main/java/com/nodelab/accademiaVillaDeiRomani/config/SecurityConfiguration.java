@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		http.
 			authorizeRequests()
-				.antMatchers(Urls.pathSeparator).denyAll() 
+				//.antMatchers(Urls.pathSeparator).denyAll() 
 				.antMatchers(Urls.loginPath).permitAll()
 				.antMatchers(Urls.registrationPath).permitAll()
 				.antMatchers(Urls.baseAuthenticatedUserPath+Urls.pathSeparator+Urls.adminSeparator+Urls.pathSeparator+"**").hasAnyAuthority(Ruoli.ruolo_amministratore,Ruoli.ruolo_super_amministratore)
