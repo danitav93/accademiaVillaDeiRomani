@@ -15,7 +15,7 @@ public class GMailOAuth {
 	public static void main(String[] args) {
 		
 		
-		String url= new GoogleAuthorizationCodeRequestUrl("631988269806-n9si20o7el97eqlu8acgfp07foqudn7j.apps.googleusercontent.com", "http://localhost:8080/", Collections.singleton("https://mail.google.com/")).setAccessType("offline").build();
+		String url= new GoogleAuthorizationCodeRequestUrl("CLIENT-ID", "http://localhost:8080/", Collections.singleton("https://mail.google.com/")).setAccessType("offline").build();
 		
 		logger.info(url);
 
