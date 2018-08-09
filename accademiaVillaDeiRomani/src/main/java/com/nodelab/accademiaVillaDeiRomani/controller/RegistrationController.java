@@ -124,7 +124,6 @@ public class RegistrationController {
 				mailService.sendRegistrationMail(utente.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(utente.getMatricola()).toString(),token);
 			} catch (Exception e) {
 				e.printStackTrace();
-				utenteService.deleteUtente(utente);
 				model.addAttribute("parameter",messageService.getMessage("erroreDuranteLaRegistrazione"));
 				return new ModelAndView(Urls.redirect+Urls.loginPath,model);
 

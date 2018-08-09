@@ -1,6 +1,8 @@
 package com.nodelab.accademiaVillaDeiRomani.service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +26,15 @@ public class OAuthMailServiceImpl implements OAuthMailService{
 	@Override
 	public String getMailAccessToken() {
 	
-		GoogleAccessToken googleAccessToken= googleAccessTokenRepository.findById(1).get();
-		googleAccessToken.setExpire(0L);
+		List<GoogleAccessToken> googleAccessTokenList= googleAccessTokenRepository.findAll();
+		GoogleAccessToken googleAccessToken;
+		if (googleAccessTokenList==null || googleAccessTokenList.isEmpty()) {
+			googleAccessToken=new GoogleAccessToken();
+			googleAccessToken.setExpire(0L);
+		} else {
+			googleAccessToken=googleAccessTokenList.get(0);
+		}
+		
 		if (System.currentTimeMillis()>googleAccessToken.getExpire()) {
 			
 			

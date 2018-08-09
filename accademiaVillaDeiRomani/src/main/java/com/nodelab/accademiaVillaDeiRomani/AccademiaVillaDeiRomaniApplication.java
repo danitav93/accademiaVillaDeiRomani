@@ -25,13 +25,13 @@ public class AccademiaVillaDeiRomaniApplication extends SpringBootServletInitial
   
 
     public static void main(String[] args) throws Exception {
-    	System.setProperty("jasypt.encryptor.password", "Guit.1993!");
+    	
         SpringApplication.run(AccademiaVillaDeiRomaniApplication.class, args);
     }
     
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-    	System.setProperty("jasypt.encryptor.password", "Guit.1993!");
+    	
         return application.sources(AccademiaVillaDeiRomaniApplication.class);
     }
 

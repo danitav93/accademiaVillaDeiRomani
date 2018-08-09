@@ -127,11 +127,11 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
 	public String getDominio() {
 		switch (encryptedPropertyService.getEncryptedPropery("ambiente")) {
 		case Application.AMBIENTE_LOCALE:
-			return encryptedPropertyService.getEncryptedPropery("url.locale");
+			return encryptedPropertyService.getEncryptedPropery("dominio.locale");
 		case Application.AMBIENTE_SVILUPPO:
-			return encryptedPropertyService.getEncryptedPropery("url.sviluppo");
+			return encryptedPropertyService.getEncryptedPropery("dominio.sviluppo");
 		case Application.AMBIENTE_PRODUZIONE:
-			return encryptedPropertyService.getEncryptedPropery("url.produzione");
+			return encryptedPropertyService.getEncryptedPropery("dominio.produzione");
 		}
 		return null;
 	}
