@@ -180,6 +180,26 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
 		return encryptedPropertyService.getEncryptedPropery("google.token.url");
 	}
 
+	@Override
+	public String getAmazonEmailHost() {
+		return encryptedPropertyService.getEncryptedPropery("amazon.smtp.host");
+	}
+
+	@Override
+	public String getAmazonEmailPort() {
+		return encryptedPropertyService.getEncryptedPropery("amazon.smtp.port");
+	}
+
+	@Override
+	public String getAmazonEmailUsername() {
+		return encryptedPropertyService.getEncryptedPropery("amazon.smtp.username");
+	}
+
+	@Override
+	public String getAmazonEmailPassword() {
+		return encryptedPropertyService.getEncryptedPropery("amazon.smtp.password");
+	}
+
 
 
 

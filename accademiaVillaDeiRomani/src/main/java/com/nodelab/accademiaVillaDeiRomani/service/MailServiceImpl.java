@@ -58,12 +58,12 @@ public class MailServiceImpl implements MailService {
 	        
 	       
 	    };
-	   
+	  /* 
 	    String accessToken=oAuthMailService.getMailAccessToken();
 	    if (accessToken==null) {
 	    	throw new Exception();
 	    }
-	    ((JavaMailSenderImpl)emailSender).setPassword(accessToken);
+	    ((JavaMailSenderImpl)emailSender).setPassword(accessToken);*/
 	    emailSender.send(messagePreparator);
 	    
 	}
@@ -85,11 +85,11 @@ public class MailServiceImpl implements MailService {
 	        messageHelper.addInline(imageResourceName, logoImageResource);
 	       
 	    };
-	    String accessToken=oAuthMailService.getMailAccessToken();
+	    /*String accessToken=oAuthMailService.getMailAccessToken();
 	    if (accessToken==null) {
 	    	throw new Exception();
 	    }
-	    ((JavaMailSenderImpl)emailSender).setPassword(accessToken);
+	    ((JavaMailSenderImpl)emailSender).setPassword(accessToken);*/
 	    emailSender.send(messagePreparator);
 		
 	}
@@ -110,11 +110,11 @@ MimeMessagePreparator messagePreparator = mimeMessage -> {
 	        messageHelper.addAttachment(file.getName(), file);
 	       
 	    };
-	    String accessToken=oAuthMailService.getMailAccessToken();
+	   /* String accessToken=oAuthMailService.getMailAccessToken();
 	    if (accessToken==null) {
 	    	throw new Exception();
 	    }
-	    ((JavaMailSenderImpl)emailSender).setPassword(accessToken);
+	    ((JavaMailSenderImpl)emailSender).setPassword(accessToken);*/
 	    emailSender.send(messagePreparator);
 		
 	}

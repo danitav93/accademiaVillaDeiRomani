@@ -29,5 +29,13 @@ public interface ApplicationInfoService {
 	public String getGoogleRefreshToken();
 
 	public String getGoogleYTokenUrl();
+
+	public String getAmazonEmailHost();
+
+	public String getAmazonEmailPort();
+
+	public String getAmazonEmailUsername();
+
+	public String getAmazonEmailPassword();
 	
 }

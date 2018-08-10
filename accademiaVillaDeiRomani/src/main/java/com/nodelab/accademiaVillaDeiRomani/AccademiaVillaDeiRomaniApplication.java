@@ -10,7 +10,7 @@ public class AccademiaVillaDeiRomaniApplication  {
 
 	public static void main(String[] args) {
 		
-		System.setProperty("jasypt.encryptor.password", "Guit.1993!");
+		
 		SpringApplication.run(AccademiaVillaDeiRomaniApplication.class, args);
 		
 		ginoooooooooooooooooooooooooooooooooo		
