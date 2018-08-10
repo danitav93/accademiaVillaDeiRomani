@@ -17,9 +17,9 @@
 }
 
 .mainColor {
-	background-color: #428bca;
-	 color: white;
-}
+	background-color: #B1D8F8; /* #B1D8F8, #D8EBFB, #97CDFA*/
+	 color: black;
+	 }
 
 .center_div{
     margin: 0 auto;

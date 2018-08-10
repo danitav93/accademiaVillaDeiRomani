@@ -2,22 +2,19 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org" style="height: 100%;margin:0;padding:0;">
+	xmlns:th="http://www.thymeleaf.org">
 
 
 
 <head>
 
-<title>Login</title>
-
+<title>Successful Registration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<link type="text/css" href="css/view.login.css" rel="stylesheet">
-
-<link type="text/css" href="css/my.styles.css" rel="stylesheet">
-
+<link type="text/css" href="../../css/view.login.css" rel="stylesheet">
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
 	rel="stylesheet">
@@ -30,47 +27,113 @@
 
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script th:src="@{js/rightNavBar.js}"></script>
+
 </head>
 
+<style>
+
+@keyframes fadein{
+	from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+#discobolo, #message{
+	animation: fadein 3s;
+	animation-fill-mode: ease-in;
+}
+
+@keyframes email{
+	from { visibility: hidden; opacity: 0; }
+    to { visibility: visible; opacity: 1; }
+}
 
 
-<body  class="container" style="color:white">
+#image1{
+	visibility: hidden;
+	animation-name: email;
+	animation-duration: 2s;
+	animation-delay: 2s;
+	animation-fill-mode: both;
+	animation-timing-function: ease-in;	
+	animation-direction: normal;
+}
 
-<nav class="navbar navbar-inverse navbar-fixed-top navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#"> <img
-					th:src="@{/img/logo_villa_b.png}" class="imgNav" alt="">
-				</a>
+#image2{
+	visibility: hidden;
+	animation-name: email;
+	animation-duration: 2s;
+	animation-delay: 2.2s;
+	animation-fill-mode: both;
+	animation-timing-function: ease-in;	
+	animation-direction: normal;
+}
+
+#image3{
+	visibility: hidden;
+	animation-name: email;
+	animation-duration: 2s;
+	animation-delay: 2.4s;
+	animation-fill-mode: both;
+	animation-timing-function: ease-in;	
+	animation-direction: normal;
+}
+
+#image4{
+	visibility: hidden;
+	animation-name: email;
+	animation-duration: 2s;
+	animation-delay: 2.6s;
+	animation-fill-mode: both;
+	animation-timing-function: ease-in;	
+	animation-direction: normal;
+}
+
+
+</style>
+
+<body class="container">
+
+
+	<body class="container">
+	<br><br><br>
+
+	<img th:src="@{/img/logo_villa_b.png}"
+				class="img-responsive center-block" alt="Logo" />
+	
+	<div style="display: flex; height:480px">
+		<div style="width:65%">
+			 <div id="message">
+				<p th:inline="text" style="color:white; font-size: 22px">Registrazione avvenuta con successo!</p>
+				<p th:inline="text" style="text-align: justify; font-size: 16px; width:40%; margin-left: 30%">
+				Controlla la tua casella di posta elettronica, abbiamo inviato un'email all'indirizzo da te fornitoci con un link di conferma per attivare il tuo account. 
+				</p><br>
+			 </div>
+				
+			<div style="display: flex; width:45%; height: 15%; margin-left: 32%;">
+				<a href="http://tiny.cc/amyjwy" target="_blank"><img id="image1" th:src="@{/img/Gmail.png}"
+						class="img-responsive center-block" alt="gmail" style="width: 34%; height: 80% " /></a>
+						
+				<a href="http://tiny.cc/yw0jwy" target="_blank"><img id="image2" th:src="@{/img/outlook.png}"
+						class="img-responsive center-block" alt="outlook" style="width: 34%; height: 80%; margin-left:18%" /></a>
+						
+			</div><br>
+			<div style="display: flex; width:45%; height: 15%; margin-left: 28%;">
+						
+				<a href="https://overview.mail.yahoo.com/" target="_blank" ><img id="image3" th:src="@{/img/yahoo.png}" 
+						class="img-responsive center-block" alt="yahoo_email" style="width: 24%; height: 70%; " /></a>
+						
+				<a href="https://login.libero.it/" target="_blank"><img id="image4" th:src="@{/img/libero.png}"
+						class="img-responsive center-block" alt="libero" style="width: 46%; height: 68%; margin-left:1%" /></a>
+						
 			</div>
-
-			<div th:replace="fragments/common::fragRightNavBarNoLogout"></div>
-
-
 		</div>
-
-	</nav>
-
-
-	<div class="vertical-center" >
-	<div class="  row" >
-		<!-- colonna -->
-		<div style="text-align: center" class="  col-md-10 col-md-offset-1 ">
-		<img  th:src="@{/img/logo_villa_b.png}" >
-			<h1 th:inline="text">[[#{congratulazioni}]]</h1>
-			<h3> [[#{registrationSuccededWelcolme}]]   </h3>
-			<h3 th:inline="text">[[#{registrationSucceded1}]] <b><span th:text="${utente.email}"></span></b> </h3>
-			
+	
+		
+		<div>
+			<img id="discobolo" th:src="@{/img/discobolo.png}"class="img-responsive center-block" alt="Logo" style="height:80%" />
 		</div>
-	</div>
-</div>
+	</div>	
+
 </body>
-
-
-
-
-
-
-
 </html>
+	
