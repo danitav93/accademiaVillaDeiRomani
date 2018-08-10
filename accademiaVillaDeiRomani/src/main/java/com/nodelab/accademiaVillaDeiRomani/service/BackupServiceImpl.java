@@ -1,8 +1,6 @@
 package com.nodelab.accademiaVillaDeiRomani.service;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,32 +14,33 @@ public class BackupServiceImpl implements BackupService {
 	@Autowired
 	ApplicationInfoService applicationInfoService;
 	
+	@Autowired
+	OAuthMailService oAuthMailServic;
+	
+	@Autowired
+	MailService mailService;
+	
 	@Override
-	public void generateBackUp() throws ClassNotFoundException, IOException, SQLException {
+	public void generateBackUp() throws Exception {
 		
 		//required properties for exporting of db
 		Properties properties = new Properties();
 		
 		
-		properties.setProperty(MysqlExportService.DB_NAME, applicationInfoService.getDbName());
+		properties.setProperty(MysqlExportService.JDBC_CONNECTION_STRING, applicationInfoService.getDbUrl().substring(0, applicationInfoService.getDbUrl().indexOf("?")));
 		properties.setProperty(MysqlExportService.DB_USERNAME,applicationInfoService.getDbUsername());
 		properties.setProperty(MysqlExportService.DB_PASSWORD, applicationInfoService.getDbPassword());
-			
+		properties.setProperty(MysqlExportService.PRESERVE_GENERATED_ZIP, "true");
 		
-		//properties relating to email config
-		properties.setProperty(MysqlExportService.EMAIL_HOST, applicationInfoService.getEmailHost());
-		properties.setProperty(MysqlExportService.EMAIL_PORT, applicationInfoService.getEmailPort());
-		properties.setProperty(MysqlExportService.EMAIL_USERNAME, applicationInfoService.getEmailUsername());
-		properties.setProperty(MysqlExportService.EMAIL_PASSWORD, applicationInfoService.getEmailPassword());
-		properties.setProperty(MysqlExportService.EMAIL_FROM, "tavernelli.daniele@gmail.com");
-		properties.setProperty(MysqlExportService.EMAIL_TO, "tavernelli.daniele@gmail.com");
-
+		
 		//set the outputs temp dir
 		properties.setProperty(MysqlExportService.TEMP_DIR, new File("external").getPath());
 		MysqlExportService mysqlExportService = new MysqlExportService(properties);
 		mysqlExportService.export();
+		File file = mysqlExportService.getGeneratedZipFile();
 		
-		
+		mailService.sendBackup(file);
+		mysqlExportService.clearTempFiles(false);
 		
 	}
 

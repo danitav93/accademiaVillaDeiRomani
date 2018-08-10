@@ -127,13 +127,77 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
 	public String getDominio() {
 		switch (encryptedPropertyService.getEncryptedPropery("ambiente")) {
 		case Application.AMBIENTE_LOCALE:
-			return encryptedPropertyService.getEncryptedPropery("url.locale");
+			return encryptedPropertyService.getEncryptedPropery("dominio.locale");
 		case Application.AMBIENTE_SVILUPPO:
-			return encryptedPropertyService.getEncryptedPropery("url.sviluppo");
+			return encryptedPropertyService.getEncryptedPropery("dominio.sviluppo");
 		case Application.AMBIENTE_PRODUZIONE:
-			return encryptedPropertyService.getEncryptedPropery("url.produzione");
+			return encryptedPropertyService.getEncryptedPropery("dominio.produzione");
 		}
 		return null;
+	}
+
+	@Override
+	public String getGoogleClientId() {
+		switch (encryptedPropertyService.getEncryptedPropery("ambiente")) {
+		case Application.AMBIENTE_LOCALE:
+			return encryptedPropertyService.getEncryptedPropery("google.clientId.locale");
+		case Application.AMBIENTE_SVILUPPO:
+			return encryptedPropertyService.getEncryptedPropery("google.clientId.sviluppo");
+		case Application.AMBIENTE_PRODUZIONE:
+			return encryptedPropertyService.getEncryptedPropery("google.clientId.produzione");
+		}
+		return null;
+	}
+
+	@Override
+	public String getGoogleClientSecret() {
+		switch (encryptedPropertyService.getEncryptedPropery("ambiente")) {
+		case Application.AMBIENTE_LOCALE:
+			return encryptedPropertyService.getEncryptedPropery("google.clientSecret.locale");
+		case Application.AMBIENTE_SVILUPPO:
+			return encryptedPropertyService.getEncryptedPropery("google.clientSecret.sviluppo");
+		case Application.AMBIENTE_PRODUZIONE:
+			return encryptedPropertyService.getEncryptedPropery("google.clientSecret.produzione");
+		}
+		return null;
+	}
+
+	@Override
+	public String getGoogleRefreshToken() {
+		switch (encryptedPropertyService.getEncryptedPropery("ambiente")) {
+		case Application.AMBIENTE_LOCALE:
+			return encryptedPropertyService.getEncryptedPropery("google.refreshToken.locale");
+		case Application.AMBIENTE_SVILUPPO:
+			return encryptedPropertyService.getEncryptedPropery("google.refreshToken.sviluppo");
+		case Application.AMBIENTE_PRODUZIONE:
+			return encryptedPropertyService.getEncryptedPropery("google.refreshToken.produzione");
+		}
+		return null;
+	}
+
+	@Override
+	public String getGoogleYTokenUrl() {
+		return encryptedPropertyService.getEncryptedPropery("google.token.url");
+	}
+
+	@Override
+	public String getAmazonEmailHost() {
+		return encryptedPropertyService.getEncryptedPropery("amazon.smtp.host");
+	}
+
+	@Override
+	public String getAmazonEmailPort() {
+		return encryptedPropertyService.getEncryptedPropery("amazon.smtp.port");
+	}
+
+	@Override
+	public String getAmazonEmailUsername() {
+		return encryptedPropertyService.getEncryptedPropery("amazon.smtp.username");
+	}
+
+	@Override
+	public String getAmazonEmailPassword() {
+		return encryptedPropertyService.getEncryptedPropery("amazon.smtp.password");
 	}
 
 

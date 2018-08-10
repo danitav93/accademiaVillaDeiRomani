@@ -220,8 +220,21 @@ public class adminController {
 			//mandiamo una mail con il link di conferma
 			String token = UUID.randomUUID().toString();
 			utenteService.createRegistrationverificationToken(token,newUser);
-			mailService.sendRegistrationMail(newUser.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(newUser.getMatricola()).toString(),token);
+			try  {
+				mailService.sendRegistrationMail(newUser.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(newUser.getMatricola()).toString(),token);
+			} catch (Exception e) {
+				
+				utenteService.deleteUtente(newUser);
+				model.addAttribute("matricola", utenteLoggato.getMatricola());
 
+				model.addAttribute("key","error");
+
+				model.addAttribute("value",true);
+
+				logger.warn("UTENTE MATRICOLA: "+utenteLoggato.getMatricola()+" CREA NUOVO UTENTE ERRORE ");
+				
+				modelAndView = new ModelAndView(Urls.redirect+Urls.adminPath,model);
+			}
 
 			model.addAttribute("matricola", utenteLoggato.getMatricola());
 
@@ -1001,10 +1014,12 @@ public class adminController {
 			model.addAttribute("key","operationCompletedSuccessfully");
 			model.addAttribute("value",true);
 			
-			logger.warn("UTENTE MATRICOLA: "+auth.getName()+"HA GENERATO BACKUP CORRETTAMENTE");
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+" HA GENERATO BACKUP CORRETTAMENTE");
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.warn("UTENTE MATRICOLA: "+auth.getName()+" ERRORE NEL GENERARE IL BACKUP");
+
 			model.addAttribute("matricola",auth.getName());
 			model.addAttribute("key","error");
 			model.addAttribute("value",true);

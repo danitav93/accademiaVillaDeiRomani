@@ -21,5 +21,21 @@ public interface ApplicationInfoService {
 	public String getEmailPassword();
 
 	public String getDominio();
+
+	public String getGoogleClientId();
+
+	public String getGoogleClientSecret();
+
+	public String getGoogleRefreshToken();
+
+	public String getGoogleYTokenUrl();
+
+	public String getAmazonEmailHost();
+
+	public String getAmazonEmailPort();
+
+	public String getAmazonEmailUsername();
+
+	public String getAmazonEmailPassword();
 	
 }
