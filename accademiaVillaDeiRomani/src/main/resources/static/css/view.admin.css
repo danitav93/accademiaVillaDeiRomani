@@ -1,5 +1,6 @@
 @charset "ISO-8859-1";
 
+
 .form-control-borderless {
     border: none;
 }
@@ -279,7 +280,7 @@ margin:-10px;
 	background-image: url("../img/s.png");
 	background-repeat: no-repeat;
 	background-size: cover;
-	font-family: 'Roboto', sans-serif;
+	font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
 }
 
 #adminViewCardUtenteNome {
