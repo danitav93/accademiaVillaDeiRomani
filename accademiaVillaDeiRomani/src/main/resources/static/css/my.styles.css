@@ -71,7 +71,7 @@
     to {bottom: 0; opacity: 0;}
 }
 
-.dropdown-submenu{ position: relative; }
+.dropdown-submenu{ position: relative;}
 
 .dropdown-submenu>.dropdown-menu{
   top:0;
