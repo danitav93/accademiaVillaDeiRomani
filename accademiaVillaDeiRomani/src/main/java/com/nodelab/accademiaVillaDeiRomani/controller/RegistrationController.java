@@ -23,12 +23,14 @@ import com.nodelab.accademiaVillaDeiRomani.constant.Test;
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
 import com.nodelab.accademiaVillaDeiRomani.formBean.PasswordBean;
+import com.nodelab.accademiaVillaDeiRomani.formBean.UtenteBean;
 import com.nodelab.accademiaVillaDeiRomani.model.RegistrationVerificationToken;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 import com.nodelab.accademiaVillaDeiRomani.service.MailService;
 import com.nodelab.accademiaVillaDeiRomani.service.MessageService;
 import com.nodelab.accademiaVillaDeiRomani.service.SecurityService;
 import com.nodelab.accademiaVillaDeiRomani.service.UtenteService;
+import com.nodelab.accademiaVillaDeiRomani.utility.DataConverter;
 
 /**
  * controller che gestisce la registrazione
@@ -53,6 +55,9 @@ public class RegistrationController {
 
 	@Autowired
 	private SecurityService securityService;
+	
+	@Autowired
+	DataConverter dataConverter;
 
 	/**
 	 * Quando richiedo la pagina di registrazione
@@ -61,8 +66,8 @@ public class RegistrationController {
 	@RequestMapping(value= {Urls.registrationPath}, method = RequestMethod.GET)
 	public ModelAndView registration(){
 		ModelAndView modelAndView = new ModelAndView();
-		Utente utente = new Utente();
-		modelAndView.addObject("utente", utente);
+		UtenteBean utenteBean = new UtenteBean();
+		modelAndView.addObject("utenteBean", utenteBean);
 		modelAndView.setViewName(View.registrationView);
 		return modelAndView;
 	}
@@ -101,11 +106,11 @@ public class RegistrationController {
 	 * @return
 	 */
 	@RequestMapping(value = { Urls.submitRegistrationPath}, method = RequestMethod.POST)
-	public ModelAndView createNewUser(@Valid Utente utente, BindingResult bindingResult, HttpServletRequest request,ModelMap model) {
+	public ModelAndView createNewUser(@Valid @ModelAttribute("utenteBean") UtenteBean utenteBean, BindingResult bindingResult, HttpServletRequest request,ModelMap model) {
 		ModelAndView modelAndView = new ModelAndView();
 		if (Test.EMAIL_CHECK) {
 			//controllo che non ci siano due utenti con la stessa mail
-			Utente utenteExists = utenteService.findUtenteByEmail(utente.getEmail());
+			Utente utenteExists = utenteService.findUtenteByEmail(utenteBean.getEmail());
 			if (utenteExists != null) {
 				bindingResult
 				.rejectValue("email", "error.user",
@@ -116,6 +121,7 @@ public class RegistrationController {
 		if (bindingResult.hasErrors() && bindingResult.getAllErrors().size()>1) {
 			modelAndView.setViewName(View.registrationView);
 		} else {
+			Utente utente = dataConverter.getModelUtenteByUtenteFormBean(utenteBean); 
 			utente=utenteService.saveNewRegisteredUser(utente);
 			//mandiamo una mail con il link di conferma
 			String token = UUID.randomUUID().toString();

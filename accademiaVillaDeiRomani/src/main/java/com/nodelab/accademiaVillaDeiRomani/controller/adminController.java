@@ -29,6 +29,7 @@ import com.nodelab.accademiaVillaDeiRomani.constant.Test;
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
 import com.nodelab.accademiaVillaDeiRomani.formBean.ReportStudenteBean;
+import com.nodelab.accademiaVillaDeiRomani.formBean.UtenteBean;
 import com.nodelab.accademiaVillaDeiRomani.hibernate.search.UtenteSearch;
 import com.nodelab.accademiaVillaDeiRomani.model.AttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
@@ -45,6 +46,7 @@ import com.nodelab.accademiaVillaDeiRomani.service.MessageService;
 import com.nodelab.accademiaVillaDeiRomani.service.ReportService;
 import com.nodelab.accademiaVillaDeiRomani.service.RoleService;
 import com.nodelab.accademiaVillaDeiRomani.service.UtenteService;
+import com.nodelab.accademiaVillaDeiRomani.utility.DataConverter;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -89,6 +91,9 @@ public class adminController {
 
 	@Autowired
 	MessageService messageService;
+	
+	@Autowired
+	DataConverter dataConverter;
 
 	/**
 	 * method that retrieve users according to a query, it uses hibernate search (lucene) 
@@ -170,7 +175,7 @@ public class adminController {
 		model.addAttribute("utente", utente);
 
 		//aggiungo il modello per il nuovo utente
-		Utente newUser = new Utente();
+		UtenteBean newUser = new UtenteBean();
 		model.addAttribute("newUser", newUser);
 
 		//aggiungo i ruoli
@@ -186,7 +191,7 @@ public class adminController {
 	 * @return
 	 */
 	@RequestMapping(value = { Urls.submitNewUserPath}, method = RequestMethod.POST)
-	public ModelAndView submitNewUser(@Valid @ModelAttribute("newUser") Utente newUser, BindingResult bindingResult, ModelMap model) {
+	public ModelAndView submitNewUser(@Valid @ModelAttribute("newUser") UtenteBean newUserBean, BindingResult bindingResult, ModelMap model) {
 
 		ModelAndView modelAndView;
 
@@ -196,7 +201,7 @@ public class adminController {
 
 		if (Test.EMAIL_CHECK) {
 			//controllo che non ci siano due utenti con la stessa mail
-			Utente utenteExists = utenteService.findUtenteByEmail(newUser.getEmail());
+			Utente utenteExists = utenteService.findUtenteByEmail(newUserBean.getEmail());
 
 			if (utenteExists != null) {
 				bindingResult
@@ -208,13 +213,14 @@ public class adminController {
 
 		if (bindingResult.hasErrors()) {
 			modelAndView = new ModelAndView();
-			modelAndView.addObject("newUser",newUser);
+			modelAndView.addObject("newUser",newUserBean);
 			modelAndView.addObject("utente",utenteLoggato);
 			modelAndView.addObject("ruoli",roleService.getListOfRoles());
 			modelAndView.setViewName(View.adminView);
 
 		} else {
-
+			
+			Utente newUser=dataConverter.getModelUtenteByUtenteFormBean(newUserBean);
 			newUser= utenteService.saveNewUserFromAdmin(newUser);
 
 			//mandiamo una mail con il link di conferma

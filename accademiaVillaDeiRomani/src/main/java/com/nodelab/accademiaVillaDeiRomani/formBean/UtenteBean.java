@@ -1,160 +1,87 @@
-package com.nodelab.accademiaVillaDeiRomani.model;
+package com.nodelab.accademiaVillaDeiRomani.formBean;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.springframework.data.annotation.Transient;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.nodelab.accademiaVillaDeiRomani.annotation.PasswordAnnotation;
+import com.nodelab.accademiaVillaDeiRomani.model.Role;
 
 
 
 
-//pinooooooorere
 
-@Entity(name="utente")
-@Table(name="utente")
-@Indexed
-public class Utente implements Serializable {
+
+
+public class UtenteBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-
-	@Id
-	@Column(name="id_utente")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int idUtente;
 	
-	@Transient
+	
+	@PasswordAnnotation
 	private String password;
 
 	
-	@Column(name = "email")
 	@Email(message = "*Please provide a valid Email")
 	@NotEmpty(message = "*Please provide an email")
 	private String email;
 	
-	@Column(name = "telefono")
 	@NotEmpty(message = "*Please provide phone number")
 	private String telefono;
 	
-	@Column(name = "nome")
-	@Field
 	@NotEmpty(message = "*Please provide name")
 	private String nome;
 
-	@Column(name = "cognome")
-	@Field
 	@NotEmpty(message = "*Please provide last name")
 	private String cognome;
 	
-	@Column(name = "matricola")
-	@Field
-	private String matricola;
-	
-	
-	@Column(name="borse_di_studio")
 	private String borseDiStudio;
 
-	@Column(name="codice_fiscale")
 	@NotEmpty(message = "*Please provide fiscal code")
 	private String codiceFiscale;
 
-	
 	@Temporal(TemporalType.DATE)
-	@Column(name="data_iscrizione")
 	private Date dataIscrizione;
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@Column(name="data_nascita")
 	@NotNull(message = "*Please provide birthday.")
 	private Date dataNascita;
 
-	@Column(name = "indirizzo")
 	@NotEmpty(message = "*Please provide address")
 	private String indirizzo;
 	
-	@Column(name = "sex")
 	@NotNull(message = "*Please provide sex")
 	private Integer sex;
 	
-	@Column(name = "nazione")
 	@NotEmpty(message = "*Please provide nation of birth")
 	private String nazione;
 
-	@Column(name = "progetti")
 	private String progetti;
 
-	@Column(name = "stage")
 	private String stage;
 
-	@Column(name="tirocini")
 	private String tirocini;
-	
-	@Column(name = "active")
-	private int active;
-	
-	@Column(name = "has_percorso_formativo")
-	private boolean hasPercorsoFormativo;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_role")
+		
 	@NotNull(message = "*Select a role")
-	@JsonManagedReference
 	private Role role;
 
-	@OneToMany(mappedBy = "utente")
-	@JsonManagedReference
-	private Set<UtenteHasContributo> utenteHasContributiSet;
-	
-	@OneToMany(mappedBy = "utente")
-	@JsonManagedReference
-	private Set<UtenteHasAttivitaDidattica> utenteHasAttivitaDidatticaSet;
-	
-	@OneToOne(mappedBy = "utente")
-	@JsonManagedReference
-	private UtenteHasCorso utenteHasCorso;
-	
-	
-	public Set<UtenteHasContributo> getUtenteHasContributiSet() {
-		return utenteHasContributiSet;
-	}
-	
-	public void setUtenteHasContributiSet(Set<UtenteHasContributo> utenteHasContributiSet) {
-		this.utenteHasContributiSet = utenteHasContributiSet;
-	}
 
-	public Utente() {
+	
+	
+	public UtenteBean() {
 	}
 
 
-	public int getIdUtente() {
-		return this.idUtente;
-	}
-	public void setIdUtente(int idUtente) {
-		this.idUtente = idUtente;
-	}
+	
 	public String getBorseDiStudio() {
 		return this.borseDiStudio;
 	}
@@ -203,13 +130,7 @@ public class Utente implements Serializable {
 		this.indirizzo = indirizzo;
 	}
 
-	public String getMatricola() {
-		return this.matricola;
-	}
-
-	public void setMatricola(String matricola) {
-		this.matricola = matricola;
-	}
+	
 
 	public String getNome() {
 		return this.nome;
@@ -259,22 +180,7 @@ public class Utente implements Serializable {
 		this.tirocini = tirocini;
 	}
 
-	public Set<UtenteHasAttivitaDidattica> getUtenteHasAttivitaDidatticaSet() {
-		return utenteHasAttivitaDidatticaSet;
-	}
-
-	public void setUtenteHasAttivitaDidatticaSet(Set<UtenteHasAttivitaDidattica> utenteHasAttivitaDidatticaSet) {
-		this.utenteHasAttivitaDidatticaSet = utenteHasAttivitaDidatticaSet;
-	}
-
-	public UtenteHasCorso getUtenteHasCorso() {
-		return utenteHasCorso;
-	}
-
-	public void setUtenteHasCorso(UtenteHasCorso utenteHasCorso) {
-		this.utenteHasCorso = utenteHasCorso;
-	}
-
+	
 	public Role getRole() {
 		return role;
 	}
@@ -291,13 +197,7 @@ public class Utente implements Serializable {
 		this.telefono = telefono;
 	}
 
-	public int getActive() {
-		return active;
-	}
-
-	public void setActive(int active) {
-		this.active = active;
-	}
+	
 
 	public Integer getSex() {
 		return sex;
@@ -315,13 +215,7 @@ public class Utente implements Serializable {
 		this.nazione = nazione;
 	}
 
-	public boolean isHasPercorsoFormativo() {
-		return hasPercorsoFormativo;
-	}
 
-	public void setHasPercorsoFormativo(boolean hasPercorsoFormativo) {
-		this.hasPercorsoFormativo = hasPercorsoFormativo;
-	}
 	
 	
 }
