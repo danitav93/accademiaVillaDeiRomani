@@ -10,8 +10,6 @@
 <title>User Page</title>
 
 <link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
-
-
 <link type="text/css" href="../../css/view.student.css" rel="stylesheet" />
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
@@ -40,7 +38,7 @@
 
 <body class="container">
 
-	<nav class="navbar navbar-inverse navbar-fixed-top navbar-default">
+	<nav class="navbar navbar-inverse navbar-fixed-top navbar-default" >
 
 
 		<div class="container-fluid">
@@ -56,11 +54,11 @@
 
 				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN','TEACHER') "><a
 					th:href="@{/VillaDeiRomaniAccademy/admin/homeAdmin}"><span
-						class="glyphicon glyphicon-home"></span> Home</a></li>
+						class="glyphicon glyphicon-home">&thinsp;</span> Home</a></li>
 
 				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')"><a
 					th:href="@{/VillaDeiRomaniAccademy/admin/editStudentPersonalData(matricola=${utente.matricola})}"
-					th:inline="text"><span class="glyphicon glyphicon-pencil"></span>[[#{modificaDatiPersonali}]]</a></li>
+					th:inline="text"><span class="glyphicon glyphicon-pencil">&nbsp;</span>[[#{modificaDatiPersonali}]]</a></li>
 
 				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')"
 					class="dropdown"><a class="dropdown-toggle"
@@ -69,7 +67,7 @@
 					<ul class="dropdown-menu">
 						<li><a
 							th:href="@{/VillaDeiRomaniAccademy/admin/insertExam(matricola=${utente.matricola})}"><span
-								class="glyphicon glyphicon-pencil"></span>[[#{modifica}]] </a></li>
+								class="glyphicon glyphicon-pencil">&nbsp;</span>[[#{modifica}]] </a></li>
 
 					</ul></li>
 
@@ -80,10 +78,10 @@
 					<ul class="dropdown-menu">
 						<li><a
 							th:href="@{/VillaDeiRomaniAccademy/admin/insertTax(matricola=${utente.matricola})}"><span
-								class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]] </a></li>
+								class="glyphicon glyphicon-plus">&nbsp;</span>[[#{aggiungi}]] </a></li>
 						<li sec:authorize="hasAuthority('SUPERADMIN')"><a
 							th:href="@{/VillaDeiRomaniAccademy/admin/deleteTax(matricola=${utente.matricola})}"><span
-								class="glyphicon glyphicon-remove"></span>[[#{elimina}]] </a></li>
+								class="glyphicon glyphicon-remove">&nbsp;</span>[[#{elimina}]] </a></li>
 					</ul></li>
 
 				<li sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN','STUDENT')"
@@ -93,11 +91,11 @@
 					<ul class="dropdown-menu">
 						<li th:if="${not utente.hasPercorsoFormativo}"><a
 							th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span
-								class="glyphicon glyphicon-plus"></span>[[#{aggiungi}]] </a></li>
+								class="glyphicon glyphicon-plus">&nbsp;</span>[[#{aggiungi}]] </a></li>
 						<li th:if="${utente.hasPercorsoFormativo}"
 							sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')"><a
 							th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span
-								class="glyphicon glyphicon-pencil"></span>[[#{modifica}]] </a></li>
+								class="glyphicon glyphicon-pencil">&nbsp;</span>[[#{modifica}]] </a></li>
 
 					</ul></li>
 
@@ -325,7 +323,7 @@
 			<div class="modal-content"
 				style="background-color: #428bca; color: white">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close_Luca" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title" th:inline="text">[[#{aggiungiPercorsoFormativo}]]</h4>
 				</div>
 				<div
@@ -350,7 +348,7 @@
 			<div class="modal-content"
 				style="background-color: #428bca; color: white">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close_Luca" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{inserimentoTasse}]]</h4>
 				</div>
 				<div
@@ -372,7 +370,7 @@
 			<div class="modal-content"
 				style="background-color: #428bca; color: white">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close_Luca" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{eliminazioneTassa}]]</h4>
 				</div>
 				<div
@@ -405,7 +403,7 @@
 			<div class="modal-content"
 				style="background-color: #428bca; color: white">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close_Luca" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{inserimentoEsame}]]</h4>
 				</div>
 				<div
@@ -438,7 +436,7 @@
 			<div class="modal-content"
 				style="background-color: #428bca; color: white">
 				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<button type="button" class="close_Luca" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title" th:inline="text" style="text-align: center">[[#{editDatiPersonali}]]</h4>
 				</div>
 				<div
