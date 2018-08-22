@@ -54,7 +54,7 @@
 
 
 
-<body class="container">
+<body class="my_body container">
 
 
 
@@ -787,20 +787,7 @@
 		th:if="${operationCompletedSuccessfully}">[[#{operazioneAvvenutaConSuccesso}]]</div>
 
 
-	<div th:fragment="footer" >
-		<footer class="footer">
-			
-				<div style="display:flex; justify-content: space-between; padding: 10px;">
-					<p style="font-size:11px">Accademia Villa dei Romani <br> Via Romana snc 00012 <br> Guidonia-Montecelio Roma</p>
-					
-					<a  href="https://www.iubenda.com/privacy-policy/74395171" class="iubenda-nostyle no-brand iubenda-embed " title="Privacy Policy">Privacy Policy</a> <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
-					
-					<a  href="http://www.grillodesign.it/" target="_blank">Powered by <br> &copy; Grillo Design</a>
-				</div>
-			
-		</footer>
-	</div>
-
+<div th:replace="fragments/footer::footer"></div>
 </body>
 
 

@@ -36,9 +36,9 @@
 </head>
 
 
-<body class="container">
+<body class="my_body container">
 
-	<nav class="navbar navbar-inverse navbar-fixed-top navbar-default" >
+	<nav class="navbar navbar-inverse navbar-fixed-top navbar-default" style="font-size:18px;" >
 
 
 		<div class="container-fluid">
@@ -453,7 +453,7 @@
 	<div th:inline="text" class="snackbar" id="snackBarOperationCompleted"
 		th:if="${operationCompletedSuccessfully}">[[#{operazioneAvvenutaConSuccesso}]]</div>
 
-
+<div th:replace="fragments/footer::footer"></div>
 </body>
 
 <script type="text/javascript" th:inline="javascript">
