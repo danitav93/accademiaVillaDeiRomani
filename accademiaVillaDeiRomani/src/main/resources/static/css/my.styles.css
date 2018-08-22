@@ -17,8 +17,12 @@
 }
 
 .mainColor {
-	background-color: #B1D8F8; /* #B1D8F8, #D8EBFB, #97CDFA*/
-	 color: black;
+	background-color: #D8EBFB; 	
+	color: black;
+	background-image: url("../img/texVillaRomani.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
 	 }
 
 .center_div{
@@ -117,3 +121,34 @@
 
 }
 
+
+button.close_Luca {
+	float:right;
+	font-size:21px;
+	font-weight:700;
+	line-height:1;
+	color:white;
+	}
+	
+button.close_Luca:focus,.close_Luca:hover {color:#ffffff;text-decoration:none;cursor:pointer;filter:alpha(opacity=80);opacity:.8}
+button.close_Luca{-webkit-appearance:none;padding:0;cursor:pointer;background:0 0;border:0}
+button.close_Luca{position:relative;top:-2px;right:-5px;color:white}
+
+
+html, body, .container{ height: 100%; margin: 0; padding: 0; }
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 9%;
+	background-color: black;
+	color:white;
+	overflow: hidden;
+}
+
+a:visited, a:link {
+	color:white;
+	text-decoration: none
+}
