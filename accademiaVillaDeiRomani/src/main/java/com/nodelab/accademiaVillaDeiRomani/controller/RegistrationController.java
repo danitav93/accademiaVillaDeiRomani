@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.nodelab.accademiaVillaDeiRomani.constant.Test;
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
 import com.nodelab.accademiaVillaDeiRomani.formBean.PasswordBean;
@@ -28,8 +28,10 @@ import com.nodelab.accademiaVillaDeiRomani.model.RegistrationVerificationToken;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 import com.nodelab.accademiaVillaDeiRomani.service.MailService;
 import com.nodelab.accademiaVillaDeiRomani.service.MessageService;
+import com.nodelab.accademiaVillaDeiRomani.service.NazioneService;
 import com.nodelab.accademiaVillaDeiRomani.service.SecurityService;
 import com.nodelab.accademiaVillaDeiRomani.service.UtenteService;
+import com.nodelab.accademiaVillaDeiRomani.service.VariabileAmbienteService;
 import com.nodelab.accademiaVillaDeiRomani.utility.DataConverter;
 
 /**
@@ -57,7 +59,13 @@ public class RegistrationController {
 	private SecurityService securityService;
 	
 	@Autowired
-	DataConverter dataConverter;
+	private NazioneService nazioneService;
+	
+	@Autowired
+	private DataConverter dataConverter;
+	
+	@Autowired
+	private VariabileAmbienteService variabileAmbienteService;
 
 	/**
 	 * Quando richiedo la pagina di registrazione
@@ -69,6 +77,8 @@ public class RegistrationController {
 		UtenteBean utenteBean = new UtenteBean();
 		modelAndView.addObject("utenteBean", utenteBean);
 		modelAndView.setViewName(View.registrationView);
+		modelAndView.addObject("nazioni", nazioneService.getAllNazione() );
+		
 		return modelAndView;
 	}
 
@@ -108,7 +118,7 @@ public class RegistrationController {
 	@RequestMapping(value = { Urls.submitRegistrationPath}, method = RequestMethod.POST)
 	public ModelAndView createNewUser(@Valid @ModelAttribute("utenteBean") UtenteBean utenteBean, BindingResult bindingResult, HttpServletRequest request,ModelMap model) {
 		ModelAndView modelAndView = new ModelAndView();
-		if (Test.EMAIL_CHECK) {
+		if (variabileAmbienteService.emailCheck()) {
 			//controllo che non ci siano due utenti con la stessa mail
 			Utente utenteExists = utenteService.findUtenteByEmail(utenteBean.getEmail());
 			if (utenteExists != null) {
@@ -120,6 +130,8 @@ public class RegistrationController {
 		//se c'è solo un errore so che è il ruolo (lo setto automaticamente dopo)
 		if (bindingResult.hasErrors() && bindingResult.getAllErrors().size()>1) {
 			modelAndView.setViewName(View.registrationView);
+			modelAndView.addObject("nazioni", nazioneService.getAllNazione() );
+			modelAndView.addObject("focus", ((FieldError)(bindingResult.getAllErrors().get(0))).getField());
 		} else {
 			Utente utente = dataConverter.getModelUtenteByUtenteFormBean(utenteBean); 
 			utente=utenteService.saveNewRegisteredUser(utente);

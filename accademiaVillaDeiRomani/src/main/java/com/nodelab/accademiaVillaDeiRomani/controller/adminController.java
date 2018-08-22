@@ -25,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.nodelab.accademiaVillaDeiRomani.constant.Report;
 import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
-import com.nodelab.accademiaVillaDeiRomani.constant.Test;
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
 import com.nodelab.accademiaVillaDeiRomani.formBean.ReportStudenteBean;
@@ -43,9 +42,11 @@ import com.nodelab.accademiaVillaDeiRomani.service.ContributoService;
 import com.nodelab.accademiaVillaDeiRomani.service.CorsoService;
 import com.nodelab.accademiaVillaDeiRomani.service.MailService;
 import com.nodelab.accademiaVillaDeiRomani.service.MessageService;
+import com.nodelab.accademiaVillaDeiRomani.service.NazioneService;
 import com.nodelab.accademiaVillaDeiRomani.service.ReportService;
 import com.nodelab.accademiaVillaDeiRomani.service.RoleService;
 import com.nodelab.accademiaVillaDeiRomani.service.UtenteService;
+import com.nodelab.accademiaVillaDeiRomani.service.VariabileAmbienteService;
 import com.nodelab.accademiaVillaDeiRomani.utility.DataConverter;
 
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -94,6 +95,13 @@ public class adminController {
 	
 	@Autowired
 	DataConverter dataConverter;
+	
+	@Autowired
+	private NazioneService nazioneService;
+	
+	@Autowired
+	private VariabileAmbienteService variabileAmbienteService;
+	
 
 	/**
 	 * method that retrieve users according to a query, it uses hibernate search (lucene) 
@@ -141,7 +149,7 @@ public class adminController {
 
 		
 		model.addAttribute("utente", utente);
-
+	
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		//mi prendo l'utente loggato
 		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
@@ -166,7 +174,7 @@ public class adminController {
 	 */
 	@RequestMapping(value= {Urls.openNewUserPanelPath}, method = RequestMethod.GET)
 	public String openNewUserPanel( Model model){
-
+	model.addAttribute("nazioni", nazioneService.getAllNazione() );
 
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -199,7 +207,7 @@ public class adminController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Utente utenteLoggato = utenteService.findUtenteByMatricola(auth.getName());
 
-		if (Test.EMAIL_CHECK) {
+		if (variabileAmbienteService.emailCheck()) {
 			//controllo che non ci siano due utenti con la stessa mail
 			Utente utenteExists = utenteService.findUtenteByEmail(newUserBean.getEmail());
 
@@ -216,6 +224,7 @@ public class adminController {
 			modelAndView.addObject("newUser",newUserBean);
 			modelAndView.addObject("utente",utenteLoggato);
 			modelAndView.addObject("ruoli",roleService.getListOfRoles());
+			modelAndView.addObject("nazioni", nazioneService.getAllNazione() );
 			modelAndView.setViewName(View.adminView);
 
 		} else {

@@ -28,8 +28,8 @@ public class DataConverter {
 		utente.setStage(utenteBean.getStage());
 		utente.setTelefono(utenteBean.getTelefono());
 		utente.setTirocini(utenteBean.getTirocini());
-		
-		
+		utente.setCap(utenteBean.getCap());
+		utente.setCitta(utenteBean.getCitta());
 		
 		// dovrebbero essere finiti
 		

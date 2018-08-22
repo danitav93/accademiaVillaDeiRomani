@@ -83,20 +83,6 @@
 								class="form-control" />
 						</div>
 					</div>
-
-					
-					<!-- Nazione -->
-					<div class="form-group">
-						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_nazione" th:inline="text">[[#{nazionalita}]]</label> 
-							<label
-								th:if="${#fields.hasErrors('nazione')}" th:errors="*{nazione}"
-								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_nazione" type="text"
-								th:field="*{nazione}" th:placeholder="#{nazionalita}"
-								class="form-control" />
-						</div>
-					</div>
 					
 					<!-- indirizzo -->
 					<div class="form-group">
@@ -107,6 +93,52 @@
 								class="validation-message myStylesRedColor"></label> <input
 								id="registration_view_indirizzo" type="text"
 								th:field="*{indirizzo}" th:placeholder="#{indirizzo}"
+								class="form-control" />
+						</div>
+					</div>
+					
+					<!-- Nazione -->
+					<div class="form-group">
+						<div style="text-align: center" class="col-sm-12">
+							<label for="registration_view_nazione" th:inline="text">[[#{nazione}]]</label>
+							<label th:if="${#fields.hasErrors('nazione')}"
+								th:errors="*{nazione}"
+								class="validation-message myStylesRedColor"></label> 
+								<select class="form-control" th:field="*{nazione}" >
+							    <option value="" th:text="#{selectNazione}"></option>
+							<option th:each="nazione : ${nazioni}"
+								th:value="${nazione.nazione}"
+								th:text="${nazione.nazione}"></option>
+							  </select>
+								
+						</div>
+					</div>
+
+
+				
+						<!-- città -->
+					<div class="form-group">
+						<div style="text-align: center" class="col-sm-12">
+							<label for="registration_view_citta" th:inline="text">[[#{citta}]]</label>
+							<label th:if="${#fields.hasErrors('citta')}"
+								th:errors="*{citta}"
+								class="validation-message myStylesRedColor"></label> <input
+								id="registration_view_citta" type="text"
+								th:field="*{citta}" th:placeholder="#{citta}"
+								class="form-control" />
+						</div>
+					</div>
+					
+					
+					<!-- cap -->
+					<div class="form-group">
+						<div style="text-align: center" class="col-sm-12">
+							<label for="registration_view_cap" th:inline="text">[[#{cap}]]</label>
+							<label th:if="${#fields.hasErrors('cap')}"
+								th:errors="*{cap}"
+								class="validation-message myStylesRedColor"></label> <input
+								id="registration_view_cap" type="text"
+								th:field="*{cap}" th:placeholder="#{cap}"
 								class="form-control" />
 						</div>
 					</div>

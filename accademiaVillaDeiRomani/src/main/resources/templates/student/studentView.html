@@ -142,20 +142,30 @@
 			</p>
 
 			<p>
+				<span th:text="#{nazione}+': '+${utente.nazione}"></span>
+			</p>
+			
+			<p>
+				<span th:text="#{citta}+': '+${utente.citta}"></span>
+			</p>
+
+			<p>
 				<span th:text="#{indirizzo}+': '+${utente.indirizzo}"></span>
 			</p>
+
+			<p>
+				<span th:text="#{cap}+': '+${utente.cap}"></span>
+			</p>
+			
 
 			<p>
 				<span th:text="#{dataDiNascita}+': '+${utente.dataNascita}"></span>
 			</p>
 
 			<p>
-				<span id="sex" th:text="#{sesso}+': '+${utente.sex}"></span>
+				<span th:text="#{sesso}+': '"></span><span id="sex"></span>
 			</p>
 
-			<p>
-				<span th:text="#{nazionalita}+': '+${utente.nazione}"></span>
-			</p>
 
 			<p>
 				<span th:text="#{codiceFiscale}+': '+${utente.codiceFiscale}"></span>
@@ -523,6 +533,15 @@
 	    
 	    setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
 	} 
+	
+	// sesso utente
+	var provasex = [[${utente.sex}]];
+	var ses;
+	if ( provasex == 0){
+		ses = "F";
+	} else {ses = "M";}
+	document.getElementById("sex").innerHTML = ses;
+	
 	
 	
 	

@@ -123,6 +123,10 @@ public class Urls {
 	//mails
 	public static final String abilita = pathSeparator+"abilita";
 	public static final String resetPasswordMailConfirmation =pathSeparator+"resetPasswordMailConfirmation";
+	
+	
+	//generic controller
+	public static final String currentFlag = pathSeparator+"currentFlag";
 
 	
 	

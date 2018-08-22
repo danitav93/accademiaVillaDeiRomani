@@ -20,6 +20,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script th:src="@{js/password_strength.js}"></script>
 <script th:src="@{js/dist/jquery-strength.js}"></script>
+<script th:src="@{js/passwordHint.js}"></script>
 
 <script
 	th:src="@{js/rightNavBar.js}"></script>
@@ -75,10 +76,10 @@
 					<!-- nome -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label th:inline="text" for="registration_view_nome">[[#{nome}]]</label>
+							<label th:inline="text" for="nome">[[#{nome}]]</label>
 							<label th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_nome" type="text" th:field="*{nome}"
+								id="nome" type="text" th:field="*{nome}"
 								th:placeholder="#{nome}" class="form-control" />
 						</div>
 					</div>
@@ -87,11 +88,11 @@
 					<!-- cognome -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label th:inline="text" for="registration_view_cognome">[[#{cognome}]]</label>
+							<label th:inline="text" for="cognome">[[#{cognome}]]</label>
 							<label th:if="${#fields.hasErrors('cognome')}"
 								th:errors="*{cognome}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_cognome" type="text" th:field="*{cognome}"
+								id="cognome" type="text" th:field="*{cognome}"
 								th:placeholder="#{cognome}" class="form-control" />
 						</div>
 					</div>
@@ -100,11 +101,11 @@
 					<!-- data di nascita -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_data_di_nascita" th:inline="text">[[#{dataDiNascita}]]</label>
+							<label for="dataNascita" th:inline="text">[[#{dataDiNascita}]]</label>
 							<label th:if="${#fields.hasErrors('dataNascita')}"
 								th:errors="*{dataNascita}" th:inline="text"
 								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_data_di_nascita" type="date"
+								id="dataNascita" type="date"
 								th:field="*{dataNascita}" th:placeholder="#{dataDiNascita}"
 								class="form-control" />
 						</div>
@@ -114,24 +115,58 @@
 					<!-- Nazione -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_nazione" th:inline="text">[[#{nazionalita}]]</label>
+							<label for="nazione" th:inline="text">[[#{nazione}]]</label>
 							<label th:if="${#fields.hasErrors('nazione')}"
 								th:errors="*{nazione}"
-								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_nazione" type="text" th:field="*{nazione}"
-								th:placeholder="#{nazionalita}" class="form-control" />
+								class="validation-message myStylesRedColor"></label> 
+								<select class="form-control" th:field="*{nazione}" id="nazione" >
+							    <option value="" th:text="#{selectNazione}"></option>
+							<option th:each="nazione : ${nazioni}"
+								th:value="${nazione.nazione}"
+								th:text="${nazione.nazione}"></option>
+							  </select>
+								
 						</div>
 					</div>
 
 					<!-- indirizzo -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_indirizzo" th:inline="text">[[#{indirizzo}]]</label>
+							<label for="indirizzo" th:inline="text">[[#{indirizzo}]]</label>
 							<label th:if="${#fields.hasErrors('indirizzo')}"
 								th:errors="*{indirizzo}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_indirizzo" type="text"
+								id="indirizzo" type="text"
 								th:field="*{indirizzo}" th:placeholder="#{indirizzo}"
+								class="form-control" />
+						</div>
+					</div>
+					
+					
+					
+					<!-- città -->
+					<div class="form-group">
+						<div style="text-align: center" class="col-sm-12">
+							<label for="citta" th:inline="text">[[#{citta}]]</label>
+							<label th:if="${#fields.hasErrors('citta')}"
+								th:errors="*{citta}"
+								class="validation-message myStylesRedColor"></label> <input
+								id="citta" type="text"
+								th:field="*{citta}" th:placeholder="#{citta}"
+								class="form-control" />
+						</div>
+					</div>
+					
+					
+					<!-- cap -->
+					<div class="form-group">
+						<div style="text-align: center" class="col-sm-12">
+							<label for="cap" th:inline="text">[[#{cap}]]</label>
+							<label th:if="${#fields.hasErrors('cap')}"
+								th:errors="*{cap}"
+								class="validation-message myStylesRedColor"></label> <input
+								id="cap" type="text"
+								th:field="*{cap}" th:placeholder="#{cap}"
 								class="form-control" />
 						</div>
 					</div>
@@ -139,10 +174,10 @@
 					<!-- sesso -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_indirizzo" th:inline="text">[[#{sesso}]]</label>
+							<label for="sex" th:inline="text">[[#{sesso}]]</label>
 							<label th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}"
 								class="validation-message myStylesRedColor"></label> <select
-								class="form-control" th:field="*{sex}" id="select_role">
+								class="form-control" th:field="*{sex}" id="sex">
 								<option th:text="#{seleziona}" th:value="null"></option>
 								<option th:text="F" th:value="0"></option>
 								<option th:text="M" th:value="1"></option>
@@ -153,11 +188,11 @@
 					<!-- codice fiscale -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_codice_fiscale" th:inline="text">[[#{codiceFiscale}]]</label>
+							<label for="codiceFiscale" th:inline="text">[[#{codiceFiscale}]]</label>
 							<label th:if="${#fields.hasErrors('codiceFiscale')}"
 								th:errors="*{codiceFiscale}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_codice_fiscale" type="text"
+								id="codiceFiscale" type="text"
 								th:field="*{codiceFiscale}" th:placeholder="#{codiceFiscale}"
 								class="form-control" />
 						</div>
@@ -166,11 +201,11 @@
 					<!-- telefono -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_telefono" th:inline="text">[[#{numeroTelefono}]]</label>
+							<label for="telefono" th:inline="text">[[#{numeroTelefono}]]</label>
 							<label th:if="${#fields.hasErrors('telefono')}"
 								th:errors="*{telefono}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_telefono" type="text"
+								id="telefono" type="text"
 								th:field="*{telefono}" th:placeholder="#{numeroTelefono}"
 								class="form-control" />
 						</div>
@@ -181,10 +216,10 @@
 					<!-- email -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label th:inline="text" for="registration_view_email">[[#{email}]]</label>
+							<label th:inline="text" for="email">[[#{email}]]</label>
 							<label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_email" type="text" th:field="*{email}"
+								id="email" type="text" th:field="*{email}"
 								th:placeholder="#{email}" class="form-control" />
 						</div>
 					</div>
@@ -195,7 +230,8 @@
 							<label for="password">Password</label> <label 
 								th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
 								class="validation-message myStylesRedColor"></label> <input
-								maxlength="30" id="password" type="password" required="required"
+								data-toggle="tooltip" data-placement="top" th:title="#{passwordHint}"
+								maxlength="30" id="password" type="password" 
 								th:field="*{password}" th:placeholder="Password" name="password"
 								class="form-control password-input"/> 
 						</div>
@@ -230,7 +266,16 @@
 
 
 </body>
-<script type="text/javascript">
+<script type="text/javascript"  th:inline="javascript">
+
+
+
+var focus=[[${focus}]];
+if (focus) {
+	document.getElementById(focus).focus();
+}
+
+
 $(".password-input").strength({
 	  templates: {
 	    toggle:

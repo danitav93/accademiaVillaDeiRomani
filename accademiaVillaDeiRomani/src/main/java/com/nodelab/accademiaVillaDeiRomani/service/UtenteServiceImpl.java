@@ -260,7 +260,8 @@ public class UtenteServiceImpl implements UtenteService  {
 		oldUtente.setCodiceFiscale(newUtente.getCodiceFiscale());
 		oldUtente.setTelefono(newUtente.getTelefono());
 		oldUtente.setEmail(newUtente.getEmail());
-
+		oldUtente.setCap(newUtente.getCap());
+		oldUtente.setCitta(newUtente.getCitta());
 
 		return utenteRepository.save(oldUtente);
 	}

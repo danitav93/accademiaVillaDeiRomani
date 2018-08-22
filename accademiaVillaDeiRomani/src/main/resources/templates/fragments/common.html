@@ -28,14 +28,16 @@
 	<ul th:fragment="fragRightNavBar(utente)" class="nav navbar-nav navbar-right">
 
 		<li class="dropdown"><a class="dropdown-toggle"
-			data-toggle="dropdown"> [[#{lingua}]]<span class="caret"></span></a>
+			data-toggle="dropdown"> <img id="selected_lang" style="margin-bottom: 4px;"
+						th:src="@{/currentFlag}"></img><span
+						class="caret"></span></a>
 
 			<ul class="dropdown-menu">
 
 				<li><a id="it">[[#{italiano}]]<img
 						th:src="@{../../img/it.png}" style="margin-left: 19%; width: 20%"></img></a></li>
 				<li><a id="en">[[#{inglese}]]<img
-						th:src="@{../../img/uk.svg}" style="margin-left: 20%; width: 20%"></img></a></li>
+						th:src="@{../../img/uk.png}" style="margin-left: 20%; width: 20%"></img></a></li>
 
 			</ul></li>
 
@@ -56,14 +58,16 @@
 	<ul th:fragment="fragRightNavBarNoLogout" class="nav navbar-nav navbar-right">
 
 		<li class="dropdown"><a class="dropdown-toggle"
-			data-toggle="dropdown"> [[#{lingua}]]<span class="caret"></span></a>
+			data-toggle="dropdown"> <img id="selected_lang" style="margin-bottom: 4px;"
+						th:src="@{/currentFlag}"></img><span
+						class="caret"></span></a>
 
 			<ul class="dropdown-menu">
 
 				<li><a id="it">[[#{italiano}]]<img
 						th:src="@{img/it.png}" style="margin-left: 19%; width: 20%"></img></a></li>
 				<li><a id="en">[[#{inglese}]]<img
-						th:src="@{img/uk.svg}" style="margin-left: 20%; width: 20%"></img></a></li>
+						th:src="@{img/uk.png}" style="margin-left: 20%; width: 20%"></img></a></li>
 
 			</ul></li>
 

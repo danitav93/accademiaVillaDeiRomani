@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.nodelab.accademiaVillaDeiRomani.constant.Test;
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
 import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiEsameBean;
@@ -28,8 +27,10 @@ import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 import com.nodelab.accademiaVillaDeiRomani.service.AttivitaDidatticaService;
 import com.nodelab.accademiaVillaDeiRomani.service.ContributoService;
 import com.nodelab.accademiaVillaDeiRomani.service.CorsoService;
+import com.nodelab.accademiaVillaDeiRomani.service.NazioneService;
 import com.nodelab.accademiaVillaDeiRomani.service.RoleService;
 import com.nodelab.accademiaVillaDeiRomani.service.UtenteService;
+import com.nodelab.accademiaVillaDeiRomani.service.VariabileAmbienteService;
 
 /**
  * controller che gestisce la view dello studente
@@ -55,6 +56,13 @@ public class StudentController {
 
 	@Autowired
 	ContributoService contributoService;
+	
+	@Autowired
+	private NazioneService nazioneService;
+	
+	@Autowired
+	private VariabileAmbienteService variabileAmbienteService;
+	
 
 
 	/**
@@ -377,6 +385,8 @@ public class StudentController {
 		model.addAttribute("newUtente", utente);
 		model.addAttribute("utente", utente);
 		model.addAttribute("editDatiPersonali", true);
+		model.addAttribute("nazioni", nazioneService.getAllNazione() );
+
 		return View.studentView;
 
 	}
@@ -396,7 +406,7 @@ public class StudentController {
 		Utente utenteLogged = utenteService.findUtenteByMatricola(auth.getName());
 		
 		Utente oldUtente= utenteService.findUtenteByMatricola(matricola);
-		if (Test.EMAIL_CHECK) {
+		if (variabileAmbienteService.emailCheck()) {
 			//controllo che non ci siano due utenti con la stessa mail
 			Utente utenteExists = utenteService.findUtenteByEmail(newUtente.getEmail());
 
@@ -407,14 +417,16 @@ public class StudentController {
 			}
 		}
 
-		if (bindingResult.getErrorCount()>2) {
+		if (bindingResult.getErrorCount()>1) {
 			
 			modelAndView = new ModelAndView();
 			modelAndView.addObject("utenteLogged", utenteLogged);
 			modelAndView.addObject("utente",oldUtente);
 			model.addAttribute("newUtente", newUtente);
 			model.addAttribute("editDatiPersonali", true);
+			model.addAttribute("nazioni", nazioneService.getAllNazione() );
 			modelAndView.setViewName(View.studentView);
+	
 		} else {
 			newUtente=utenteService.saveUpdatedUser(oldUtente,newUtente);
 			model.addAttribute("matricola",newUtente.getMatricola());

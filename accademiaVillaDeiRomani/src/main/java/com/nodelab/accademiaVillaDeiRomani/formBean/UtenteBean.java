@@ -45,7 +45,6 @@ public class UtenteBean implements Serializable {
 	
 	private String borseDiStudio;
 
-	@NotEmpty(message = "*Please provide fiscal code")
 	private String codiceFiscale;
 
 	@Temporal(TemporalType.DATE)
@@ -58,6 +57,11 @@ public class UtenteBean implements Serializable {
 
 	@NotEmpty(message = "*Please provide address")
 	private String indirizzo;
+	
+	@NotEmpty(message = "*Please provide city")
+	private String citta;
+	
+	private String cap;
 	
 	@NotNull(message = "*Please provide sex")
 	private Integer sex;
@@ -215,7 +219,27 @@ public class UtenteBean implements Serializable {
 		this.nazione = nazione;
 	}
 
+	public String getCitta() {
+		return citta;
+	}
 
+
+
+	public void setCitta(String citta) {
+		this.citta = citta;
+	}
+
+
+
+	public String getCap() {
+		return cap;
+	}
+
+
+
+	public void setCap(String cap) {
+		this.cap = cap;
+	}
 	
 	
 }

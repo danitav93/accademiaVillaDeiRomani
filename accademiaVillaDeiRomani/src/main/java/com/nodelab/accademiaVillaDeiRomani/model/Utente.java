@@ -77,7 +77,6 @@ public class Utente implements Serializable {
 	private String borseDiStudio;
 
 	@Column(name="codice_fiscale")
-	@NotEmpty(message = "*Please provide fiscal code")
 	private String codiceFiscale;
 
 	
@@ -94,6 +93,14 @@ public class Utente implements Serializable {
 	@Column(name = "indirizzo")
 	@NotEmpty(message = "*Please provide address")
 	private String indirizzo;
+	
+	@Column(name = "citta")
+	@NotEmpty(message = "*Please provide city")
+	private String citta;
+	
+	@Column(name = "cap")
+	private String cap;
+	
 	
 	@Column(name = "sex")
 	@NotNull(message = "*Please provide sex")
@@ -314,6 +321,23 @@ public class Utente implements Serializable {
 	public void setNazione(String nazione) {
 		this.nazione = nazione;
 	}
+	
+	public String getCitta() {
+		return citta;
+	}
+
+	public void setCitta(String citta) {
+		this.citta = citta;
+	}
+
+	public String getCap() {
+		return cap;
+	}
+
+	public void setCap(String cap) {
+		this.cap = cap;
+	}
+
 
 	public boolean isHasPercorsoFormativo() {
 		return hasPercorsoFormativo;

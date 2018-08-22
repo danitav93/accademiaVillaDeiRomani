@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
@@ -23,8 +22,8 @@ public class MailServiceImpl implements MailService {
 	@Autowired
 	private MailContentBuilder mailContentBuilder;
 	
-	@Autowired 
-	private OAuthMailServiceImpl oAuthMailService;
+	/*@Autowired 
+	private OAuthMailServiceImpl oAuthMailService;*/
 	
 	@Autowired 
 	private ApplicationInfoService applicationInfoService;

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	 
 	$("#it").click(function () {
 		window.location.replace(getUrlLangParams()+'lang=it');
 	});
