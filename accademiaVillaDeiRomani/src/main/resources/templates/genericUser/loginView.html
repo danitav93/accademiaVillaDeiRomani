@@ -51,8 +51,8 @@
 
 	</nav>
 
-	<div id="box" style="width: 82%; position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%); ">
-		 <img th:src="@{/img/logo_villa_b.png}"
+	<div style="margin-top:10%;">
+		<img th:src="@{/img/logo_villa_b.png}"
 			class="img-responsive center-block" alt="Logo" />
 
 		<div class="row">
@@ -80,7 +80,7 @@
 					<br /> <input type="text" id="login_view_matricola"
 						name="matricola" th:placeholder="#{matricola}"
 						class="form-control" /> <br /> <input type="password"
-						th:placeholder="Password" id="password" name="password"
+						th:placeholder="#{password}" id="password" name="password"
 						class="form-control" />
 					<div align="center" th:if="${param.error}">
 						<p th:inline="text" style="color: orange;">[[#{errorLogin}]]</p>
@@ -96,7 +96,7 @@
 				</form>
 
 
-				<p th:inline="text" style="color: white;">[[#{oppure}]]</p>
+				<p th:inline="text" style="color: white;margin-top:20px">[[#{oppure}]]</p>
 
 				<a th:href="@{/registration}" style="text-decoration: none">
 					<button class="btn btn-lg btn-info btn-block" name="Registrati"
@@ -108,9 +108,8 @@
 
 		</div>
 
+</div>
 
-
-	</div>
 
 	<!-- SNACKBAR OPERAZIONE AVVENUTA CON SUCCESSO -->
 	<div th:inline="text" class="snackbar" id="snackBarParameter"

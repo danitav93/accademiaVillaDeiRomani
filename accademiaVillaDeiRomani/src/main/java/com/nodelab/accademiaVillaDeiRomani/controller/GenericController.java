@@ -2,8 +2,6 @@ package com.nodelab.accademiaVillaDeiRomani.controller;
 
 
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
@@ -15,8 +13,9 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +31,14 @@ public class GenericController {
     @Autowired
     ServletContext servletContext;
     
+    @Value(value = "classpath:static/img/it.png")
+	private Resource itaFlag;
+	
+	@Value(value = "classpath:static/img/uk.png")
+	private Resource ukFlag;
+	
+	@Value(value = "classpath:static/img/china.png")
+	private Resource chinaFlag;
  
     @RequestMapping("/logTest")
     public String index() {
@@ -48,21 +55,15 @@ public class GenericController {
     public void getCurrentFlag(HttpServletResponse response) throws IOException {
     	
     	Locale locale = LocaleContextHolder.getLocale();
-    	String pathImg="static/img/";
+    	InputStream in;
     	
     	if (locale.getLanguage().equals(Locale.ITALY.getLanguage())) {
-    		pathImg=pathImg+"it.png";
+    		in=itaFlag.getInputStream();
     	} else if (locale.getLanguage().equals(Locale.CHINA.getLanguage())) {
-    		pathImg=pathImg+"china.png";
+    		in=chinaFlag.getInputStream();
     	} else {
-    		pathImg=pathImg+"uk.png";
+    		in=ukFlag.getInputStream();
     	}
-    	
-    	
-    	
-    	
-    	File file = new ClassPathResource(pathImg).getFile();
-        InputStream in = new FileInputStream(file);
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
         IOUtils.copy(in, response.getOutputStream());
     }

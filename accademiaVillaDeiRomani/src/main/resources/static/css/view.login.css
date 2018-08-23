@@ -3,17 +3,14 @@ h1, h3, p {
 	font-family: 'Roboto', sans-serif;
 }
 
-p {
-	margin-top: 40px;
-}
+
 
 .container {
 	background-image: url("../img/s_black.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	text-align: center;
-	overflow: hidden;
-
+	overflow-x: hidden;
 }
 
 .form-signin-heading {
@@ -27,15 +24,7 @@ p {
 	font-family: 'Roboto', sans-serif;
 }
 
-#imginthefooter {
-	background-image: url("../img/loghi.png");
-	background-position: center;
-	margin-top: 80px;
-	margin-bottom: 80px;
-	height: 50px;
-	weight: 100%;
-	background-size: cover;
-}
+
 
 
 

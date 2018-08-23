@@ -25,20 +25,22 @@
 <body class="container">
 
 
-	<ul th:fragment="fragRightNavBar(utente)" class="nav navbar-nav navbar-right">
+	<ul th:fragment="fragRightNavBar(utente)"
+		class="nav navbar-nav navbar-right">
 
 		<li class="dropdown"><a class="dropdown-toggle"
-			data-toggle="dropdown"> <img id="selected_lang" style="margin-bottom: 4px;"
-						th:src="@{/currentFlag}"></img><span
-						class="caret"></span></a>
+			data-toggle="dropdown"> <img id="selected_lang"
+				style="margin-bottom: 4px;" th:src="@{/currentFlag}"></img><span
+				class="caret"></span></a>
 
 			<ul class="dropdown-menu">
 
-				<li><a id="it">[[#{italiano}]]<img
-						th:src="@{../../img/it.png}" style="margin-left: 19%; width: 20%"></img></a></li>
-				<li><a id="en">[[#{inglese}]]<img
-						th:src="@{../../img/uk.png}" style="margin-left: 20%; width: 20%"></img></a></li>
-
+				<li><a id="it"><img th:src="@{../../img/it.png}"
+						style="margin-right:20px"></img>[[#{italiano}]]</a></li>
+				<li><a id="en"><img th:src="@{../../img/uk.png}"
+						style="margin-right:20px"></img>[[#{inglese}]]</a></li>
+				<li><a id="zh"><img th:src="@{../../img/china.png}"
+						style="margin-right:20px"></img>[[#{cinese}]]</a></li>
 			</ul></li>
 
 
@@ -48,46 +50,33 @@
 
 			<ul class="dropdown-menu">
 
-				<li><a th:href="@{/logout}"><span
-						class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+				<li><a th:href="@{/logout}" th:inline="text"><span
+						class="glyphicon glyphicon-log-out"></span> [[#{logout}]]</a></li>
 
 			</ul></li>
-		
+
 	</ul>
-	
-	<ul th:fragment="fragRightNavBarNoLogout" class="nav navbar-nav navbar-right">
+
+	<ul th:fragment="fragRightNavBarNoLogout"
+		class="nav navbar-nav navbar-right">
 
 		<li class="dropdown"><a class="dropdown-toggle"
-			data-toggle="dropdown"> <img id="selected_lang" style="margin-bottom: 4px;"
-						th:src="@{/currentFlag}"></img><span
-						class="caret"></span></a>
+			data-toggle="dropdown"> <img id="selected_lang"
+				style="margin-bottom: 4px;" th:src="@{/currentFlag}"></img><span
+				class="caret"></span></a>
 
 			<ul class="dropdown-menu">
 
-				<li><a id="it">[[#{italiano}]]<img
-						th:src="@{img/it.png}" style="margin-left: 19%; width: 20%"></img></a></li>
-				<li><a id="en">[[#{inglese}]]<img
-						th:src="@{img/uk.png}" style="margin-left: 20%; width: 20%"></img></a></li>
-
+				<li><a id="it"><img th:src="@{img/it.png}"
+						style="margin-right:20px"></img>[[#{italiano}]]</a></li>
+				<li><a id="en"><img th:src="@{img/uk.png}"
+						style="margin-right:20px"></img>[[#{inglese}]]</a></li>
+				<li><a id="zh"><img th:src="@{img/china.png}"
+						style="margin-right:20px"></img>[[#{cinese}]]</a></li>
 			</ul></li>
 
 
-		
-		
+
+
 	</ul>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 </html>

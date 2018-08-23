@@ -7,6 +7,10 @@ $(document).ready(function() {
 		window.location.replace(getUrlLangParams()+'lang=en');
 
 	});
+	$("#zh").click(function () {
+		window.location.replace(getUrlLangParams()+'lang=zh');
+
+	});
 });
 function getUrlLangParams() {
 	var completeUrl=window.location.href;
