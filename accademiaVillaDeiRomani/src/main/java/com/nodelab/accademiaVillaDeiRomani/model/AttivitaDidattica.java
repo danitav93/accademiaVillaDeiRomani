@@ -26,7 +26,7 @@ public class AttivitaDidattica implements Serializable{
 	
 	private String nome; 
 	
-	private Integer cf;
+	
 	
 	@OneToMany(mappedBy = "attivitaDidattica")
 	@JsonBackReference
@@ -52,13 +52,7 @@ public class AttivitaDidattica implements Serializable{
 		this.nome = nome;
 	}
 
-	public Integer getCf() {
-		return cf;
-	}
-
-	public void setCf(Integer cf) {
-		this.cf = cf;
-	}
+	
 
 	public Set<UtenteHasAttivitaDidattica> getUtenteHasAttivitaDidatticaSet() {
 		return utenteHasAttivitaDidatticaSet;

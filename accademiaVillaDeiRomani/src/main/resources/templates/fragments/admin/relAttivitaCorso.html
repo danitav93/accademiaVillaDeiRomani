@@ -63,6 +63,14 @@
 							required="required" id="anno" type="number" th:field="*{anno}"
 							th:placeholder="#{anno}" class="form-control" />
 					</div>
+					<!-- cf -->
+					<div class="form-group hidden" id="divCf">
+						<label th:inline="text" for="cf">[[#{cf}]]</label> <label
+							th:if="${#fields.hasErrors('cf')}" th:errors="*{cf}"
+							class="validation-message myStylesRedColor"></label> <input
+							required="required" id="cf" type="number" th:field="*{cf}"
+							th:placeholder="#{cf}" class="form-control" />
+					</div>
 
 				</div>
 			</div>
@@ -79,9 +87,11 @@
 		        		$("#divAttivita").removeClass('hidden');
 		        		$("#divObbligatorio").removeClass('hidden');
 		        		$("#divAnno").removeClass('hidden');
+		        		$("#divCf").removeClass('hidden');
 		        		$("#divSalva").removeClass('hidden');
 		        		var corsi = [[${corsi}]];
 		        		var attivitaDidattiche=[[${attivitaDidattiche}]];
+		        		
 		        		var corsoIdSelected = $(this).val();
 		        		var corsoSelected;
 		        		var length=corsi.length;
@@ -94,21 +104,24 @@
 		        			$("#divAttivita").addClass('hidden');
 			        		$("#divObbligatorio").addClass('hidden');
 			        		$("#divAnno").addClass('hidden');
+			        		$("#divCf").addClass('hidden');
 			        		$("#divSalva").addClass('hidden');
 		        			$('#attivita').html("");
 		        			$("#anno").val(null);
+		        			$("#cf").val(null);
 		        			$("#obbligatorio").val(false);
 		        			return;
 		        		}
 		        		length=corsoSelected.corsoHasAttivitaDidatticaSet.length;
 		        		var htmlAttivita='<option value="" >-- --</option>';
-		        		//mosto le attivita che non sono già relazionate con il corso
+		        		//mostro le attivita che non sono già relazionate con il corso
 		        		var idsAttivitaRelatedToCorsoSelected=[];
 		        		for (var i=0;i<length;i++) {
 		        			idsAttivitaRelatedToCorsoSelected.push(corsoSelected.corsoHasAttivitaDidatticaSet[i].attivitaDidattica.idAttivitaDidattica);
 		        		}
 		        		length=attivitaDidattiche.length;
 		                for ( var i=0;i<length;i++) {
+		                	alert(JSON.stringify(attivitaDidattiche, null, 4));
 		                	if (! idsAttivitaRelatedToCorsoSelected.includes(attivitaDidattiche[i].idAttivitaDidattica)) {
 		                		htmlAttivita += '<option value='+attivitaDidattiche[i].idAttivitaDidattica+'>'+
 		                		attivitaDidattiche[i].nome+'</option>';
@@ -227,6 +240,14 @@
 							required="required" id="anno" type="number" th:field="*{anno}"
 							th:placeholder="#{anno}" class="form-control" />
 					</div>
+					<!-- cf -->
+					<div class="form-group hidden" id="divCf">
+						<label th:inline="text" for="cf">[[#{cf}]]</label> <label
+							th:if="${#fields.hasErrors('cf')}" th:errors="*{cf}"
+							class="validation-message myStylesRedColor"></label> <input
+							required="required" id="cf" type="number" th:field="*{cf}"
+							th:placeholder="#{cf}" class="form-control" />
+					</div>
 				</div>
 			</div>
 			<div class="row hidden" id="divSalva">
@@ -254,8 +275,10 @@
 	        			$("#divObbligatorio").addClass('hidden');
 		        		$("#divAnno").addClass('hidden');
 		        		$("#divSalva").addClass('hidden');
+		        		$("#divCf").addClass('hidden');
 	        			$('#attivita').html("");
 	        			$("#anno").val(null);
+	        			$("#cf").val(null);
 	        			$("#obbligatorio").val(false);
 	        			return;
 	        		}
@@ -273,6 +296,7 @@
 		        	$("#divObbligatorio").removeClass('hidden');
 	        		$("#divAnno").removeClass('hidden');
 	        		$("#divSalva").removeClass('hidden');
+	        		$("#divCf").removeClass('hidden');
 	        		var corsi = [[${corsi}]];
 	        		var corsoIdSelected = $('#select_corso').val();
 	        		var corsoSelected;
@@ -295,12 +319,14 @@
 	        			$("#divObbligatorio").addClass('hidden');
 		        		$("#divAnno").addClass('hidden');
 		        		$("#divSalva").addClass('hidden');
+		        		$("#divCf").addClass('hidden');
 	        			$("#anno").val(null);
 	        			$("#obbligatorio").val(false);
 	        			return;
 	        		}
 	        		$("#obbligatorio").prop('checked',corsoHasAttivitaDidatticaSelected.obbligatorio);
 	        		$("#anno").val(corsoHasAttivitaDidatticaSelected.anno);
+	        		$("#cf").val(corsoHasAttivitaDidatticaSelected.cf);
 		        });
 		</script>
 	</div>
@@ -320,9 +346,9 @@
 					</select>
 				</div>
 				<!-- Attivita associate al corso -->
-				<div class="form-group hidden " id="attivitaAssociateDiv">
+				<div class="form-group hidden " id="attivitaAssociateDiv" >
 					<label for="attivitaAssociate" th:inline="text">[[#{InsegnamentiAssociati}]]</label>
-					<table  class="table"
+					<table  class="table" style="color:white"
 						id="attivitaAssociate">
 
 					</table>
@@ -347,13 +373,14 @@
 		        			return;
 		        		}
 		        		length=corsoSelected.corsoHasAttivitaDidatticaSet.length;
-		        		var  htmlAttivita='<thead ><tr><th >'+[[#{nome}]]+'</th><th ">'+[[#{obbligatorio}]]+'</th><th >'+[[#{anno}]]+'</th></tr></thead><tbody>';
+		        		var  htmlAttivita='<thead ><tr><th >'+[[#{nome}]]+'</th><th ">'+[[#{obbligatorio}]]+'</th><th >'+[[#{anno}]]+'</th><th >'+[[#{cf}]]+'</th></tr></thead><tbody>';
 		                for ( var i=0;i<length;i++) {
 		                	var obbl=(corsoSelected.corsoHasAttivitaDidatticaSet[i].obbligatorio)?"si":"no";
 		                	htmlAttivita +=' <tr>'+
 								'<td>'+corsoSelected.corsoHasAttivitaDidatticaSet[i].attivitaDidattica.nome+'</td>'+
 								'<td>'+obbl+'</td>'+
 								'<td>'+corsoSelected.corsoHasAttivitaDidatticaSet[i].anno+'</td>'+
+								'<td>'+corsoSelected.corsoHasAttivitaDidatticaSet[i].cf+'</td>'+
 								'</tr>';
 							
 		                }

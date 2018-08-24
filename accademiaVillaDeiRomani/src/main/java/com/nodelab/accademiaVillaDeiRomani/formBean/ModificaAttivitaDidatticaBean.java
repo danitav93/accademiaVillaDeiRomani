@@ -22,7 +22,6 @@ public class ModificaAttivitaDidatticaBean {
 	
 	private String nome;
 	
-	private Integer cf;
 	
 	private Integer anno;
 
@@ -48,14 +47,6 @@ public class ModificaAttivitaDidatticaBean {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public Integer getCf() {
-		return cf;
-	}
-
-	public void setCf(Integer cf) {
-		this.cf = cf;
 	}
 
 	public Integer getAnno() {

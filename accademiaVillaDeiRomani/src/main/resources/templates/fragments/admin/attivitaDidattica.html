@@ -46,14 +46,7 @@
 							th:field="*{nome}" th:placeholder="#{titolo}" class="form-control" />
 					</div>
 
-					<!-- cf -->
-					<div class="form-group" style="text-align: center">
-						<label th:inline="text" for="cf">[[#{cf}]]</label> <label
-							th:if="${#fields.hasErrors('cf')}" th:errors="*{cf}"
-							class="validation-message myStylesRedColor"></label> <input
-							required="required" id="cf" type="number" th:field="*{cf}"
-							th:placeholder="#{cf}" class="form-control" />
-					</div>
+					
 
 				</div>
 			</div>
@@ -146,17 +139,7 @@
 							class="form-control" />
 					</div>
 					
-					<!-- cf -->
-					<div class="form-group hidden" id="divEditAttivitaCf">
-						<label for="editAttivitaCf" th:inline="text">[[#{cf}]]</label>
-						<label th:if="${#fields.hasErrors('cf')}"
-							th:errors="*{cf}"
-							class="validation-message myStylesRedColor"></label> <input
-							required="required" id="editAttivitaCf" type="number"
-							 th:field="*{cf}" th:placeholder="#{cf}"
-							class="form-control" />
-
-					</div>
+				
 				</div>
 			</div>
 			<div class="row hidden" id="divSalva">
@@ -205,13 +188,11 @@
 					<thead>
 						<tr>
 							<th><span th:text="#{titolo}"></span></th>	
-							<th><span th:text="#{cf}"></span></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="attivitaDidattica : ${attivitaDidattiche}">
 							<td th:text="${attivitaDidattica.nome}"></td>
-							<td th:text="${attivitaDidattica.cf}"></td>
 						</tr>
 					</tbody>
 				</table>

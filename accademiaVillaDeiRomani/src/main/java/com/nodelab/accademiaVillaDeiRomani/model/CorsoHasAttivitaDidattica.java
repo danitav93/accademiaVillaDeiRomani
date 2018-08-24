@@ -40,6 +40,9 @@ public class CorsoHasAttivitaDidattica implements Serializable{
 	
 	@Column(name="anno")
 	private Integer anno;
+	
+	@Column(name="cf")
+	private Integer cf;
 
 	public Integer getAnno() {
 		return anno;
@@ -80,6 +83,12 @@ public class CorsoHasAttivitaDidattica implements Serializable{
 	public void setObbligatorio(boolean obbligatorio) {
 		this.obbligatorio = obbligatorio;
 	}
-	
+	public Integer getCf() {
+		return cf;
+	}
+
+	public void setCf(Integer cf) {
+		this.cf = cf;
+	}
 	
 }

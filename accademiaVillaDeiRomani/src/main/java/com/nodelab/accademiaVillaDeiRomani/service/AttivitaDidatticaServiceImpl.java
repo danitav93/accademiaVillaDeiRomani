@@ -100,7 +100,6 @@ public class AttivitaDidatticaServiceImpl implements AttivitaDidatticaService{
 		modificaAttivitaDidatticaBean.getAttivitaDidattica().setCorsoHasAttivitaDidatticaSet(new HashSet<CorsoHasAttivitaDidattica>(assocToSave));
 		
 		//aggiorno i dati dell'attività didattica
-		modificaAttivitaDidatticaBean.getAttivitaDidattica().setCf(modificaAttivitaDidatticaBean.getCf());
 		modificaAttivitaDidatticaBean.getAttivitaDidattica().setNome(modificaAttivitaDidatticaBean.getNome());
 
 		attivitaDidatticaRepository.save(modificaAttivitaDidatticaBean.getAttivitaDidattica());

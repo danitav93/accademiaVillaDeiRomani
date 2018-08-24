@@ -83,10 +83,11 @@ public class CorsoServiceImpl implements CorsoService {
 
 	@Override
 	public void updateCorsoHasAttivitaDidattica(@Valid CorsoHasAttivitaDidattica corsoHasAttivitaDidattica) {
-		CorsoHasAttivitaDidattica corsoHasAttivitaDidatticaToDelete=corsoHasAttivitaDidatticaRepository.findByAttivitaDidatticaAndCorso(corsoHasAttivitaDidattica.getAttivitaDidattica(),corsoHasAttivitaDidattica.getCorso());
-		corsoHasAttivitaDidatticaToDelete.setAnno(corsoHasAttivitaDidattica.getAnno());
-		corsoHasAttivitaDidatticaToDelete.setObbligatorio(corsoHasAttivitaDidattica.isObbligatorio());
-		corsoHasAttivitaDidatticaRepository.save(corsoHasAttivitaDidatticaToDelete);
+		CorsoHasAttivitaDidattica corsoHasAttivitaDidatticaToSave=corsoHasAttivitaDidatticaRepository.findByAttivitaDidatticaAndCorso(corsoHasAttivitaDidattica.getAttivitaDidattica(),corsoHasAttivitaDidattica.getCorso());
+		corsoHasAttivitaDidatticaToSave.setAnno(corsoHasAttivitaDidattica.getAnno());
+		corsoHasAttivitaDidatticaToSave.setObbligatorio(corsoHasAttivitaDidattica.isObbligatorio());
+		corsoHasAttivitaDidatticaToSave.setCf(corsoHasAttivitaDidattica.getCf());
+		corsoHasAttivitaDidatticaRepository.save(corsoHasAttivitaDidatticaToSave);
 	}
 	
 	

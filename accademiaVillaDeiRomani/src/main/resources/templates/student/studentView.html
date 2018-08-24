@@ -251,7 +251,6 @@
 					<thead>
 						<tr>
 							<th><span th:text="#{nome}"></span></th>
-							<th><span th:text="#{creditiFormativi}"></span></th>
 							<th><span th:text="#{dataEsame}"></span></th>
 							<th><span th:text="#{votoEsame}"></span></th>
 						</tr>
@@ -261,7 +260,6 @@
 							th:each="utenteHasAttivitaDidattica : ${utente.utenteHasAttivitaDidatticaSet}">
 							<td
 								th:text="${utenteHasAttivitaDidattica?.attivitaDidattica.nome}"></td>
-							<td th:text="${utenteHasAttivitaDidattica?.attivitaDidattica.cf}"></td>
 							<td th:text="${utenteHasAttivitaDidattica?.dataEsame}"></td>
 							<td th:text="${utenteHasAttivitaDidattica?.votoEsame}"></td>
 						</tr>
