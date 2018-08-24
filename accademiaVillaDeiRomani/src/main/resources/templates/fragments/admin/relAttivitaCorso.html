@@ -121,7 +121,6 @@
 		        		}
 		        		length=attivitaDidattiche.length;
 		                for ( var i=0;i<length;i++) {
-		                	alert(JSON.stringify(attivitaDidattiche, null, 4));
 		                	if (! idsAttivitaRelatedToCorsoSelected.includes(attivitaDidattiche[i].idAttivitaDidattica)) {
 		                		htmlAttivita += '<option value='+attivitaDidattiche[i].idAttivitaDidattica+'>'+
 		                		attivitaDidattiche[i].nome+'</option>';
