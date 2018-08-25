@@ -26,6 +26,7 @@ import com.nodelab.accademiaVillaDeiRomani.formBean.PasswordBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.UtenteBean;
 import com.nodelab.accademiaVillaDeiRomani.model.RegistrationVerificationToken;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
+import com.nodelab.accademiaVillaDeiRomani.service.CorsoService;
 import com.nodelab.accademiaVillaDeiRomani.service.MailService;
 import com.nodelab.accademiaVillaDeiRomani.service.MessageService;
 import com.nodelab.accademiaVillaDeiRomani.service.NazioneService;
@@ -65,6 +66,9 @@ public class RegistrationController {
 	private DataConverter dataConverter;
 	
 	@Autowired
+	private CorsoService corsoService;
+	
+	@Autowired
 	private VariabileAmbienteService variabileAmbienteService;
 
 	/**
@@ -78,7 +82,7 @@ public class RegistrationController {
 		modelAndView.addObject("utenteBean", utenteBean);
 		modelAndView.setViewName(View.registrationView);
 		modelAndView.addObject("nazioni", nazioneService.getAllNazione() );
-		
+		modelAndView.addObject("corsi", corsoService.getListOfCorsi() );
 		return modelAndView;
 	}
 
@@ -132,9 +136,10 @@ public class RegistrationController {
 			modelAndView.setViewName(View.registrationView);
 			modelAndView.addObject("nazioni", nazioneService.getAllNazione() );
 			modelAndView.addObject("focus", ((FieldError)(bindingResult.getAllErrors().get(0))).getField());
+			modelAndView.addObject("corsi", corsoService.getListOfCorsi() );
 		} else {
 			Utente utente = dataConverter.getModelUtenteByUtenteFormBean(utenteBean); 
-			utente=utenteService.saveNewRegisteredUser(utente);
+			utente=utenteService.saveNewRegisteredUser(utente,utenteBean.getCorso());
 			//mandiamo una mail con il link di conferma
 			String token = UUID.randomUUID().toString();
 			utenteService.createRegistrationverificationToken(token,utente);

@@ -272,13 +272,15 @@ ul.sidebar li a h1,ul.sidebar li a h2,ul.sidebar li a h3,ul.sidebar li a h4,ul.s
 				<tr>
 					<td>
 						<h3 ><span th:text="${benvenuto}"></span></h3>
-						<p class="lead" ><span th:text="${messaggioMail1}"></span><span th:text="${matricola}"></span></p>
+						<p class="lead" ><span th:text="${messaggioMail1}"></span><b><span th:text="${matricola}"></span></b></p>
 						<p><span th:text="${messaggioMail2}"></span>.</p>
 						<!-- Callout Panel -->
 						<p class="callout">
 							<span th:text="${messaggioMail3}"></span><a th:href="${link}">LINK</a>.
 						</p><!-- /Callout Panel -->					
-												
+						<p class="callout">
+							<span th:text="${messaggioMail4}"></span><a style="text-decoration: none" disabled="true" th:text="${link}"></a>
+						</p>						
 						<!-- social & contact -->
 						<table class="social" width="100%">
 							<tr>

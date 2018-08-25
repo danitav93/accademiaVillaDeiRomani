@@ -19,6 +19,7 @@ import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiTasseBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.PercorsoFormativoBean;
 import com.nodelab.accademiaVillaDeiRomani.model.AttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
+import com.nodelab.accademiaVillaDeiRomani.model.Corso;
 import com.nodelab.accademiaVillaDeiRomani.model.CorsoHasAttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Matricola;
 import com.nodelab.accademiaVillaDeiRomani.model.PasswordResetToken;
@@ -101,13 +102,22 @@ public class UtenteServiceImpl implements UtenteService  {
 
 
 	@Override
-	public Utente saveNewRegisteredUser(Utente utente) {
+	public Utente saveNewRegisteredUser(Utente utente, Corso corso) {
 		utente.setPassword(bCryptPasswordEncoder.encode(utente.getPassword()));
 		utente.setMatricola(getNewMatricola());
 		utente.setDataIscrizione(TimeAndDate.getCurrentDate());
 		utente.setRole(roleRepository.findByName(Ruoli.ruolo_studente));
 		utente.setActive(0);
-		return utenteRepository.save(utente);
+		utente=utenteRepository.save(utente);
+		if (corso!=null) {
+			UtenteHasCorso utenteHasCorso = new UtenteHasCorso();
+			utenteHasCorso.setCorso(corso);
+			utenteHasCorso.setUtente(utente);
+			utenteHasCorso=utenteHasCorsoRepository.save(utenteHasCorso);
+			utente.setUtenteHasCorso(utenteHasCorso);
+		}
+		
+		return utente;
 	}
 
 	@Override

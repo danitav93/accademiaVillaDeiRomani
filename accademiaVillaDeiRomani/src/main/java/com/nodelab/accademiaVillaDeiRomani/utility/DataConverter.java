@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.nodelab.accademiaVillaDeiRomani.formBean.UtenteBean;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
+import com.nodelab.accademiaVillaDeiRomani.model.UtenteHasCorso;
 
 @Component
 public class DataConverter {

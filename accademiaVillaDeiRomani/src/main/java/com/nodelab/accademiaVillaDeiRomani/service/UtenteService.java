@@ -8,6 +8,7 @@ import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiEsameBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiTasseBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.PercorsoFormativoBean;
 import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
+import com.nodelab.accademiaVillaDeiRomani.model.Corso;
 import com.nodelab.accademiaVillaDeiRomani.model.RegistrationVerificationToken;
 import com.nodelab.accademiaVillaDeiRomani.model.Utente;
 import com.nodelab.accademiaVillaDeiRomani.report.bean.ReportStudenteBeanDataSource;
@@ -20,7 +21,7 @@ public interface UtenteService {
 
 	public void saveUser(Utente user); 
 	
-	public Utente saveNewRegisteredUser(Utente user);
+	public Utente saveNewRegisteredUser(Utente user, Corso corso);
 	
 	public String getNewMatricola();
 

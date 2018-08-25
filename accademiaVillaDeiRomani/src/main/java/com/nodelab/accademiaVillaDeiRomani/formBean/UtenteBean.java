@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.nodelab.accademiaVillaDeiRomani.annotation.PasswordAnnotation;
+import com.nodelab.accademiaVillaDeiRomani.model.Corso;
 import com.nodelab.accademiaVillaDeiRomani.model.Role;
 
 
@@ -78,7 +79,7 @@ public class UtenteBean implements Serializable {
 	@NotNull(message = "*Select a role")
 	private Role role;
 
-
+	private Corso corso;
 	
 	
 	public UtenteBean() {
@@ -239,6 +240,18 @@ public class UtenteBean implements Serializable {
 
 	public void setCap(String cap) {
 		this.cap = cap;
+	}
+
+
+
+	public Corso getCorso() {
+		return corso;
+	}
+
+
+
+	public void setCorso(Corso corso) {
+		this.corso = corso;
 	}
 	
 	

@@ -34,6 +34,8 @@ public class MailContentBuilder {
 	        context.setVariable("messaggioMail1", messageService.getMessage("messaggioRegistrationMail1"));
 	        context.setVariable("messaggioMail2", messageService.getMessage("messaggioRegistrationMail12"));
 	        context.setVariable("messaggioMail3",messageService.getMessage("messaggioRegistrationMail13"));
+	        context.setVariable("messaggioMail4",messageService.getMessage("messaggioRegistrationMail14"));
+
 	        context.setVariable("registrazioneAvvenutaConSuccesso",messageService.getMessage("registrazioneAvvenutaConSuccesso"));
 	        context.setVariable("imageResourceName",imageResourceName);
 	        return templateEngine.process("genericUser/registrationMail", context);
@@ -44,6 +46,8 @@ public class MailContentBuilder {
 	        context.setVariable("link",applicationInfoService.getDominio()+Urls.resetPasswordMailConfirmation+"?idUtente="+utente.getIdUtente()+"&token="+token);
 	        context.setVariable("messaggioMail1", messageService.getMessage("messaggioResetPasswordMail1"));
 	        context.setVariable("messaggioMail2",messageService.getMessage("messaggioResetPasswordMail2"));
+	        context.setVariable("messaggioMail4",messageService.getMessage("messaggioRegistrationMail14"));
+
 	        context.setVariable("imageResourceName",imageResourceName);
 	        return templateEngine.process("genericUser/resetPasswordMail", context);
 		}
