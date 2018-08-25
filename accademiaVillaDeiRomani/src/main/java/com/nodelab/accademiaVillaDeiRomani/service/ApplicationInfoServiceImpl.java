@@ -200,6 +200,11 @@ public class ApplicationInfoServiceImpl implements ApplicationInfoService {
 		return encryptedPropertyService.getEncryptedPropery("amazon.smtp.password");
 	}
 
+	@Override
+	public String getAmbiente() {
+		return encryptedPropertyService.getEncryptedPropery("ambiente");
+	}
+
 
 
 

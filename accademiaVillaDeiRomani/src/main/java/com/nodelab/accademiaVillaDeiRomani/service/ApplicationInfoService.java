@@ -38,4 +38,6 @@ public interface ApplicationInfoService {
 
 	public String getAmazonEmailPassword();
 	
+	public String getAmbiente();
+	
 }

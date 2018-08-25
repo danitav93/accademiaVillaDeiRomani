@@ -14,6 +14,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
+import com.nodelab.accademiaVillaDeiRomani.service.ApplicationInfoService;
+import com.nodelab.accademiaVillaDeiRomani.constant.Application;
 import com.nodelab.accademiaVillaDeiRomani.constant.Privileges;
 import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
 
@@ -32,6 +34,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Value("${spring.queries.roles-query}")
 	private String rolesQuery;
+	
+	@Autowired
+	private ApplicationInfoService applicationInfoService;
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -73,7 +78,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.and()
 			.exceptionHandling()
 				.accessDeniedPage("/access-denied");
-
+		if (applicationInfoService.getAmbiente().equals(Application.AMBIENTE_PRODUZIONE)) {
+			http.requiresChannel().anyRequest().requiresSecure();
+		}
 	}
 
 	
