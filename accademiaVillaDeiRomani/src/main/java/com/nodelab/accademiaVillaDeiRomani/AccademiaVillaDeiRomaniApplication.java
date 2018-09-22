@@ -13,7 +13,7 @@ public class AccademiaVillaDeiRomaniApplication  {
 		
 		SpringApplication.run(AccademiaVillaDeiRomaniApplication.class, args);
 		
-		ginoooooooooooooooooooooooooooooooooo	la fava	er polpetta
+		ginoooooooooooooooooooooooooooooooooo	la fava	er polpetta wololo
 	
 	}
 }*/
