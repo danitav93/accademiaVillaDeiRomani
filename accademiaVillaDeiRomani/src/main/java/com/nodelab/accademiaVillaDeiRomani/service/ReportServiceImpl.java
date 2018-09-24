@@ -85,6 +85,11 @@ public class ReportServiceImpl implements ReportService {
 	        	}
 	        	filtri=filtri+"Sesso: "+sesso+"  ";
 	        }
+	        
+	        if (reportStudenteBean.getNazione()!=null) {
+	        	filtri=filtri+"Nazione: "+reportStudenteBean.getNazione()+"  ";
+	        }
+	        
 	        params.put("filtri", filtri);
 	        
 	        
@@ -130,6 +135,10 @@ public class ReportServiceImpl implements ReportService {
         
         if (reportStudenteBean.getSex()!=null) {
 			whereClauses=whereClauses+and+"u.sex="+reportStudenteBean.getSex();
+        }
+        
+        if (reportStudenteBean.getNazione()!=null && reportStudenteBean.getNazione()!="") {
+			whereClauses=whereClauses+and+"u.nazione="+"'"+reportStudenteBean.getNazione()+"'";
         }
 		
 		query=query+whereClauses+";";

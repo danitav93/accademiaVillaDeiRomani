@@ -28,7 +28,7 @@
 
 
 
-
+<link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
 <link type="text/css" href="../../css/view.admin.css" rel="stylesheet" />
 <link type="text/css" href="../../css/my.styles.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
@@ -407,7 +407,7 @@
 					<h4 class="modal-title" th:inline="text">[[#{reportStudenti}]]</h4>
 				</div>
 				<div
-					th:replace="fragments/admin/reportStudenti::fragReportStudenti (${reportStudenteBean},${attivitaDidattiche},${corsi},${contributi})"></div>
+					th:replace="fragments/admin/reportStudenti::fragReportStudenti (${reportStudenteBean},${attivitaDidattiche},${corsi},${contributi},${nazioni})"></div>
 			</div>
 		</div>
 	</div>

@@ -14,7 +14,7 @@ body {
 /* Header */
 header {color:white;
 	text-align: center; font-family: 'Roboto', sans-serif;
- 	display: block; 
+ 	display: block; 
 }
 header .profileLogo .logoPlaceholder {color:white;
 /*   	background-color: rgba(208,207,207,1.00);   */ /*sfondo logo*/	 font-family: 'Roboto', sans-serif;
