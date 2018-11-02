@@ -108,6 +108,8 @@ public class UtenteServiceImpl implements UtenteService  {
 		utente.setDataIscrizione(TimeAndDate.getCurrentDate());
 		utente.setRole(roleRepository.findByName(Ruoli.ruolo_studente));
 		utente.setActive(0);
+		utente.setNome(modifica(utente.getNome()));
+		utente.setCognome(modifica(utente.getCognome()));
 		utente=utenteRepository.save(utente);
 		if (corso!=null) {
 			UtenteHasCorso utenteHasCorso = new UtenteHasCorso();
@@ -119,6 +121,41 @@ public class UtenteServiceImpl implements UtenteService  {
 		
 		return utente;
 	}
+public String modifica ( String nome ) {
+		
+		if(nome.indexOf(" ") != -1) {
+			
+			String[] spaz = nome.split(" ");
+			ArrayList<String> nep = new ArrayList<String>();
+			for ( int i = 0; i < spaz.length; i++) {
+				String a = mod(spaz[i]);
+				nep.add(a); 
+				  
+				}
+			
+			String cal = String.join(" ", nep);
+			
+			return cal;
+		}
+		
+		else {
+		  String call = mod(nome);
+		
+		return call;
+		}
+	}
+	
+	
+		public String mod (String nome ) {
+			
+			 String letter1 = nome.substring (0,1);
+			   String upper = letter1.toUpperCase();
+			   String rest = nome.substring(1, nome.length());
+			   String lower = rest.toLowerCase();
+			   
+
+			   return upper + lower;
+		}
 
 	@Override
 	public void update(@Valid Utente utente) {

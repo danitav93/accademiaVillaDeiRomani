@@ -7,7 +7,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.nodelab.accademiaVillaDeiRomani.model.AttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
 import com.nodelab.accademiaVillaDeiRomani.model.Corso;
-
 /*
  * Questo bean è utilizzato per i di filtri sul report degli studenti
  */
@@ -17,6 +16,7 @@ public class ReportStudenteBean {
 	private AttivitaDidattica attivitaDidattica;
 	private boolean esameSostenuto=false;
 	private Contributo contributo;
+	private String nazione;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date aImmatricolazioneDate;
@@ -81,6 +81,12 @@ public class ReportStudenteBean {
 	}
 	public void setSex(Integer sex) {
 		this.sex = sex;
+	}
+	public String getNazione() {
+		return nazione;
+	}
+	public void setNazione(String nazione) {
+		this.nazione = nazione;
 	}
 	
 	

@@ -27,7 +27,7 @@
 <body class="container">
 
 	<div
-		th:fragment="fragReportStudenti (reportStudenteBean,attivitaDidattiche,corsi,contributi)">
+		th:fragment="fragReportStudenti (reportStudenteBean,attivitaDidattiche,corsi,contributi,nazione)">
 
 
 
@@ -138,6 +138,27 @@
 								th:placeholder="#{a}" />
 						</div>
 					</div>
+					
+	
+					<!-- nazione -->
+					<div class="form-group">
+							<label for="select_nazione"><span
+							th:text="#{nazione}"></span></label> <label
+							 th:inline="text">[[#{nazione}]]></label>
+							<label th:if="${#fields.hasErrors('nazione')}" th:errors="*{nazione}"
+								class="validation-message myStylesRedColor"></label> 
+								
+								<select class="form-control" th:field="*{nazione}" >
+							    <option value="" th:text="#{selectNazione}"></option>
+							<option th:each="nazione : ${nazioni}"
+								th:value="${nazione.nazione}"
+								th:text="${nazione.nazione}"></option>
+							  </select>
+								
+						</div>
+						
+					
+					
 				</div>
 			</div>
 			<div class="row">
