@@ -1,5 +1,6 @@
 package com.nodelab.accademiaVillaDeiRomani.controller;
 
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.nodelab.accademiaVillaDeiRomani.constant.ErrorCodes;
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
 import com.nodelab.accademiaVillaDeiRomani.formBean.PasswordBean;
@@ -58,16 +61,16 @@ public class RegistrationController {
 
 	@Autowired
 	private SecurityService securityService;
-	
+
 	@Autowired
 	private NazioneService nazioneService;
-	
+
 	@Autowired
 	private DataConverter dataConverter;
-	
+
 	@Autowired
 	private CorsoService corsoService;
-	
+
 	@Autowired
 	private VariabileAmbienteService variabileAmbienteService;
 
@@ -121,43 +124,60 @@ public class RegistrationController {
 	 */
 	@RequestMapping(value = { Urls.submitRegistrationPath}, method = RequestMethod.POST)
 	public ModelAndView createNewUser(@Valid @ModelAttribute("utenteBean") UtenteBean utenteBean, BindingResult bindingResult, HttpServletRequest request,ModelMap model) {
-		ModelAndView modelAndView = new ModelAndView();
-		if (variabileAmbienteService.emailCheck()) {
-			//controllo che non ci siano due utenti con la stessa mail
-			Utente utenteExists = utenteService.findUtenteByEmail(utenteBean.getEmail());
-			if (utenteExists != null) {
-				bindingResult
-				.rejectValue("email", "error.user",
-						"There is already a user registered with the email provided");
+
+		try {
+
+			Locale locale = LocaleContextHolder.getLocale();
+			
+			logger.info("UTENTE PROVA REGISTRAZIONE: NOME= "+utenteBean.getNome()+ " LOCALE: "+locale.getCountry());
+
+			
+			
+			ModelAndView modelAndView = new ModelAndView();
+			if (variabileAmbienteService.emailCheck()) {
+				//controllo che non ci siano due utenti con la stessa mail
+				Utente utenteExists = utenteService.findUtenteByEmail(utenteBean.getEmail());
+				if (utenteExists != null) {
+					bindingResult
+					.rejectValue("email", "error.user",
+							"There is already a user registered with the email provided");
+				}
 			}
-		}
-		//se c'è solo un errore so che è il ruolo (lo setto automaticamente dopo)
-		if (bindingResult.hasErrors() && bindingResult.getAllErrors().size()>1) {
-			modelAndView.setViewName(View.registrationView);
-			modelAndView.addObject("nazioni", nazioneService.getAllNazione() );
-			modelAndView.addObject("focus", ((FieldError)(bindingResult.getAllErrors().get(0))).getField());
-			modelAndView.addObject("corsi", corsoService.getListOfCorsi() );
-		} else {
-			Utente utente = dataConverter.getModelUtenteByUtenteFormBean(utenteBean); 
-			utente=utenteService.saveNewRegisteredUser(utente,utenteBean.getCorso());
-			//mandiamo una mail con il link di conferma
-			String token = UUID.randomUUID().toString();
-			utenteService.createRegistrationverificationToken(token,utente);
-			try {
-				mailService.sendRegistrationMail(utente.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(utente.getMatricola()).toString(),token);
-			} catch (Exception e) {
-				e.printStackTrace();
-				model.addAttribute("parameter",messageService.getMessage("erroreDuranteLaRegistrazione"));
-				return new ModelAndView(Urls.redirect+Urls.loginPath,model);
+			//se c'è solo un errore so che è il ruolo (lo setto automaticamente dopo)
+			if (bindingResult.hasErrors() && bindingResult.getAllErrors().size()>1) {
+				modelAndView.setViewName(View.registrationView);
+				modelAndView.addObject("nazioni", nazioneService.getAllNazione() );
+				modelAndView.addObject("focus", ((FieldError)(bindingResult.getAllErrors().get(0))).getField());
+				modelAndView.addObject("corsi", corsoService.getListOfCorsi() );
+			} else {
+				Utente utente = dataConverter.getModelUtenteByUtenteFormBean(utenteBean); 
+				utente=utenteService.saveNewRegisteredUser(utente,utenteBean.getCorso());
+				//mandiamo una mail con il link di conferma
+				String token = UUID.randomUUID().toString();
+				utenteService.createRegistrationverificationToken(token,utente);
+				try {
+					mailService.sendRegistrationMail(utente.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(utente.getMatricola()).toString(),token,locale);
+				} catch (Exception e) {
+					e.printStackTrace();
+					model.addAttribute("parameter",messageService.getMessage("erroreDuranteLaRegistrazione")+ " CODE:"+ErrorCodes.SEND_MAIL_REGISTRATION_ERROR);
+					return new ModelAndView(Urls.redirect+Urls.loginPath,model);
+
+				}
+				model.addAttribute("matricola", utente.getMatricola());
+				modelAndView=new ModelAndView(Urls.redirect+Urls.registrazioneAvvenutaConSuccessoPath,model);
+
+				logger.info("UTENTE REGISTRATO: MATRICOLA= "+utente.getMatricola());
 
 			}
-			model.addAttribute("matricola", utente.getMatricola());
-			modelAndView=new ModelAndView(Urls.redirect+Urls.registrazioneAvvenutaConSuccessoPath,model);
-
-			logger.info("UTENTE REGISTRATO: MATRICOLA= "+utente.getMatricola());
-
+			
+			return modelAndView;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.addAttribute("parameter",messageService.getMessage("erroreDuranteLaRegistrazione")+ " CODE:"+ErrorCodes.GENERIC_ERROR);
+			return new ModelAndView(Urls.redirect+Urls.loginPath,model);
 		}
-		return modelAndView;
+
 	}
 
 	/**
@@ -202,6 +222,9 @@ public class RegistrationController {
 	@ResponseBody
 	public ModelAndView resetPassword(@RequestParam(value="email",required=true) String userEmail, ModelMap model) {
 
+		Locale locale = LocaleContextHolder.getLocale();
+		
+		logger.info("UTENTE HA RICHIESTO RESET PASSWORD: EMAIL= "+userEmail +" LOCALE: "+locale.getCountry());
 
 
 		Utente utente = utenteService.findUtenteByEmail(userEmail);
@@ -212,15 +235,14 @@ public class RegistrationController {
 			String token = UUID.randomUUID().toString();
 			utenteService.createPasswordResetTokenForUser(utente, token);
 			try {
-				mailService.sendResetPasswordMail(userEmail,messageService.getMessage("resetPasswordEmailSubject"),token, utente);
+				mailService.sendResetPasswordMail(userEmail,messageService.getMessage("resetPasswordEmailSubject"),token, utente,locale);
 			} catch (Exception e) {
 				model.addAttribute("error",messageService.getMessage("erroreDuranteOperazione"));
-				logger.info("UTENTE HA RICHIESTO RESET PASSWORD: EMAIL= "+userEmail);
 				return new ModelAndView(Urls.redirect+Urls.openResetPasswordView,model);	
 			}
 			model.addAttribute("success",true);
 
-			logger.info("UTENTE HA RICHIESTO RESET PASSWORD: EMAIL= "+userEmail);
+			
 		}
 		return new ModelAndView(Urls.redirect+Urls.openResetPasswordView,model);	
 

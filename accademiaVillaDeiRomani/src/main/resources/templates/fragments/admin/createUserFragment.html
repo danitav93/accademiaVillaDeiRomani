@@ -252,7 +252,66 @@
 
 	</div>
 
+<div th:fragment="fragSearchUser (searchUser)">
 
+<div class="row " >
+
+			<div class="col-md-6  col-md-offset-3 "
+				style="text-align: center;">
+				<form autocomplete="off" 
+					th:action="@{/VillaDeiRomaniAccademy/admin/submitDedicatoSearchUser}" th:object="${searchUser}"
+					method="post" class="form-horizontal" role="form">
+
+
+					<!-- nome -->
+					<div class="form-group">
+						<div style="text-align: center" class="col-sm-12">
+							<label th:inline="text" for="nome">[[#{nome}]]</label>
+							 <input
+								id="nome" type="text" th:field="*{nome}"
+								th:placeholder="#{nome}" class="form-control" />
+						</div>
+					</div>
+
+
+					<!-- cognome -->
+					<div class="form-group">
+						<div style="text-align: center" class="col-sm-12">
+							<label th:inline="text" for="cognome">[[#{cognome}]]</label>
+							 <input
+								id="cognome" type="text" th:field="*{cognome}"
+								th:placeholder="#{cognome}" class="form-control" />
+						</div>
+					</div>
+
+					
+					<!-- matricola -->
+					<div class="form-group">
+						<div style="text-align: center" class="col-sm-12">
+							<label th:inline="text" for="matricola">[[#{matricola}]]</label>
+							 <input
+								id="matricola" type="text" th:field="*{matricola}"
+								th:placeholder="#{matricola}" class="form-control" />
+						</div>
+					</div>
+
+
+					<!-- bottone che registra -->
+					<div class="form-group">
+						<div style="text-align: center" class="col-sm-12">
+							<button th:inline="text" type="submit"
+								class="btn btn-primary btn-block">[[#{cerca}]]</button>
+						</div>
+					</div>
+
+
+				</form>
+
+			</div>
+
+		</div>
+
+</div>
 
 </body>
 

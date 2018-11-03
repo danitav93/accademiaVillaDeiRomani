@@ -55,7 +55,6 @@ public class Utente implements Serializable {
 	private String email;
 	
 	@Column(name = "telefono")
-	@NotEmpty(message = "*Please provide phone number")
 	private String telefono;
 	
 	@Column(name = "nome")

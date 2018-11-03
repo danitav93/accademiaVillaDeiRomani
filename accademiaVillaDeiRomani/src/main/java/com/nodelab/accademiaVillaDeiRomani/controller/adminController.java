@@ -3,6 +3,7 @@ package com.nodelab.accademiaVillaDeiRomani.controller;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,7 @@ import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 import com.nodelab.accademiaVillaDeiRomani.constant.View;
 import com.nodelab.accademiaVillaDeiRomani.formBean.ReportStudenteBean;
+import com.nodelab.accademiaVillaDeiRomani.formBean.RicercaDedicataUtenteBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.UtenteBean;
 import com.nodelab.accademiaVillaDeiRomani.hibernate.search.UtenteSearch;
 import com.nodelab.accademiaVillaDeiRomani.model.AttivitaDidattica;
@@ -201,12 +204,17 @@ public class adminController {
 	@RequestMapping(value = { Urls.submitNewUserPath}, method = RequestMethod.POST)
 	public ModelAndView submitNewUser(@Valid @ModelAttribute("newUser") UtenteBean newUserBean, BindingResult bindingResult, ModelMap model) {
 
+		
 		ModelAndView modelAndView;
 
 		//mi prendo l'utente loggato
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Utente utenteLoggato = utenteService.findUtenteByMatricola(auth.getName());
 
+		Locale locale = LocaleContextHolder.getLocale();
+		
+		logger.info("UTENTE "+utenteLoggato.getIdUtente()+"  PROVA A CREARE UTENTE. LOCALE: "+locale.getCountry());
+		
 		if (variabileAmbienteService.emailCheck()) {
 			//controllo che non ci siano due utenti con la stessa mail
 			Utente utenteExists = utenteService.findUtenteByEmail(newUserBean.getEmail());
@@ -236,7 +244,7 @@ public class adminController {
 			String token = UUID.randomUUID().toString();
 			utenteService.createRegistrationverificationToken(token,newUser);
 			try  {
-				mailService.sendRegistrationMail(newUser.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(newUser.getMatricola()).toString(),token);
+				mailService.sendRegistrationMail(newUser.getEmail(), messageService.getMessage("subjectRegistrationMail") ,new Integer(newUser.getMatricola()).toString(),token,locale);
 			} catch (Exception e) {
 				
 				utenteService.deleteUtente(newUser);
@@ -267,6 +275,72 @@ public class adminController {
 		return modelAndView;
 
 	}
+	
+	
+	/**
+	 * Quando richiedo di aprire il pannello per cercare un utente
+	 * @return
+	 */
+	@RequestMapping(value= {Urls.openCercaUserPanelPath}, method = RequestMethod.GET)
+	public String openCercaUserPanel( Model model){
+	model.addAttribute("nazioni", nazioneService.getAllNazione() );
+
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utente = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utente);
+
+		//aggiungo il modello per utente da cercare
+		RicercaDedicataUtenteBean searchUser = new RicercaDedicataUtenteBean();
+		model.addAttribute("searchUser", searchUser);
+
+
+		return View.adminView;
+
+	}
+	
+	
+	/**
+	 * metodo che ritorna gli utenti cercati dal form dedicato
+	 * @param query
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = {Urls.submitDedicatoCercaUserPath}, method = RequestMethod.POST)
+	public String searchDedicated(@ModelAttribute("searchUser") RicercaDedicataUtenteBean searchUserBean, Model model) {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		//mi prendo l'utente loggato
+		Utente utente = utenteService.findUtenteByMatricola(auth.getName());
+		model.addAttribute("utente", utente);
+
+		logger.info("UTENTE MATRICOLA: "+utente.getMatricola()+" ESEGUE RICERCA DEDICATA");
+
+		List<Utente> searchResults = null;
+		try {
+			searchResults = utenteService.searchByNomeCognomeMatricola(searchUserBean);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		if (searchResults==null) {
+			searchResults=new ArrayList<>();
+		}
+		model.addAttribute("users", searchResults);
+		model.addAttribute("searchUser", null);
+
+		
+		return View.adminView;
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * Quando richiedo di aprire il pannello report studenti
@@ -286,7 +360,7 @@ public class adminController {
 		model.addAttribute("corsi",corsoService.getListOfCorsi());
 		model.addAttribute("attivitaDidattiche",attivitaDidatticaService.getListOfAttivitaDidattiche());
 		model.addAttribute("contributi",contributoService.getAllContributi());
-
+		model.addAttribute("nazioni",nazioneService.getAllNazione());
 
 		return View.adminView;
 

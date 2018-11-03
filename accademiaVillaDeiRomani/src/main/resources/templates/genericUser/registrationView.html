@@ -75,10 +75,18 @@
 
 					<!-- nome -->
 					<div class="form-group">
+						<div class="col-sm-12">
+							<label th:inline="text">[[#{iCampiOblligatoriSonoIndicatiConUnAsterisco}]]</label>
+						</div>
+					</div>
+
+					<!-- nome -->
+					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
 							<label th:inline="text" for="nome">[[#{nome}]]</label>
-							<label th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
+							<label  th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
 								class="validation-message myStylesRedColor"></label> <input
+								required="required"
 								id="nome" type="text" th:field="*{nome}"
 								th:placeholder="#{nome}" class="form-control" />
 						</div>
@@ -92,11 +100,10 @@
 							<label th:if="${#fields.hasErrors('cognome')}"
 								th:errors="*{cognome}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="cognome" type="text" th:field="*{cognome}"
+								id="cognome" type="text" th:field="*{cognome}" required="required"
 								th:placeholder="#{cognome}" class="form-control" />
 						</div>
 					</div>
-
 
 					<!-- data di nascita -->
 					<div class="form-group">
@@ -106,11 +113,11 @@
 								th:errors="*{dataNascita}" th:inline="text"
 								class="validation-message myStylesRedColor"></label> <input
 								id="dataNascita" type="date"
+								required="required"
 								th:field="*{dataNascita}" th:placeholder="#{dataDiNascita}"
 								class="form-control" />
 						</div>
 					</div>
-
 
 					<!-- Nazione -->
 					<div class="form-group">
@@ -119,13 +126,12 @@
 							<label th:if="${#fields.hasErrors('nazione')}"
 								th:errors="*{nazione}"
 								class="validation-message myStylesRedColor"></label> 
-								<select class="form-control" th:field="*{nazione}" id="nazione" >
+								<select required="required" class="form-control" th:field="*{nazione}" id="nazione" >
 							    <option value="" th:text="#{selectNazione}"></option>
 							<option th:each="nazione : ${nazioni}"
 								th:value="${nazione.nazione}"
 								th:text="${nazione.nazione}"></option>
 							  </select>
-								
 						</div>
 					</div>
 
@@ -136,13 +142,11 @@
 							<label th:if="${#fields.hasErrors('indirizzo')}"
 								th:errors="*{indirizzo}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="indirizzo" type="text"
+								id="indirizzo" type="text" required="required"
 								th:field="*{indirizzo}" th:placeholder="#{indirizzo}"
 								class="form-control" />
 						</div>
 					</div>
-					
-					
 					
 					<!-- città -->
 					<div class="form-group">
@@ -151,13 +155,12 @@
 							<label th:if="${#fields.hasErrors('citta')}"
 								th:errors="*{citta}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="citta" type="text"
+								id="citta" type="text" required="required"
 								th:field="*{citta}" th:placeholder="#{citta}"
 								class="form-control" />
 						</div>
 					</div>
-					
-					
+							
 					<!-- cap -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
@@ -165,7 +168,7 @@
 							<label th:if="${#fields.hasErrors('cap')}"
 								th:errors="*{cap}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="cap" type="text"
+								id="cap" type="text" required="required"
 								th:field="*{cap}" th:placeholder="#{cap}"
 								class="form-control" />
 						</div>
@@ -177,7 +180,7 @@
 							<label for="sex" th:inline="text">[[#{sesso}]]</label>
 							<label th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}"
 								class="validation-message myStylesRedColor"></label> <select
-								class="form-control" th:field="*{sex}" id="sex">
+								class="form-control" th:field="*{sex}" id="sex" required="required">
 								<option th:text="#{seleziona}" th:value="null"></option>
 								<option th:text="F" th:value="0"></option>
 								<option th:text="M" th:value="1"></option>
@@ -188,7 +191,7 @@
 					<!-- codice fiscale -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="codiceFiscale" th:inline="text">[[#{codiceFiscale}]]</label>
+							<label for="codiceFiscale" th:inline="text">[[#{codiceFiscale}]](*)</label>
 							<label th:if="${#fields.hasErrors('codiceFiscale')}"
 								th:errors="*{codiceFiscale}"
 								class="validation-message myStylesRedColor"></label> <input
@@ -214,8 +217,8 @@
 					<!-- corso -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-						<label for="select_corso"><span th:text="#{corso}"></span></label>
-						<select required="required" class="form-control" 
+						<label for="select_corso"><span th:inline="text">[[#{corso}]](*)</span></label>
+						<select  class="form-control" 
 							th:field="*{corso}" id="select_corso">
 							<option value="" th:text="#{selezionaCorso}"></option>
 							<option th:each="corso : ${corsi}" th:value="${corso.idCorso}"
@@ -230,7 +233,7 @@
 							<label th:inline="text" for="email">[[#{email}]]</label>
 							<label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="email" type="text" th:field="*{email}"
+								id="email" type="text" th:field="*{email}" required="required"
 								th:placeholder="#{email}" class="form-control" />
 						</div>
 					</div>
@@ -258,16 +261,8 @@
 						</div>
 
 					</div>
-
-
 					<span th:utext="${successMessage}"></span>
-
-
-
-
-
 				</form>
-
 			</div>
 
 		</div>

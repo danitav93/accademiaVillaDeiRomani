@@ -1,6 +1,8 @@
 package com.nodelab.accademiaVillaDeiRomani.service;
 
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -25,28 +27,28 @@ public class MailContentBuilder {
 	        this.templateEngine = templateEngine;
 	    }
 	 
-	    public String buildRegistrationTemplate(String matricola, String imageResourceName,String token) {
+	    public String buildRegistrationTemplate(String matricola, String imageResourceName,String token, Locale locale) {
 	    
 	        Context context = new Context();
 	        context.setVariable("matricola", matricola);
 	        context.setVariable("link",applicationInfoService.getDominio()+Urls.abilita+"?token="+token);
 	        context.setVariable("benvenuto", messageService.getMessage("benvenuto"));
-	        context.setVariable("messaggioMail1", messageService.getMessage("messaggioRegistrationMail1"));
-	        context.setVariable("messaggioMail2", messageService.getMessage("messaggioRegistrationMail12"));
-	        context.setVariable("messaggioMail3",messageService.getMessage("messaggioRegistrationMail13"));
-	        context.setVariable("messaggioMail4",messageService.getMessage("messaggioRegistrationMail14"));
+	        context.setVariable("messaggioMail1", messageService.getMessageByLocale("messaggioRegistrationMail1",locale));
+	        context.setVariable("messaggioMail2", messageService.getMessageByLocale("messaggioRegistrationMail12",locale));
+	        context.setVariable("messaggioMail3",messageService.getMessageByLocale("messaggioRegistrationMail13",locale));
+	        context.setVariable("messaggioMail4",messageService.getMessageByLocale("messaggioRegistrationMail14",locale));
 
-	        context.setVariable("registrazioneAvvenutaConSuccesso",messageService.getMessage("registrazioneAvvenutaConSuccesso"));
+	        context.setVariable("registrazioneAvvenutaConSuccesso",messageService.getMessageByLocale("registrazioneAvvenutaConSuccesso",locale));
 	        context.setVariable("imageResourceName",imageResourceName);
 	        return templateEngine.process("genericUser/registrationMail", context);
 	    }
 
-		public String buildResetPasswordTemplate(String token, Utente utente,String imageResourceName) {
+		public String buildResetPasswordTemplate(String token, Utente utente,String imageResourceName, Locale locale) {
 			Context context = new Context();
 	        context.setVariable("link",applicationInfoService.getDominio()+Urls.resetPasswordMailConfirmation+"?idUtente="+utente.getIdUtente()+"&token="+token);
-	        context.setVariable("messaggioMail1", messageService.getMessage("messaggioResetPasswordMail1"));
-	        context.setVariable("messaggioMail2",messageService.getMessage("messaggioResetPasswordMail2"));
-	        context.setVariable("messaggioMail4",messageService.getMessage("messaggioRegistrationMail14"));
+	        context.setVariable("messaggioMail1", messageService.getMessageByLocale("messaggioResetPasswordMail1",locale));
+	        context.setVariable("messaggioMail2",messageService.getMessageByLocale("messaggioResetPasswordMail2",locale));
+	        context.setVariable("messaggioMail4",messageService.getMessageByLocale("messaggioRegistrationMail14",locale));
 
 	        context.setVariable("imageResourceName",imageResourceName);
 	        return templateEngine.process("genericUser/resetPasswordMail", context);

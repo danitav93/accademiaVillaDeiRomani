@@ -116,7 +116,7 @@
 
 					<!-- data di immatricolazione -->
 					<div class="form-group">
-						<div style="text-align: center">
+						<div>
 							<label th:inline="text">[[#{dataImmatricolazione}]]</label> <input
 								class="textbox-n form-control" type="text"
 								onfocus="(this.type='date')"
@@ -130,7 +130,7 @@
 
 					<!-- età -->
 					<div class="form-group">
-						<div style="text-align: center">
+						<div>
 							<label th:inline="text">[[#{eta}]]</label> <input
 								class="textbox-n form-control" type="number"
 								th:field="*{daAnni}" th:placeholder="#{da}" /> <input
@@ -143,8 +143,7 @@
 					<!-- nazione -->
 					<div class="form-group">
 							<label for="select_nazione"><span
-							th:text="#{nazione}"></span></label> <label
-							 th:inline="text">[[#{nazione}]]></label>
+							th:text="#{nazione}"></span></label> 
 							<label th:if="${#fields.hasErrors('nazione')}" th:errors="*{nazione}"
 								class="validation-message myStylesRedColor"></label> 
 								
@@ -156,9 +155,6 @@
 							  </select>
 								
 						</div>
-						
-					
-					
 				</div>
 			</div>
 			<div class="row">

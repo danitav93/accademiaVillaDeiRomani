@@ -35,7 +35,7 @@ public class UtenteBean implements Serializable {
 	@NotEmpty(message = "*Please provide an email")
 	private String email;
 	
-	@NotEmpty(message = "*Please provide phone number")
+	//@NotEmpty(message = "*Please provide phone number")
 	private String telefono;
 	
 	@NotEmpty(message = "*Please provide name")

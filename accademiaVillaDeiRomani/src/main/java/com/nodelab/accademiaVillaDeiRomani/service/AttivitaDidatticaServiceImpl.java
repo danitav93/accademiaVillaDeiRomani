@@ -31,7 +31,7 @@ public class AttivitaDidatticaServiceImpl implements AttivitaDidatticaService{
 
 	@Override
 	public List<AttivitaDidattica> getListOfAttivitaDidattiche() {
-		return attivitaDidatticaRepository.findAll();
+		return attivitaDidatticaRepository.findAllByOrderByNomeAsc();
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.nodelab.accademiaVillaDeiRomani.constant.Urls;
 
@@ -66,6 +67,11 @@ public class GenericController {
     	}
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
         IOUtils.copy(in, response.getOutputStream());
+    }
+    
+    @RequestMapping(Urls.pathSeparator)
+    public ModelAndView toLogin() {
+    	return new ModelAndView(Urls.redirect+Urls.loginPath);
     }
     
     

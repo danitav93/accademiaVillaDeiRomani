@@ -7,6 +7,8 @@ import javax.validation.Valid;
 import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiEsameBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiTasseBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.PercorsoFormativoBean;
+import com.nodelab.accademiaVillaDeiRomani.formBean.RicercaDedicataUtenteBean;
+import com.nodelab.accademiaVillaDeiRomani.formBean.UtenteBean;
 import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
 import com.nodelab.accademiaVillaDeiRomani.model.Corso;
 import com.nodelab.accademiaVillaDeiRomani.model.RegistrationVerificationToken;
@@ -56,6 +58,8 @@ public interface UtenteService {
 	public void abilitaUtente(Utente utente);
 
 	public void deleteUtente( Utente utente);
+
+	public List<Utente> searchByNomeCognomeMatricola(RicercaDedicataUtenteBean searchUserBean);
 
 	
 

@@ -1,6 +1,7 @@
 package com.nodelab.accademiaVillaDeiRomani.service;
 
 import java.io.File;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,13 +46,13 @@ public class MailServiceImpl implements MailService {
 
     
 	@Override
-	public void sendRegistrationMail( String to, String subject, String matricola,String token) throws  Exception {
+	public void sendRegistrationMail( String to, String subject, String matricola,String token,Locale locale) throws  Exception {
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 	        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,true,"utf-8");
 	        messageHelper.setTo(to);
 	        messageHelper.setSubject(subject);
 	        String imageResourceName = logoImageResource.getFilename();
-	        String content = mailContentBuilder.buildRegistrationTemplate(matricola,imageResourceName,token);
+	        String content = mailContentBuilder.buildRegistrationTemplate(matricola,imageResourceName,token,locale);
 	        messageHelper.setText(content, true);
 	        messageHelper.addInline(imageResourceName, logoImageResource);
 	        
@@ -69,7 +70,7 @@ public class MailServiceImpl implements MailService {
 
 
 	@Override
-	public void sendResetPasswordMail(String to, String subject,String token, Utente utente) throws Exception  {
+	public void sendResetPasswordMail(String to, String subject,String token, Utente utente, Locale locale) throws Exception  {
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 	        
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage,true,"utf-8");
@@ -79,7 +80,7 @@ public class MailServiceImpl implements MailService {
 			messageHelper.setSubject(subject);
 	        
 			String imageResourceName = logoImageResource.getFilename();
-	        String content = mailContentBuilder.buildResetPasswordTemplate(token,utente,imageResourceName);
+	        String content = mailContentBuilder.buildResetPasswordTemplate(token,utente,imageResourceName,locale);
 	        messageHelper.setText(content, true);
 	        messageHelper.addInline(imageResourceName, logoImageResource);
 	       

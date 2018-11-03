@@ -17,6 +17,7 @@ import com.nodelab.accademiaVillaDeiRomani.constant.Ruoli;
 import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiEsameBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.AggiungiTasseBean;
 import com.nodelab.accademiaVillaDeiRomani.formBean.PercorsoFormativoBean;
+import com.nodelab.accademiaVillaDeiRomani.formBean.RicercaDedicataUtenteBean;
 import com.nodelab.accademiaVillaDeiRomani.model.AttivitaDidattica;
 import com.nodelab.accademiaVillaDeiRomani.model.Contributo;
 import com.nodelab.accademiaVillaDeiRomani.model.Corso;
@@ -121,6 +122,7 @@ public class UtenteServiceImpl implements UtenteService  {
 		
 		return utente;
 	}
+	
 public String modifica ( String nome ) {
 		
 		if(nome.indexOf(" ") != -1) {
@@ -140,7 +142,6 @@ public String modifica ( String nome ) {
 		
 		else {
 		  String call = mod(nome);
-		
 		return call;
 		}
 	}
@@ -384,6 +385,27 @@ public String modifica ( String nome ) {
 	public void deleteUtente( Utente utente) {
 		utenteRepository.delete(utente);
 		
+	}
+
+	@Override
+	public List<Utente> searchByNomeCognomeMatricola(RicercaDedicataUtenteBean searchUserBean) {
+		
+		List<Utente> listUtente= new ArrayList<>();
+		
+		if (searchUserBean.getMatricola()!=null && !searchUserBean.getMatricola().isEmpty()) {
+			listUtente.add(utenteRepository.findByMatricola(searchUserBean.getMatricola()));
+			return listUtente;
+		}
+		
+		if (searchUserBean.getCognome()!=null && !searchUserBean.getCognome().isEmpty()) {
+			if (searchUserBean.getNome()!=null && !searchUserBean.getNome().isEmpty()) {
+				listUtente=utenteRepository.findByNomeIgnoreCaseAndCognomeIgnoreCase(searchUserBean.getNome(),searchUserBean.getCognome());
+			} else {
+				listUtente=utenteRepository.findByCognomeIgnoreCase(searchUserBean.getCognome());
+			}
+		}
+		
+		return listUtente;
 	}
 
 

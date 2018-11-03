@@ -48,6 +48,7 @@ public class Urls {
 		
 	//view
 	public static final String openNewUserPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openCreaUtentePanel";
+	public static final String openCercaUserPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openCercaUtentePanel";
 	public static final String openReportStudentiPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openReportStudentiPanel";
 	public static final String openCreateCoursePanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openCreateCoursePanel";
 	public static final String openDeleteCoursePanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openDeleteCoursePanel";
@@ -67,10 +68,13 @@ public class Urls {
 	public static final String openVisualizaTassaPanelPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"openVisualizaTassaPanel";
 	public static final String userSelectedPath = baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"userSelected";
 	public static final String adminPath = baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"admin";
+	
+	
 
 	//submit
 	public static final String submitSearchPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"userSearch";
 	public static final String submitNewUserPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitNewUser";
+	public static final String submitDedicatoCercaUserPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitDedicatoSearchUser";
 	public static final String submitStudentiReportPath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitStudentiReport";
 	public static final String submitCreateCoursePath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitCreateCourse";
 	public static final String submitDeleteCoursePath= baseAuthenticatedUserPath+pathSeparator+adminSeparator+pathSeparator+"submitDeleteCorso";
