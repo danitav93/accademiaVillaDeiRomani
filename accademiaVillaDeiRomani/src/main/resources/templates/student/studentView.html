@@ -30,16 +30,19 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script th:src="@{../../js/rightNavBar.js}"></script>
 
-
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 </head>
 
 
-<body class="my_body container">
+<body style="background: #428bca">
 
-	<nav class="navbar navbar-inverse navbar-fixed-top navbar-default" style="font-size:18px;" >
+	<nav class="navbar navbar-inverse navbar-fixed-top navbar-default"
+		style="font-size: 18px;">
 
+	
 
 		<div class="container-fluid">
 
@@ -67,7 +70,8 @@
 					<ul class="dropdown-menu">
 						<li><a
 							th:href="@{/VillaDeiRomaniAccademy/admin/insertExam(matricola=${utente.matricola})}"><span
-								class="glyphicon glyphicon-pencil">&nbsp;</span>[[#{modifica}]] </a></li>
+								class="glyphicon glyphicon-pencil">&nbsp;</span>[[#{modifica}]]
+						</a></li>
 
 					</ul></li>
 
@@ -95,7 +99,8 @@
 						<li th:if="${utente.hasPercorsoFormativo}"
 							sec:authorize="hasAnyAuthority('ADMIN','SUPERADMIN')"><a
 							th:href="@{/VillaDeiRomaniAccademy/student/openPanelAggiungiPercorsoFormativo(matricola=${utente.matricola})}"><span
-								class="glyphicon glyphicon-pencil">&nbsp;</span>[[#{modifica}]] </a></li>
+								class="glyphicon glyphicon-pencil">&nbsp;</span>[[#{modifica}]]
+						</a></li>
 
 					</ul></li>
 
@@ -115,7 +120,7 @@
 
 
 
-
+<div class="container" >
 
 	<section class="mainContent">
 
@@ -142,7 +147,7 @@
 			<p>
 				<span th:text="#{nazione}+': '+${utente.nazione}"></span>
 			</p>
-			
+
 			<p>
 				<span th:text="#{citta}+': '+${utente.citta}"></span>
 			</p>
@@ -154,7 +159,7 @@
 			<p>
 				<span th:text="#{cap}+': '+${utente.cap}"></span>
 			</p>
-			
+
 
 			<p>
 				<span th:text="#{dataDiNascita}+': '+${utente.dataNascita}"></span>
@@ -301,9 +306,11 @@
 		</section>
 
 
+	
 
 	</section>
-
+	
+</div>
 
 
 	<!-- ------------- -->
@@ -451,7 +458,9 @@
 	<div th:inline="text" class="snackbar" id="snackBarOperationCompleted"
 		th:if="${operationCompletedSuccessfully}">[[#{operazioneAvvenutaConSuccesso}]]</div>
 
-<div th:replace="fragments/footer::footer"></div>
+
+<div  th:replace="fragments/footer::footerold2"></div>
+
 </body>
 
 <script type="text/javascript" th:inline="javascript">
@@ -540,6 +549,16 @@
 	
 	
 	
+	$(function() {
+		  $( "#datepicker" ).datepicker({
+		 dateFormat : 'dd/mm/yy',
+		changeMonth : true,
+		changeYear : true,
+		yearRange: '-100y:c+nn',
+		maxDate: '-1d'
+		});
+	});
+
 	
 	
 </script>

@@ -15,6 +15,7 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link type="text/css" href="../../css/my.styles.css" rel="stylesheet">
 <link type="text/css" href="../../css/view.login.css" rel="stylesheet">
+<link type="text/css" href="../../css/view.registration.css" rel="stylesheet">
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:100"
 	rel="stylesheet">
@@ -27,6 +28,7 @@
 
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 </head>
 
@@ -91,10 +93,10 @@
 
 </style>
 
-<body class="container">
+<body class="container bgRegistration" style="height: 100vh" >
 
 
-	<body class="my_body container">
+	
 	<br><br><br>
 
 	<img th:src="@{/img/logo_villa_b.png}"
@@ -102,13 +104,13 @@
 	
 		<div>
 			 <div id="message" style="margin: 0 auto;">
-				<p th:inline="text" style="color:white; font-size: 22px">Registrazione avvenuta con successo!</p>
-				<p th:inline="text" style="text-align: justify; font-size: 18px; width:38%; margin-left: 30%">
-				Controlla la tua casella di posta elettronica, abbiamo inviato un' email all'indirizzo da te fornitoci con un link di conferma per attivare il tuo account. 
+				<p th:inline="text" style="text-align: center; color:white; font-size: 28px;margin-top:5%">[[#{registrazioneAvvenutaConSuccesso}]]</p>
+				<p th:inline="text" style="text-align: center; font-size: 18px ">
+				[[#{registrazioneAvvenutaConSuccessoCheckMail}]]
 				</p><br>
 			 </div>
 				
-			<div style="display: flex; width: 40%; margin: 0 auto; justify-content: space-between; flex-wrap: wrap ">
+			<div class="hidden-xs"  style="display: flex; width: 40%; margin: 0 auto; justify-content: space-between; flex-wrap: wrap ">
 				<a href="http://tiny.cc/amyjwy" target="_blank">
 					<div class="square">
 						<img id="image1" th:src="@{/img/Gmail.png}" class="img-responsive center-block" alt="Gmail" />
@@ -135,8 +137,7 @@
 			</div>
 		</div>
 	
-	<!-- style="height: 110px; width: 160px; margin-left: 20px" -->
-	<div th:replace="fragments/footer::footer"></div>
+	
 </body>
 </html>
 	

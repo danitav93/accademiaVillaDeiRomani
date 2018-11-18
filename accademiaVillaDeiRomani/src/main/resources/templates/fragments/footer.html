@@ -3,63 +3,68 @@
 <head th:fragment="foot">
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+
 </head>
 
 
 
 
 
-	<div th:fragment="footer" >
 	
 	
-		 <footer class="footer">
+		 <footer th:fragment="footerold" class="footerclass">
 			
 				<div style="display:flex; justify-content: space-between;padding:5px">
 				
 					<span style="font-size:11px">Accademia Villa dei Romani <br> Via Romana snc 00012 <br> Guidonia-Montecelio Roma</span>
 					
-					<a  href="https://www.iubenda.com/privacy-policy/74395171" class="iubenda-nostyle no-brand iubenda-embed " title="Privacy Policy">Privacy Policy</a> <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+					<a style="color: inherit;" href="https://www.iubenda.com/privacy-policy/74395171" class="iubenda-nostyle no-brand iubenda-embed " title="Privacy Policy">Privacy Policy</a> <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
 					
-					<a  href="http://www.grillodesign.it/" target="_blank">Powered by <br> &copy; Grillo Design Studio</a>
+					<a style="color: inherit;" href="http://www.grillodesign.it/" target="_blank">Powered by <br> &copy; Grillo Design Studio</a>
+				</div>
+			
+		</footer> 
+		
+		 <footer th:fragment="footerold2" class="footerclass2 hidden-sm ">
+			
+				<div style="display:flex; justify-content: space-between;padding:5px">
+				
+					<span style="font-size:11px">Accademia Villa dei Romani <br> Via Romana snc 00012 <br> Guidonia-Montecelio Roma</span>
+					
+					<a style="color: inherit;" href="https://www.iubenda.com/privacy-policy/74395171" class="iubenda-nostyle no-brand iubenda-embed " title="Privacy Policy">Privacy Policy</a> <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+					
+					<a style="color: inherit;" href="http://www.grillodesign.it/" target="_blank">Powered by <br> &copy; Grillo Design Studio</a>
 				</div>
 			
 		</footer> 
 		
 		
-	<!-- 	<nav class="navbar navbar-bottom navbar-inverse  navbar-default">
-		<div class="container-fluid">
-			<ul class="nav navbar-nav">
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" th:inline="text" href="#">[[#{documenti}]]<span
-						class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a th:href="@{/documents/autodichiarazioneEuropea.docx}"
-							download th:inline="text">[[#{autodichiarazioneEuropea}]] </a></li>
-						<li><a
-							th:href="@{/documents/autodichiarazioneExtraEuropea.docx}"
-							download th:inline="text">
-								[[#{autodichiarazioneExtraEuropea}]] </a></li>
+	<footer id="footerid" th:fragment="footer4" class="footerclass4 container-fluid justify-content-between align-items-center  d-flex">
+				
+					<div >
+        			 <p class="footerTextSizeAddress text-center align-middle footerp"  >Accademia Villa dei Romani <br> Via Romana snc 00012 <br> Guidonia-Montecelio Roma</p>
+        			</div>
+				
+					<div >
+					<a  style="color: inherit;" href="https://www.iubenda.com/privacy-policy/74395171" class="iubenda-nostyle no-brand iubenda-embed footerTextSize" title="Privacy Policy">Privacy Policy</a> <script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+        			</div>
+				
+					<div>
 
-					</ul></li>
-			</ul>
-				<ul class="nav navbar-nav navbar-right">
-				<li><a th:href="@{/login}"><span
-						class="glyphicon glyphicon-log-in"></span> Login</a></li>
-			</ul>
-			
-			<div th:replace="fragments/common::fragRightNavBarNoLogout"></div>
-			
+        			 	<p class="text-center footerTextSize footerp2 align-middle"><a  style="color: inherit;" href="http://www.grillodesign.it/" target="_blank">Powered by <br> &copy; Grillo Design Studio</a></p>
+
+        			</div>
+								
+	</footer> 
 		
-		</div>
-	</nav>
-		 -->
+
 		
 		
 		
 		
 		
 		
-	</div>
+
 
 
 </html>

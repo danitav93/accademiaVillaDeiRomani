@@ -1,4 +1,6 @@
 @charset "ISO-8859-1";
+
+
 .studentViewEditUtenteButton {
 	
     background-color:#fff1;  /* Green */
@@ -27,11 +29,13 @@
 }
 
 .container{
+	
   margin-top:10%;
   /* background-position: ;
   background-repeat: no-repeat;
   background-size: cover;
- */   background-color: #428bca;
+ */   
+ background: #428bca;
  color:white;
  font-family: Helvetica Neue,Helvetica,Arial,sans-serif; 
 }

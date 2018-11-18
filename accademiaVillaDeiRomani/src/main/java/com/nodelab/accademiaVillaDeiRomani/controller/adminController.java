@@ -375,8 +375,8 @@ public class adminController {
 
 		try {
 			//genero il report
-			response.setContentType("application/x-download");
-			response.setHeader("Content-disposition", "attachment;filename="+Report.studentiReportName);
+			response.setContentType("application/pdf");
+			response.setHeader("Content-disposition", "inline;filename="+Report.studentiReportName);
 			JasperPrint report=reportService.generateStudentiReport(reportStudenteBean);
 			OutputStream outStream = response.getOutputStream();
 			JasperExportManager.exportReportToPdfStream(report, outStream);

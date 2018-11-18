@@ -22,6 +22,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+
 </head>
 
 <body class="container">
@@ -35,16 +36,17 @@
 	<div th:fragment="fragDatiPersonali (newUtente,matricola)">
 
 
-		<div class="row " >
+		<div class="row ">
 
 			<div class="col-md-6  col-md-offset-3 "
 				style="text-align: center; margin-top: 10%">
 				<form autocomplete="off" action="#"
-					th:action="@{/VillaDeiRomaniAccademy/admin/submitStudentEditPersonalData(matricola=${matricola})}" th:object="${newUtente}"
-					method="post" class="form-horizontal" role="form">
+					th:action="@{/VillaDeiRomaniAccademy/admin/submitStudentEditPersonalData(matricola=${matricola})}"
+					th:object="${newUtente}" method="post" class="form-horizontal"
+					role="form">
 
 					<h2 th:inline="text">[[#{formDiRegistrazione}]]</h2>
-					
+
 					<!-- nome -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
@@ -73,22 +75,21 @@
 					<!-- data di nascita -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_data_di_nascita" th:inline="text">[[#{dataDiNascita}]]</label>
+							<label for="dataNascita" th:inline="text">[[#{dataDiNascita}]]</label>
 							<label th:if="${#fields.hasErrors('dataNascita')}"
 								th:errors="*{dataNascita}" th:inline="text"
-								class="validation-message myStylesRedColor"></label>								
-								 <input
-								id="registration_view_data_di_nascita" type="date"
-								th:field="*{dataNascita}" th:placeholder="#{dataDiNascita}"
-								class="form-control" />
+								class="validation-message myStylesRedColor"></label> <input
+								id="datepicker" required="required" th:field="*{dataNascita}"
+								th:placeholder="#{dataDiNascita}" class="form-control" />
 						</div>
 					</div>
-					
+			
+
 					<!-- indirizzo -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_indirizzo" th:inline="text">[[#{indirizzo}]]</label> <label
-								th:if="${#fields.hasErrors('indirizzo')}"
+							<label for="registration_view_indirizzo" th:inline="text">[[#{indirizzo}]]</label>
+							<label th:if="${#fields.hasErrors('indirizzo')}"
 								th:errors="*{indirizzo}"
 								class="validation-message myStylesRedColor"></label> <input
 								id="registration_view_indirizzo" type="text"
@@ -96,68 +97,62 @@
 								class="form-control" />
 						</div>
 					</div>
-					
+
 					<!-- Nazione -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
 							<label for="registration_view_nazione" th:inline="text">[[#{nazione}]]</label>
 							<label th:if="${#fields.hasErrors('nazione')}"
 								th:errors="*{nazione}"
-								class="validation-message myStylesRedColor"></label> 
-								<select class="form-control" th:field="*{nazione}" >
-							    <option value="" th:text="#{selectNazione}"></option>
-							<option th:each="nazione : ${nazioni}"
-								th:value="${nazione.nazione}"
-								th:text="${nazione.nazione}"></option>
-							  </select>
-								
+								class="validation-message myStylesRedColor"></label> <select
+								class="form-control" th:field="*{nazione}">
+								<option value="" th:text="#{selectNazione}"></option>
+								<option th:each="nazione : ${nazioni}"
+									th:value="${nazione.nazione}" th:text="${nazione.nazione}"></option>
+							</select>
+
 						</div>
 					</div>
 
 
-				
-						<!-- città -->
+
+					<!-- città -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
 							<label for="registration_view_citta" th:inline="text">[[#{citta}]]</label>
-							<label th:if="${#fields.hasErrors('citta')}"
-								th:errors="*{citta}"
+							<label th:if="${#fields.hasErrors('citta')}" th:errors="*{citta}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_citta" type="text"
-								th:field="*{citta}" th:placeholder="#{citta}"
-								class="form-control" />
+								id="registration_view_citta" type="text" th:field="*{citta}"
+								th:placeholder="#{citta}" class="form-control" />
 						</div>
 					</div>
-					
-					
+
+
 					<!-- cap -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
 							<label for="registration_view_cap" th:inline="text">[[#{cap}]]</label>
-							<label th:if="${#fields.hasErrors('cap')}"
-								th:errors="*{cap}"
+							<label th:if="${#fields.hasErrors('cap')}" th:errors="*{cap}"
 								class="validation-message myStylesRedColor"></label> <input
-								id="registration_view_cap" type="text"
-								th:field="*{cap}" th:placeholder="#{cap}"
-								class="form-control" />
+								id="registration_view_cap" type="text" th:field="*{cap}"
+								th:placeholder="#{cap}" class="form-control" />
 						</div>
 					</div>
-					
+
 					<!-- sesso -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_indirizzo" th:inline="text">[[#{sesso}]]</label> <label
-								th:if="${#fields.hasErrors('sex')}"
-								th:errors="*{sex}"
-								class="validation-message myStylesRedColor"></label> 
-								<select class="form-control" th:field="*{sex}" id="select_role">
+							<label for="registration_view_indirizzo" th:inline="text">[[#{sesso}]]</label>
+							<label th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}"
+								class="validation-message myStylesRedColor"></label> <select
+								class="form-control" th:field="*{sex}" id="select_role">
 								<option th:text="#{seleziona}" th:value="null"></option>
 								<option th:text="F" th:value="0"></option>
 								<option th:text="M" th:value="1"></option>
-								</select>
+							</select>
 						</div>
 					</div>
-					
+
 					<!-- codice fiscale -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
@@ -170,12 +165,13 @@
 								class="form-control" />
 						</div>
 					</div>
-					
+
 					<!-- telefono -->
 					<div class="form-group">
 						<div style="text-align: center" class="col-sm-12">
-							<label for="registration_view_telefono" th:inline="text">[[#{numeroTelefono}]]</label> <label
-								th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}"
+							<label for="registration_view_telefono" th:inline="text">[[#{numeroTelefono}]]</label>
+							<label th:if="${#fields.hasErrors('telefono')}"
+								th:errors="*{telefono}"
 								class="validation-message myStylesRedColor"></label> <input
 								id="registration_view_telefono" type="text"
 								th:field="*{telefono}" th:placeholder="#{numeroTelefono}"
@@ -183,7 +179,7 @@
 						</div>
 					</div>
 
-					
+
 
 					<!-- email -->
 					<div class="form-group">
@@ -205,8 +201,8 @@
 						</div>
 					</div>
 
-					
-					
+
+
 
 					<span th:utext="${successMessage}"></span>
 
